@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Sign in project Elrond
+{% endblock %}
+
+{% block content %}
+<div class="sign-in-container d-flex justify-content-center align-items-center">
+    <div class="col-md-6 mt-4">
+      <div class="card p-4" style="margin-top: 200px; box-shadow: 0 0 20px rgba(0, 0, 0, 0.39);" >
+        <hgroup>
+          <h1 class="mb-4">Sign in</h1>
+          <p>Sign in to EduQuest to start your adventure! </p>
+        </hgroup>
+        <form>
+          <div class="mb-3">
+            <label for="login" class="form-label">Login</label>
+            <input
+              type="text"
+              class="form-control"
+              id="login"
+              name="login"
+              placeholder="Login"
+              aria-label="Login"
+              autocomplete="nickname"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input
+              type="password"
+              class="form-control"
+              id="password"
+              name="password"
+              placeholder="Password"
+              aria-label="Password"
+              autocomplete="current-password"
+              required
+            />
+          </div>
+          <!-- We can change this later if we want to, just added it for the time being -->
+          <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="remember" name="remember">
+            <label class="form-check-label" for="remember">Remember me</label>
+          </div>
+          <button type="submit" class="btn btn-primary">Login</button>
+        </form>
+      </div>
+    </div>
+</div>
+{% endblock %}
