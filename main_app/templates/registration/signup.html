@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Sign up for EduQuest
+{% endblock %}
+<!-- Only a temporary for now -->
+{% block content %}
+<div class="sign-up-container d-flex justify-content-center align-items-center">
+    <div class="col-md-6 mt-4">
+      <div class="card p-4" style="margin-top: 200px; box-shadow: 0 0 20px rgba(0, 0, 0, 0.39);" >
+        <hgroup>
+          <h1 class="mb-4">Sign up</h1>
+          <p>Create a new EduQuest account to embark on your educational journey! </p>
+        </hgroup>
+        <form>
+          <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input
+              type="text"
+              class="form-control"
+              id="username"
+              name="username"
+              placeholder="Username"
+              aria-label="Username"
+              autocomplete="username"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input
+              type="email"
+              class="form-control"
+              id="email"
+              name="email"
+              placeholder="Email"
+              aria-label="Email"
+              autocomplete="email"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input
+              type="password"
+              class="form-control"
+              id="password"
+              name="password"
+              placeholder="Password"
+              aria-label="Password"
+              autocomplete="new-password"
+              required
+            />
+          </div>
+          <button type="submit" class="btn btn-primary">Sign up</button>
+        </form>
+      </div>
+    </div>
+</div>
+{% endblock %}
