@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ subject.name }}{% endblock %}
+
+{% block content %}
+  <h2>{{ subject.name }}</h2>
+  <p>Field: {{ subject.field }}</p>
+  <p>Start Date: {{ subject.start_date }}</p>
+  <p>End Date: {{ subject.end_date }}</p>
+  <p>Progress: {{ subject.progress }}%</p>
+  <p>Exam Date: {{ subject.exam_date }}</p>
+  <p>Grade: {{ subject.get_grade_display }}</p>
+
+
+  <a href="#">Edit</a>
+  <a href="#">Delete</a>
+
+    <h3>Assignments</h3>
+  {% if subject.assignment_set.all %}
+    <ul>
+      {% for assignment in subject.assignment_set.all %}
+        <li>{{ assignment.name }} - {{ assignment.due_date }} - {{ assignment.get_status_display }}</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No assignments for this subject.</p>
+  {% endif %}
+
+  <a href="#">Add Assignment</a>
+
+{% endblock %}
