@@ -17,7 +17,7 @@ GRADE = (
     ('C', 'C - Satisfactory'),
     ('D', 'D - Limited'),
     ('E', 'E - Very Low'),
-    ('F', 'F - Failed')
+    ('F', 'F - Failed/Incomplete')
 )
 
 STATUS = (
