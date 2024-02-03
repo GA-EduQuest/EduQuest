@@ -11,6 +11,15 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Profile, Subject, Assignment, Avatar, Quest, Badge, ProfileAchievement
 
 #Create your views here.
+
+#Basic Views
+def home(request):
+    return render(request, 'home.html')
+
+def about(request):
+    return render(request, 'about.html')
+
+#User Views
 def user_detail(request):
     pass
 
@@ -20,13 +29,27 @@ def user_update(request):
 def user_delete(request):
     pass
 
+#Quest Views
+def unfinished_quest(request, user_id, quest_id):
+   pass
 
-def home(request):
-    return render(request, 'home.html')
+def finished_quest(request, user_id, quest_id):
+   pass
 
-def about(request):
-    return render(request, 'about.html')
+#Badges Views
+def badges_detail(request):
+    pass
+# ---Admin Only Views--- #
+def badges_create(request):
+    pass
 
+def badges_update(request):
+    pass
+
+def badges_delete(request):
+    pass
+
+#Subjects Views
 def subjects_index(request):
     pass
 
@@ -42,7 +65,11 @@ def subjects_update(request):
 def subjects_delete(request):
     pass
 
+#About Leaderboards
+def leaderboard(request):
+    pass
 
+#Assignments Views
 class AssignmentDetail(DetailView):
   model = Assignment
 
@@ -58,6 +85,7 @@ class AssignmentsDelete(DeleteView):
   model = Assignment
   success_url = '/assignmnet'
 
+#Signup Views
 def signup(request):
   error_message = ''
   if request.method == 'POST':
