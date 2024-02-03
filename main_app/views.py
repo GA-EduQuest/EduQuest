@@ -37,6 +37,9 @@ def finished_quest(request, user_id, quest_id):
    pass
 
 #Badges Views
+def badges_list(request):
+    pass
+
 def badges_detail(request):
     pass
 # ---Admin Only Views--- #
@@ -48,6 +51,13 @@ def badges_update(request):
 
 def badges_delete(request):
     pass
+
+def not_owned_badges(request, user_id, quest_id, badge_id):
+   pass
+
+def owned_badges(request, user_id, quest_id, badge_id):
+   pass
+
 
 #Subjects Views
 def subjects_index(request):
@@ -70,7 +80,7 @@ def leaderboard(request):
     pass
 
 #Assignments Views
-class AssignmentDetail(DetailView):
+class AssignmentList(DetailView):
   model = Assignment
 
 class AssignmentCreate(CreateView):
@@ -83,7 +93,7 @@ class AssignmentUpdate(UpdateView):
 
 class AssignmentsDelete(DeleteView):
   model = Assignment
-  success_url = '/assignmnet'
+  success_url = '/assignment'
 
 #Signup Views
 def signup(request):

@@ -11,7 +11,11 @@ urlpatterns = [
     #About Quest
     path('user/<int:user_id>/unfinishedquest/<int:quest_id>/', views.unfinished_quest, name='unfinished_quest'),
     path('user/<int:user_id>/finishedquest/<int:quest_id>/', views.finished_quest, name='finished_quest'),
+    #About user earning badges
+    path('user/<int:user_id>/unfinishedquest/<int:quest_id>/notownedbadges/<int:badge_id>', views.not_owned_badges, name='not_owned_badges'),
+    path('user/<int:user_id>/finishedquest/<int:quest_id>/ownedbadges/<int:badge_id>', views.owned_badges, name='owned_badges'),
     #About Badges
+    path('badges/', views.badges_list, name='badges_list'),
     path('badges/<int:badges_id>/', views.badges_detail, name='subjects_detail'),
     # ---Admin Only--- #
     path('badges/create', views.badges_create, name='badges_create'),
@@ -24,7 +28,7 @@ urlpatterns = [
     path('subjects/<int:subjects_id>/update/', views.subjects_update, name='subjects_update'),
     path('subjects/<int:subjects_id>/delete/', views.subjects_delete, name='subjects_delete'),
     #About Assignment
-    path('assignments/<int:pk>/', views.AssignmentDetail.as_view(), name='assignments_detail'),
+    path('assignments/', views.AssignmentList.as_view(), name='assignments_list'),
     path('assignments/create/', views.AssignmentCreate.as_view(), name='assignments_create'),
     path('assignments/<int:pk>/update/', views.AssignmentUpdate.as_view(), name='assignments_update'),
     path('assignments/<int:pk>/delete/', views.AssignmentsDelete.as_view(), name='assignments_delete'),
