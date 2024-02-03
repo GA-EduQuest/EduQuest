@@ -57,6 +57,8 @@ class Subject(models.Model):
         default=GRADE[2][0]
     )
 
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
     def __str__(self):
         return self.name
 
@@ -82,7 +84,7 @@ class Assignment(models.Model):
 # The avatar photo for each profile/user
 class Avatar(models.Model):
     url = models.URLField(max_length=200)
-    cat = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"Photo for profile_id: {self.profile_id} @{self.url}"
