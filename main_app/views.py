@@ -61,6 +61,7 @@ def owned_badges(request, user_id, quest_id, badge_id):
 
 #Subjects Views
 def subjects_index(request):
+    return render(request, 'subjects/index.html')
     pass
 
 def subjects_detail(request):

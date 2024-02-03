@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Subjects{% endblock %}
+
+{% block content %}
+
+  <div class="center-container">
+    <div class="title-card">
+      <h1>Subject</h1>
+    </div>
+    <a href="#" class="btn btn-primary" style="position: absolute; left: 50px; margin-top: 20px;">Add Subject</a>
+  </div>
+
+   <div class="content-container">
+    <div class="subject-list">
+      <h2>Subjects List:</h2>
+      <ul>
+        <li>Subject 1</li>
+        <li>Subject 2</li>
+      </ul>
+    </div>
+
+    <div class="progression-pie-chart">
+      Progression Pie Chart
+    </div>
+
+
+    <div class="whats-upcoming">
+      Upcoming content
+    </div>
+
+    <div class="quest-list">
+      <h2>Quests List:</h2>
+      <ul>
+        <li>Quest 1</li>
+        <li>Quest 2</li>
+        <!-- Add more quests as needed -->
+      </ul>
+    </div>
+  </div>
+
+
+{% endblock %}
