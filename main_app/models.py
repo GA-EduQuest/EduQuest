@@ -86,3 +86,28 @@ class Avatar(models.Model):
 
     def __str__(self):
         return f"Photo for profile_id: {self.profile_id} @{self.url}"
+
+class Quest(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.CharField(max_length=500)
+    xp_earned = models.IntegerField(
+        validators=[MinValueValidator(1)])
+
+    def __str__(self):
+        return self.name
+
+class Badge(models.Model):
+    name = models.CharField(max_length=100)
+    image_url = models.URLField(max_length=200)
+    quest = models.OneToOneField(Quest, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
+
+class ProfileAchievement(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    quest = models.ForeignKey(Quest, on_delete=models.CASCADE)
+    date_achieved = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.first_name} - {self.quest.name} - {self.date_achieved}"
