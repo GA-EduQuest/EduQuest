@@ -16,8 +16,9 @@ urlpatterns = [
     path('subjects/<int:subjects_id>/delete/', views.subjects_delete, name='subjects_delete'),
     #About Assignment
     path('assignments/<int:pk>/', views.AssignmentDetail.as_view(), name='assignments_detail'),
-    path('assignments/create/', views.AssignmentCreate.as_view(), name='assignments_detail'),
+    path('assignments/create/', views.AssignmentCreate.as_view(), name='assignments_create'),
     path('assignments/<int:pk>/update/', views.AssignmentUpdate.as_view(), name='assignments_update'),
     path('assignments/<int:pk>/delete/', views.AssignmentsDelete.as_view(), name='assignments_delete'),
+    #Signup
     path('accounts/signup/', views.signup, name='signup'),
 ]
