@@ -28,6 +28,7 @@ def about(request):
     return render(request, 'about.html')
 
 def subjects_index(request):
+    return render(request, 'subjects/index.html')
     pass
 
 def subjects_detail(request):

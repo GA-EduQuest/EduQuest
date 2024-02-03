@@ -5,6 +5,7 @@ body {
     min-height: 100vh;
     flex-direction: column;
     background: linear-gradient(to bottom, #509ed7, #306bac);
+
 }
 
 
@@ -86,4 +87,41 @@ body > main {
     max-width: 600px;
     margin: 0 auto;
     margin-bottom: 300px;
+}
+.center-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    margin-top: 100px;
+}
+
+.title-card {
+    text-align: center;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    max-width: 400px;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.content-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    margin-top: 30px;
+}
+
+.subject-list,
+.quest-list {
+    flex: 1;
+    max-width: 200px;
+}
+
+.progression-pie-chart,
+.whats-upcoming {
+    flex: 1;
+    max-width: 300px;
+    margin-top: 20px;
 }
