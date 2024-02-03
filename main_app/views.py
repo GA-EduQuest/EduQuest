@@ -11,6 +11,15 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Profile, Subject, Assignment, Avatar, Quest, Badge, ProfileAchievement
 
 #Create your views here.
+
+#Basic Views
+def home(request):
+    return render(request, 'home.html')
+
+def about(request):
+    return render(request, 'about.html')
+
+#User Views
 def user_detail(request):
     pass
 
@@ -20,13 +29,37 @@ def user_update(request):
 def user_delete(request):
     pass
 
+#Quest Views
+def unfinished_quest(request, user_id, quest_id):
+   pass
 
-def home(request):
-    return render(request, 'home.html')
+def finished_quest(request, user_id, quest_id):
+   pass
 
-def about(request):
-    return render(request, 'about.html')
+#Badges Views
+def badges_list(request):
+    pass
 
+def badges_detail(request):
+    pass
+# ---Admin Only Views--- #
+def badges_create(request):
+    pass
+
+def badges_update(request):
+    pass
+
+def badges_delete(request):
+    pass
+
+def not_owned_badges(request, user_id, quest_id, badge_id):
+   pass
+
+def owned_badges(request, user_id, quest_id, badge_id):
+   pass
+
+
+#Subjects Views
 def subjects_index(request):
     pass
 
@@ -42,8 +75,12 @@ def subjects_update(request):
 def subjects_delete(request):
     pass
 
+#About Leaderboards
+def leaderboard(request):
+    pass
 
-class AssignmentDetail(DetailView):
+#Assignments Views
+class AssignmentList(DetailView):
   model = Assignment
 
 class AssignmentCreate(CreateView):
@@ -56,8 +93,9 @@ class AssignmentUpdate(UpdateView):
 
 class AssignmentsDelete(DeleteView):
   model = Assignment
-  success_url = '/assignmnet'
+  success_url = '/assignment'
 
+#Signup Views
 def signup(request):
   error_message = ''
   if request.method == 'POST':
