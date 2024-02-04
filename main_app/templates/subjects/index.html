@@ -8,22 +8,24 @@
     <div class="title-card">
       <h1>Subject</h1>
     </div>
-    <a href="#" class="btn btn-primary" style="position: absolute; left: 50px; margin-top: 20px;">Add Subject</a>
+  </div>
+  <div class="add-subject">
+    <a href="{% url 'subjects_create' %}" class="btn btn-primary">Add Subject</a>
   </div>
 
-   <div class="content-container">
+  <div class="content-container">
     <div class="subject-list">
       <h2>Subjects List:</h2>
       <ul>
-        <li>Subject 1</li>
-        <li>Subject 2</li>
+        {% for subject in subjects %}
+          <li><a href="{% url 'subjects_detail' pk=subject.pk %}">{{ subject.name }} </a></li>
+          {% endfor %}
       </ul>
     </div>
 
     <div class="progression-pie-chart">
       Progression Pie Chart
     </div>
-
 
     <div class="whats-upcoming">
       Upcoming content
@@ -37,6 +39,5 @@
       </ul>
     </div>
   </div>
-
 
 {% endblock %}

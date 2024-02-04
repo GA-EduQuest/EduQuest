@@ -12,19 +12,11 @@
   <p>Grade: {{ subject.get_grade_display }}</p>
 
 
-  <a href="#">Edit</a>
-  <a href="#">Delete</a>
+  <a href="{% url 'subjects_update' pk=subject.pk %}">Edit</a>
+  <a href="{% url 'subjects_delete' pk=subject.pk %}">Delete</a>
 
-    <h3>Assignments</h3>
-  {% if subject.assignment_set.all %}
-    <ul>
-      {% for assignment in subject.assignment_set.all %}
-        <li>{{ assignment.name }} - {{ assignment.due_date }} - {{ assignment.get_status_display }}</li>
-      {% endfor %}
-    </ul>
-  {% else %}
-    <p>No assignments for this subject.</p>
-  {% endif %}
+  <h3>Assignments</h3>
+
 
   <a href="#">Add Assignment</a>
 

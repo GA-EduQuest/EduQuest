@@ -25,10 +25,10 @@ urlpatterns = [
     path('badges/<int:badges>_id/delete/', views.badges_delete, name='badges_delete'),
     #About Subjects, main index is also here
     path('subjects/', views.subjects_index, name='index'),
-    path('subjects/<int:assignments_id>/', views.subjects_detail, name='subjects_detail'),
     path('subjects/create', views.subjects_create, name='subjects_create'),
-    path('subjects/<int:subjects_id>/update/', views.subjects_update, name='subjects_update'),
-    path('subjects/<int:subjects_id>/delete/', views.subjects_delete, name='subjects_delete'),
+    path('subjects/<int:pk>/', views.subjects_detail, name='subjects_detail'),
+    path('subjects/<int:pk>/update/', views.subjects_update, name='subjects_update'),
+    path('subjects/<int:pk>/delete/', views.subjects_delete, name='subjects_delete'),
     #About Assignment
     path('assignments/', views.AssignmentList.as_view(), name='assignments_list'),
     path('assignments/create/', views.AssignmentCreate.as_view(), name='assignments_create'),

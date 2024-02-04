@@ -5,9 +5,7 @@ body {
     min-height: 100vh;
     flex-direction: column;
     background: linear-gradient(to bottom, #509ed7, #306bac);
-
 }
-
 
 footer.page-footer {
     padding-top: 0;
@@ -18,23 +16,17 @@ footer.page-footer {
     height: 70px;
     padding: 0px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.39);
-    background-color: rgba(
-        153,
-        182,
-        239,
-        0.844
-    ) ;
-    font-family: 'TT Alientz Serif', sans-serif;
-    position: fixed;
+    background-color: rgba(153, 182, 239, 0.844);
+    font-family: "TT Alientz Serif", sans-serif;
     top: 0;
     width: 100%;
-    z-index: 1000; /
 }
+
 footer {
     height: 50px;
     padding: 0px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.39);
-    background-color: #99b6efbf ;
+    background-color: #99b6efbf;
 }
 
 body > main {
@@ -61,7 +53,7 @@ body > main {
     width: 100%;
     height: 900px;
     border: 1px solid black;
-    background-image: url('/static/images/Eduquest-bg-image.png');
+    background-image: url("/static/images/Eduquest-bg-image.png");
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;

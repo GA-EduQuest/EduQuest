@@ -3,12 +3,20 @@
 {% block title %}Subject{% endblock %}
 
 {% block content %}
-
-  <h2>{% if form.instance %}Update{% else %}Add{% endif %} Subject</h2>
-  <form method="post" action="#">
+  {% if subject %}
+    <h1>Edit <span class="teal-text">{{ subject.name }}</span></h1>
+  {% else %}
+    <h1>Add Subject</h1>
+  {% endif %}
+  <form action="" method="POST" style="background-color: rgb(255, 253, 253); border-radius: 10px;">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">{% if form.instance %}Update{% else %}Add{% endif %} Subject</button>
+    <table>
+      {{ form.as_table }}
+    </table>
+    {% if subject %}
+      <input type="submit" value="Update Subject!" class="btn">
+    {% else %}
+      <input type="submit" value="Add Subject!" class="btn">
+    {% endif %}
   </form>
-
 {% endblock %}
