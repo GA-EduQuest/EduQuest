@@ -8,7 +8,7 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Profile, Subject, Assignment, Avatar, Quest, Badge, ProfileAchievement
+from .models import Profile, Subject, Assignment, Avatar, Quest, Badge, ProfileAchievement, User
 
 #Create your views here.
 
@@ -20,14 +20,25 @@ def about(request):
     return render(request, 'about.html')
 
 #User Views
-def user_detail(request):
-    pass
+def user_detail(request, user_id):
+    user = User.objects.get(id=user_id)
+    profile = user.profile
+    return render(request, 'user/user_detail.html', {
+       'user': user, 'profile': profile
+    })
 
-def user_update(request):
-    pass
+# def user_update(request):
+#     pass
 
-def user_delete(request):
-    pass
+# def user_delete(request):
+#     pass
+
+# Profile Views
+class ProfileUpdate(LoginRequiredMixin, UpdateView):
+   model = Profile
+   fields = ['email', 'first_name', 'last_name', 'school_year']
+
+
 
 #Quest Views
 def unfinished_quest(request, user_id, quest_id):

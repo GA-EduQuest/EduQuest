@@ -1,19 +1,20 @@
-{% extends 'base.html' %}
-{% block content %}
+{% extends 'base.html' %} {% block content %}
 
-<div class="signin-container" style="margin-top: 100px;">
+<div class="signin-container" style="margin-top: 100px">
   <div class="card my-4">
     <div class="card-body">
-        <h1 class="card-title text-center">Sign Up</h1>
-        <p class="text-danger text-center">{{ error_message }}</p>
-        <form method="POST" action="{% url 'signup' %}">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <input type="submit" class="btn btn-primary btn-block" value="Sign Up">
-        </form>
+      <h1 class="card-title text-center">Sign Up</h1>
+      <p class="text-danger text-center">{{ error_message }}</p>
+      <form method="POST" action="{% url 'signup' %}">
+        {% csrf_token %} {{ form.as_p }}
+        <input
+          type="submit"
+          class="btn btn-primary btn-block"
+          value="Sign Up"
+        />
+      </form>
     </div>
+  </div>
 </div>
-</div>
-
 
 {% endblock %}
