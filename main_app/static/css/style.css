@@ -35,11 +35,8 @@ body > main {
 }
 
 .logo-img {
-    max-height: 200px;
-    max-width: 100%;
-    display: block;
-    margin: auto;
-    margin-bottom: 20px;
+    height: 50px;
+    width: auto;
 }
 
 .hero {
@@ -84,13 +81,13 @@ body > main {
     flex-wrap: wrap;
     justify-content: center;
     align-items: flex-start;
-    margin-top: 100px;
+    margin-top: 30px;
 }
 
 .title-card {
     text-align: center;
     padding: 20px;
-    border: 1px solid #ccc;
+
     background-color: #a15aff;
     box-shadow: 0 0 50px rgba(0, 0, 0, 0.39);
     border-radius: 8px;
@@ -110,28 +107,32 @@ body > main {
 .subject-list,
 .quest-list {
     flex: 1;
-    max-width: 200px;
-    border: 2px solid white;
+    max-width: 230px;
     border-radius: 10px;
-    background-color: white;
+    background-color: #a15aff;
     min-height: 400px;
     height: auto;
     box-shadow: 0 0 50px rgba(0, 0, 0, 0.39);
 }
 
 .pie-container {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
+    width: 170px;
+    height: 170px;
+    background-color: #3498db;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100vh;
-    margin: 0;
-    z-index: -10;
+    color: #fff;
 }
 
-.center-column {
-    text-align: center;
+.upcoming-container {
+    width: 150px;
+    height: 150px;
+    background-color: #2ecc71;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
 }
