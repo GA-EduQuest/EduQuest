@@ -25,9 +25,6 @@
                 <a class="nav-link" href="{% url 'home' %}">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'about' %}">About</a>
-              </li>
-              <li class="nav-item">
                 <a class="nav-link" href="{% url 'index' %}">Subjects</a>
               </li>
               <li class="nav-item">
@@ -44,16 +41,15 @@
         </div>
 
         <!-- Logo (Centered) -->
-        <a
-          class="navbar-brand position-absolute top-50 start-50 translate-middle"
-          href="{% url 'home' %}"
-        >
+        {% if request.path != '/' %}
+
           <img
             src="{% static 'images/EduQuest (2).png' %}"
             alt="Logo"
             class="logo-img"
           />
-        </a>
+
+        {% endif %}
 
         <!-- User Info (Right side) -->
         <div class="navbar-nav ms-auto">
