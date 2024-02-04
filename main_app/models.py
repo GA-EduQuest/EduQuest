@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 from django.dispatch import receiver
 from django.db.models.signals import post_save
+from datetime import date
 
 FIELD = (
     ('MA', 'Maths'),
@@ -62,12 +63,12 @@ class Subject(models.Model):
         choices=FIELD,
         default=FIELD[4][0]
     )
-    start_date = models.DateField
-    end_date = models.DateField
+    start_date = models.DateField(("Date"), default=date.today)
+    end_date = models.DateField(("Date"), default=date.today)
     progress = models.IntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(100)]
     )
-    exam_date = models.DateField
+    exam_date = models.DateField(("Date"), default=date.today)
     grade = models.CharField(
         max_length=1,
         choices=GRADE,

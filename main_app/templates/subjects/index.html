@@ -5,29 +5,30 @@
 {% block content %}
 
   <div class="center-container">
-    <div class="title-card">
-      <h1>Subject</h1>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-5">
+        <div class="title-card">
+          <h1>Subjects</h1>
+        </div>
+        <div class="add-subject text-center mt-3">
+          <a href="{% url 'subjects_create' %}" class="btn btn-primary">Add Subject</a>
+        </div>
+      </div>
     </div>
-    <a href="#" class="btn btn-primary" style="position: absolute; left: 50px; margin-top: 20px;">Add Subject</a>
+  </div>
   </div>
 
-   <div class="content-container">
+  <div class="list-container">
     <div class="subject-list">
-      <h2>Subjects List:</h2>
+      <h2>Subjects</h2>
       <ul>
-        <li>Subject 1</li>
-        <li>Subject 2</li>
+        {% for subject in subjects %}
+          <li><a class="btn btn-outline-primary" href="{% url 'subjects_detail' pk=subject.pk %}" style="text-decoration: none;">{{ subject.name }} </a></li>
+          {% endfor %}
       </ul>
     </div>
 
-    <div class="progression-pie-chart">
-      Progression Pie Chart
-    </div>
-
-
-    <div class="whats-upcoming">
-      Upcoming content
-    </div>
 
     <div class="quest-list">
       <h2>Quests List:</h2>
@@ -38,5 +39,11 @@
     </div>
   </div>
 
+  <div class="pie-container">
+    <div class="center-column">
+      <h2>Progression pie chart</h2>
+      <h2>Whats upcoming </h2>
+    </div>
+  </div>
 
-{% endblock %}
+  {% endblock %}

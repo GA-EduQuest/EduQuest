@@ -1,7 +1,7 @@
 import os
 import uuid
 # import boto3
-from django.shortcuts import render, redirect
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
 from django.contrib.auth import login
@@ -9,6 +9,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Profile, Subject, Assignment, Avatar, Quest, Badge, ProfileAchievement, User
+from .forms import SubjectForm
 
 #Create your views here.
 
@@ -72,20 +73,47 @@ def owned_badges(request, user_id, quest_id, badge_id):
 
 #Subjects Views
 def subjects_index(request):
-    return render(request, 'subjects/index.html')
-    pass
+    subjects = Subject.objects.filter(user=request.user)
+    return render(request, 'subjects/index.html', {'subjects': subjects})
 
-def subjects_detail(request):
-    pass
+def subjects_detail(request, pk):
+    subject = get_object_or_404(Subject, pk=pk)
+    return render(request, 'subjects/subject_detail.html', {'subject': subject})
 
 def subjects_create(request):
-    pass
+    if request.method == 'POST':
+        form = SubjectForm(request.POST)
+        if form.is_valid():
+            subject = form.save(commit=False)
+            subject.user = request.user
+            subject.save()
+            return redirect('subjects_detail', pk=subject.pk)
+    else:
+        form = SubjectForm()
 
-def subjects_update(request):
-    pass
+    return render(request, 'subjects/subject_form.html', {'form': form, 'subject': None})
 
-def subjects_delete(request):
-    pass
+def subjects_update(request, pk):
+    subject = get_object_or_404(Subject, pk=pk)
+
+    if request.method == 'POST':
+        form = SubjectForm(request.POST, instance=subject)
+        if form.is_valid():
+            form.save()
+            return redirect('subjects_detail', pk=pk)
+    else:
+        form = SubjectForm(instance=subject)
+
+    return render(request, 'subjects/subject_form.html', {'form': form, 'subject': subject})
+
+def subjects_delete(request, pk):
+    subject = get_object_or_404(Subject, pk=pk)
+    if request.method == 'POST':
+
+        subject.delete()
+        return redirect('index')
+
+    return render(request, 'subjects/subject_delete.html', {'subject': subject})
 
 #About Leaderboards
 def leaderboard(request):
