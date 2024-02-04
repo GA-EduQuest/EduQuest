@@ -6,8 +6,10 @@ urlpatterns = [
     path('about/', views.about, name='about'),
     #About User
     path('user/<int:user_id>/', views.user_detail, name='user_detail'),
-    path('user/<int:user_id>/update/', views.user_update, name='user_update'),
-    path('user/<int:user_id>/delete/', views.user_delete, name='user_delete'),
+    # path('user/<int:user_id>/update/', views.user_update, name='user_update'),
+    # path('user/<int:user_id>/delete/', views.user_delete, name='user_delete'),
+    #About Profile
+    path('user/<int:pk>/update', views.ProfileUpdate.as_view(), name='profile_update'),
     #About Quest
     path('user/<int:user_id>/unfinishedquest/<int:quest_id>/', views.unfinished_quest, name='unfinished_quest'),
     path('user/<int:user_id>/finishedquest/<int:quest_id>/', views.finished_quest, name='finished_quest'),

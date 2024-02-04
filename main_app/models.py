@@ -2,6 +2,8 @@ from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.urls import reverse
 from django.contrib.auth.models import User
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 
 FIELD = (
     ('MA', 'Maths'),
@@ -27,19 +29,31 @@ STATUS = (
 )
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    email = models.EmailField(max_length=100)
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    email = models.EmailField(max_length=100, null=True, blank=True)
+    first_name = models.CharField(max_length=100, null=True, blank=True)
+    last_name = models.CharField(max_length=100, null=True, blank=True)
     school_year = models.IntegerField(
-        validators=[MinValueValidator(1), MaxValueValidator(12)]
+        validators=[MinValueValidator(1), MaxValueValidator(12)],
+        null=True, blank=True
     )
     xp = models.IntegerField(
+        default=0,
         validators=[MinValueValidator(0)]
     )
 
     def __str__(self):
         return self.user.username
+
+    def get_absolute_url(self):
+        return reverse('user_detail', kwargs={'user_id': self.user.id})
+
+# Automatically add a profile for the user when a user is created (because the fields aren't required above, these will be blank until the user updates their profile details)
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+
 
 class Subject(models.Model):
     name = models.CharField(max_length=100)
