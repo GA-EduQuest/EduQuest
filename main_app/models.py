@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 from django.dispatch import receiver
 from django.db.models.signals import post_save
+from django.contrib.auth.signals import user_logged_in
 from datetime import date
 
 FIELD = (
@@ -42,6 +43,7 @@ class Profile(models.Model):
         default=0,
         validators=[MinValueValidator(0)]
     )
+    avatar_url = models.URLField(max_length=200, null=True, blank=True)
 
     def __str__(self):
         return self.user.username
@@ -49,12 +51,11 @@ class Profile(models.Model):
     def get_absolute_url(self):
         return reverse('user_detail', kwargs={'user_id': self.user.id})
 
-# Automatically add a profile for the user when a user is created (because the fields aren't required above, these will be blank until the user updates their profile details)
+# Automatically add a profile for the user when a user is created
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
-
 
 class Subject(models.Model):
     name = models.CharField(max_length=100)
@@ -115,14 +116,6 @@ class Assignment(models.Model):
     def __str__(self):
         return self.name
 
-# The avatar photo for each profile/user
-class Avatar(models.Model):
-    url = models.URLField(max_length=200)
-    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f"Photo for profile_id: {self.profile_id} @{self.url}"
-
 class Quest(models.Model):
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=500)
@@ -140,3 +133,26 @@ class ProfileAchievement(models.Model):
 
     def __str__(self):
         return f"{self.user.first_name} - {self.quest.name} - {self.date_achieved}"
+
+    @staticmethod
+    def has_quest_achievement(user, quest_name):
+        # Check if the user has achieved a specific quest
+        return ProfileAchievement.objects.filter(user=user, quest__name=quest_name).exists()
+
+    @staticmethod
+    def get_quest_xp(quest_name):
+        # Get the XP earned for a specific quest
+        return Quest.objects.get(name=quest_name).xp_earned
+
+# Checks if the user has met the requirements for exam slayer (they've passed an exam date) on login
+@receiver(user_logged_in, sender=User)
+def check_exam_slayer_achievement_on_login(sender, request, user, **kwargs):
+    # Check if the user has achieved the 'Exam Slayer' quest
+    exam_slayer_quest_name = 'Exam Slayer'
+    if not ProfileAchievement.has_quest_achievement(user, exam_slayer_quest_name):
+        subjects_with_passed_exams = Subject.objects.filter(user=user, exam_date__lt=date.today())
+        if subjects_with_passed_exams.exists():
+            exam_slayer_quest = Quest.objects.get(name=exam_slayer_quest_name)
+            ProfileAchievement.objects.create(user=user, quest=exam_slayer_quest)
+            user.profile.xp += ProfileAchievement.get_quest_xp(exam_slayer_quest_name)
+            user.profile.save()

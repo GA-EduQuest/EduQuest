@@ -8,13 +8,8 @@
 <div class="profile-container">
   <div class="names-section">
     <h2>{{ user.username }}</h2>
-
-    {% if profile %}
     <p><strong>First Name:</strong> {{ profile.first_name }}</p>
     <p><strong>Last Name:</strong> {{ profile.last_name }}</p>
-    {% else %}
-    <p>Please set up your profile details.</p>
-    {% endif %}
   </div>
 
   <div class="email-section">
@@ -29,11 +24,7 @@
     {% else %}
     {% endif %}
   </div>
-  {% if profile %}
   <a href="{% url 'profile_update' pk=profile.id %}" class="btn btn-primary" style="height: 35px !important;">Edit</a>
-  {% else %}
-  <a href="#" class="add-profile-link">Add Profile</a>
-  {% endif %}
 </div>
 
 <div class="achievements-list">
