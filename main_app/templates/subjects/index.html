@@ -24,7 +24,7 @@
       <h2>Arcane Studies</h2>
       <ul>
         {% for subject in subjects %}
-          <li><a href="{% url 'subjects_detail' pk=subject.pk %}" style="text-decoration: none; color: black;">{{ subject.name }} </a></li>
+          <li><a class="btn btn-secondary" href="{% url 'subjects_detail' pk=subject.pk %}" >{{ subject.name }} </a></li>
           {% endfor %}
       </ul>
     </div>
@@ -34,7 +34,14 @@
         <h2>Progression pie chart</h2>
       </div>
       <div class="upcoming-container">
-        <h2>What's upcoming</h2>
+    {% if upcoming_exam %}
+        <h3>Upcoming Exam</h3>
+        <p>Subject: {{ upcoming_exam.name }}</p>
+        <p>Exam Date: {{ upcoming_exam.exam_date }}</p>
+
+    {% else %}
+        <p>No upcoming exams</p>
+    {% endif %}
       </div>
     </div>
 

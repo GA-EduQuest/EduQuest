@@ -3,20 +3,26 @@
 {% block title %}Subject{% endblock %}
 
 {% block content %}
-  {% if subject %}
-    <h1>Edit <span class="teal-text">{{ subject.name }}</span></h1>
-  {% else %}
-    <h1>Add Subject</h1>
-  {% endif %}
-  <form action="" method="POST" style="background-color: rgb(255, 253, 253); border-radius: 10px;">
-    {% csrf_token %}
-    <table>
-      {{ form.as_table }}
-    </table>
-    {% if subject %}
-      <input type="submit" value="Update Subject!" class=" btn btn-primary">
-    {% else %}
-      <input type="submit" value="Add Subject!" class="btn btn-primary">
-    {% endif %}
-  </form>
+  <div class="container">
+    <div class="form-title text-center">
+      <h1>{% if subject %}Edit <span class="teal-text">{{ subject.name }}</span>{% else %}Add Subject{% endif %}</h1>
+    </div>
+
+    <form action="" method="POST" class="subject-form">
+      {% csrf_token %}
+
+      {% for field in form %}
+        <div class="form-group">
+          <label for="{{ field.id }}">{{ field.label }}:</label>
+          {{ field }}
+        </div>
+      {% endfor %}
+
+      {% if subject %}
+        <input type="submit" value="Update Subject" class="btn btn-primary">
+      {% else %}
+        <input type="submit" value="Add Subject" class="btn btn-primary">
+      {% endif %}
+    </form>
+  </div>
 {% endblock %}
