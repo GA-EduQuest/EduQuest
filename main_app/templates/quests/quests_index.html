@@ -18,10 +18,10 @@
     <h2>Completed Quests</h2>
     <ul>
       {% for achievement in achieved_quests %}
-      <li>
-        {{ achievement.quest.name }}
-        <img src="{{ achievement.quest.badge_image_url }}" alt="Badge Image" />
-      </li>
+      <div class="quest-and-badge">
+        <a href="{% url 'quests_detail' pk=achievement.quest.pk %}"><img src="{{ achievement.quest.badge_image_url }}" alt="Badge Image" /></a>
+        <a href="{% url 'quests_detail' pk=achievement.quest.pk %}" class="btn btn-primary">{{ achievement.quest.name }}</a>
+      </div>
       {% endfor %}
     </ul>
   </div>
@@ -31,11 +31,10 @@
     <h2>Quests Still To Complete</h2>
     <ul>
       {% for uncompleted_quest in uncompleted_quests %}
-      <li>
-        {{ uncompleted_quest.name }} {% if uncompleted_quest.badge_image_url %}
-        <img src="{{ uncompleted_quest.badge_image_url }}" alt="Badge Image" />
-        {% endif %}
-      </li>
+      <div class="quest-and-badge">
+        <a href="{% url 'quests_detail' pk=uncompleted_quest.pk %}"><img src="{{ uncompleted_quest.badge_image_url }}" alt="Badge Image" /></a>
+        <a href="{% url 'quests_detail' pk=uncompleted_quest.pk %}" class="btn btn-primary">{{ uncompleted_quest.name }}</a>
+      </div>
       {% endfor %}
     </ul>
   </div>

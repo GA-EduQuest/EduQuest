@@ -12,7 +12,7 @@ urlpatterns = [
     path('user/<int:pk>/update', views.ProfileUpdate.as_view(), name='profile_update'),
     #About Quest
     path('quests/', views.quests_index, name='quests_index'),
-    path('quests/<int:quest_id>/', views.quests_detail, name='quests_detail'),
+    path('quests/<int:pk>/', views.quests_detail, name='quests_detail'),
     #About user earning badges
     # path('user/<int:user_id>/unfinishedquest/<int:quest_id>/notownedbadges/<int:badge_id>', views.not_owned_badges, name='not_owned_badges'),
     # path('user/<int:user_id>/finishedquest/<int:quest_id>/ownedbadges/<int:badge_id>', views.owned_badges, name='owned_badges'),

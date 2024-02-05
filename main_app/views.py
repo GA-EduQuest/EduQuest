@@ -45,13 +45,19 @@ class ProfileUpdate(LoginRequiredMixin, UpdateView):
 
 #Quest Views
 def quests_index(request):
-   all_quests = Quest.objects.all()
-   achieved_quests = ProfileAchievement.objects.all()
-   uncompleted_quests = all_quests.exclude(id__in=achieved_quests)
-   return render(request, 'quests/quests_index.html', {'all_quests': all_quests, 'achieved_quests': achieved_quests, 'uncompleted_quests': uncompleted_quests })
+    user = request.user
+    all_quests = Quest.objects.all()
+    # Filter ProfileAchievement objects for the current user
+    achieved_quests = ProfileAchievement.objects.filter(user=user)
+    uncompleted_quests = all_quests.exclude(id__in=achieved_quests.values_list('quest', flat=True))
+    return render(request, 'quests/quests_index.html', {'all_quests': all_quests, 'achieved_quests': achieved_quests, 'uncompleted_quests': uncompleted_quests })
 
-def quests_detail(request, user_id, quest_id):
-   pass
+def quests_detail(request, pk):
+    quest = get_object_or_404(Quest, pk=pk)
+    user = request.user
+    # Check if the user has achieved the quest - returns a true or false
+    achieved_quest = ProfileAchievement.objects.filter(user=user, quest=quest).exists()
+    return render(request, 'quests/quests_detail.html', {'quest': quest, 'achieved_quest': achieved_quest })
 
 #Badges Views
 def badges_list(request):

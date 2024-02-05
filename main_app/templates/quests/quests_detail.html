@@ -1,0 +1,44 @@
+{% extends 'base.html' %} {% block title %}{{ quest.name }}{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="quest-details-card mx-auto">
+      <div class="quest-details-header">
+        <h2>{{ quest.name }}</h2>
+      </div>
+      <div class="quest-details-body" style="padding: 20px;">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="details-section">
+              <h3>Description</h3>
+              <p>{{ quest.description }}</p>
+            </div>
+
+            <div class="details-section">
+              <h3>XP Earned</h3>
+              <p>{{ quest.xp_earned }}</p>
+            </div>
+
+          <div class="col-md-6">
+            <div class="details-section text-center">
+              <h3>Badge</h3>
+              <img src="{{ quest.badge_image_url }}" alt="Badge Image" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-4">
+        <div class="col-md-12 text-center" style="padding: 20px;">
+          {% if achieved_quest %}
+          <p>You have achieved this quest!</p>
+          {% else %}
+          <p>You have not achieved this quest yet.</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+{% endblock %}
