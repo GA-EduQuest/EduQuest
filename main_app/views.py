@@ -44,10 +44,13 @@ class ProfileUpdate(LoginRequiredMixin, UpdateView):
 
 
 #Quest Views
-def unfinished_quest(request, user_id, quest_id):
-   pass
+def quests_index(request):
+   all_quests = Quest.objects.all()
+   achieved_quests = ProfileAchievement.objects.all()
+   uncompleted_quests = all_quests.exclude(id__in=achieved_quests)
+   return render(request, 'quests/quests_index.html', {'all_quests': all_quests, 'achieved_quests': achieved_quests, 'uncompleted_quests': uncompleted_quests })
 
-def finished_quest(request, user_id, quest_id):
+def quests_detail(request, user_id, quest_id):
    pass
 
 #Badges Views

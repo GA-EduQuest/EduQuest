@@ -1,0 +1,44 @@
+{% extends 'base.html' %} {% block title %}Assignments{% endblock %}
+{% block content %}
+
+<div class="center-container">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-5">
+        <div class="title-card">
+          <h1>Quests</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="list-container">
+  <div class="completed-quest-list">
+    <h2>Completed Quests</h2>
+    <ul>
+      {% for achievement in achieved_quests %}
+      <li>
+        {{ achievement.quest.name }}
+        <img src="{{ achievement.quest.badge_image_url }}" alt="Badge Image" />
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+<div class="list-container">
+  <div class="uncompleted-quest-list">
+    <h2>Quests Still To Complete</h2>
+    <ul>
+      {% for uncompleted_quest in uncompleted_quests %}
+      <li>
+        {{ uncompleted_quest.name }} {% if uncompleted_quest.badge_image_url %}
+        <img src="{{ uncompleted_quest.badge_image_url }}" alt="Badge Image" />
+        {% endif %}
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+{% endblock %}
