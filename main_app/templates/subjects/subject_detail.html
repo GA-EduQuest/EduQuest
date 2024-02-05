@@ -3,17 +3,58 @@
 {% block title %}{{ subject.name }}{% endblock %}
 
 {% block content %}
-  <h2>{{ subject.name }}</h2>
-  <p>Field: {{ subject.field }}</p>
-  <p>Start Date: {{ subject.start_date }}</p>
-  <p>End Date: {{ subject.end_date }}</p>
-  <p>Progress: {{ subject.progress }}%</p>
-  <p>Exam Date: {{ subject.exam_date }}</p>
-  <p>Grade: {{ subject.get_grade_display }}</p>
+  <div class="container">
+    <div class="subject-details-card mx-auto">
+      <div class="subject-details-header">
+        <h2>{{ subject.name }}</h2>
+      </div>
+      <div class="subject-details-body" style="padding: 20px;">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="details-section">
+              <h3>Field</h3>
+              <p>{{ subject.field }}</p>
+            </div>
 
+            <div class="details-section">
+              <h3>Start Date</h3>
+              <p>{{ subject.start_date }}</p>
+            </div>
 
-  <a href="{% url 'subjects_update' pk=subject.pk %}">Edit</a>
-  <a href="{% url 'subjects_delete' pk=subject.pk %}">Delete</a>
+            <div class="details-section">
+              <h3>End Date</h3>
+              <p>{{ subject.end_date }}</p>
+            </div>
+
+            <div class="details-section">
+              <h3>Exam Date</h3>
+              <p>{{ subject.exam_date }}</p>
+            </div>
+
+            <div class="details-section">
+              <h3>Grade</h3>
+              <p>{{ subject.get_grade_display }}</p>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="details-section text-center">
+              <h3>Progress</h3>
+              <canvas id="progressChart" width="200" height="200"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-4">
+        <div class="col-md-12 text-center" style="padding: 20px;">
+          <a href="{% url 'subjects_update' pk=subject.pk %}" class="btn btn-primary me-5">Edit</a>
+          <a href="{% url 'subjects_delete' pk=subject.pk %}" class="btn btn-danger">Delete</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
 
   <h3>Assignments</h3>
 

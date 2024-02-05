@@ -1,16 +1,38 @@
-{% extends 'base.html' %} {% block title %}{{ user.username }}{% endblock %}
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ user.username }}
+{% endblock %}
+
 {% block content %}
-<h2>{{ user.username }}</h2>
+    <div class="profile-container">
+        <div class="names-section">
+            <h2>{{ user.username }}</h2>
 
-{% if profile %}
-<p>First Name: {{ profile.first_name }}</p>
-<p>Last Name: {{ profile.last_name }}</p>
-<p>Email: {{ profile.email }}</p>
-<p>School Year: {{ profile.school_year }}</p>
-<p>Total XP: {{ profile.xp }}</p>
+            {% if profile %}
+                <p><strong>First Name:</strong> {{ profile.first_name }}</p>
+                <p><strong>Last Name:</strong> {{ profile.last_name }}</p>
+            {% else %}
+                <p>Please set up your profile details.</p>
+            {% endif %}
+        </div>
 
-<a href="{% url 'profile_update' pk=profile.id %}">Edit</a>
-{% else %}
-<p>Please set up your profile details.</p>
-<a href="#">Add Profile</a>
-{% endif %} {% endblock %}
+        <div class="email-section">
+            {% if profile %}
+                <p><strong>Email:</strong> {{ profile.email }}</p>
+            {% endif %}
+        </div>
+
+        <div class="xp-section">
+            {% if profile %}
+                <p><strong>Total XP:</strong> {{ profile.xp }}</p>
+                {% else %}
+                {% endif %}
+        </div>
+            {% if profile %}
+              <a href="{% url 'profile_update' pk=profile.id %}" class="btn btn-primary" style="height: 35px !important;">Edit</a>
+              {% else %}
+              <a href="#" class="add-profile-link">Add Profile</a>
+            {% endif %}
+    </div>
+{% endblock %}
