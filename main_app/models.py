@@ -112,14 +112,7 @@ class Quest(models.Model):
     description = models.CharField(max_length=500)
     xp_earned = models.IntegerField(
         validators=[MinValueValidator(1)])
-
-    def __str__(self):
-        return self.name
-
-class Badge(models.Model):
-    name = models.CharField(max_length=100)
-    image_url = models.URLField(max_length=200)
-    quest = models.OneToOneField(Quest, on_delete=models.CASCADE)
+    badge_image_url = models.URLField(max_length=200)
 
     def __str__(self):
         return self.name

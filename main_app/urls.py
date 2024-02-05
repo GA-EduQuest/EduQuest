@@ -17,8 +17,8 @@ urlpatterns = [
     path('user/<int:user_id>/unfinishedquest/<int:quest_id>/notownedbadges/<int:badge_id>', views.not_owned_badges, name='not_owned_badges'),
     path('user/<int:user_id>/finishedquest/<int:quest_id>/ownedbadges/<int:badge_id>', views.owned_badges, name='owned_badges'),
     #About Badges
-    path('badges/', views.badges_list, name='badges_list'),
-    path('badges/<int:badges_id>/', views.badges_detail, name='subjects_detail'),
+    # path('badges/', views.badges_list, name='badges_list'),
+    # path('badges/<int:badges_id>/', views.badges_detail, name='subjects_detail'),
     # ---Admin Only--- #
     path('badges/create', views.badges_create, name='badges_create'),
     path('badges/<int:badges_id>/update/', views.badges_update, name='badges_update'),

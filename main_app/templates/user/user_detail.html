@@ -1,38 +1,54 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    {{ user.username }}
+{{ user.username }}
 {% endblock %}
 
 {% block content %}
-    <div class="profile-container">
-        <div class="names-section">
-            <h2>{{ user.username }}</h2>
+<div class="profile-container">
+  <div class="names-section">
+    <h2>{{ user.username }}</h2>
 
-            {% if profile %}
-                <p><strong>First Name:</strong> {{ profile.first_name }}</p>
-                <p><strong>Last Name:</strong> {{ profile.last_name }}</p>
-            {% else %}
-                <p>Please set up your profile details.</p>
-            {% endif %}
-        </div>
+    {% if profile %}
+    <p><strong>First Name:</strong> {{ profile.first_name }}</p>
+    <p><strong>Last Name:</strong> {{ profile.last_name }}</p>
+    {% else %}
+    <p>Please set up your profile details.</p>
+    {% endif %}
+  </div>
 
-        <div class="email-section">
-            {% if profile %}
-                <p><strong>Email:</strong> {{ profile.email }}</p>
-            {% endif %}
-        </div>
+  <div class="email-section">
+    {% if profile %}
+    <p><strong>Email:</strong> {{ profile.email }}</p>
+    {% endif %}
+  </div>
 
-        <div class="xp-section">
-            {% if profile %}
-                <p><strong>Total XP:</strong> {{ profile.xp }}</p>
-                {% else %}
-                {% endif %}
-        </div>
-            {% if profile %}
-              <a href="{% url 'profile_update' pk=profile.id %}" class="btn btn-primary" style="height: 35px !important;">Edit</a>
-              {% else %}
-              <a href="#" class="add-profile-link">Add Profile</a>
-            {% endif %}
-    </div>
+  <div class="xp-section">
+    {% if profile %}
+    <p><strong>Total XP:</strong> {{ profile.xp }}</p>
+    {% else %}
+    {% endif %}
+  </div>
+  {% if profile %}
+  <a href="{% url 'profile_update' pk=profile.id %}" class="btn btn-primary" style="height: 35px !important;">Edit</a>
+  {% else %}
+  <a href="#" class="add-profile-link">Add Profile</a>
+  {% endif %}
+</div>
+
+<div class="achievements-list">
+<h2>Quest Achievements</h2>
+<ul>
+  {% for achievement in achievements %}
+  <li>
+    {{ achievement.quest.name }} - {{ achievement.date_achieved }}
+    {% if achievement.quest.badge_image_url %}
+    <img src="{{ achievement.quest.badge_image_url }}" alt="Badge Image">
+    {% endif %}
+    </a>
+  </li>
+  {% endfor %}
+</ul>
+</div>
+
 {% endblock %}

@@ -8,7 +8,7 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Profile, Subject, Assignment, Avatar, Quest, Badge, ProfileAchievement, User
+from .models import Profile, Subject, Assignment, Avatar, Quest, ProfileAchievement, User
 from .forms import SubjectForm
 from datetime import date
 
@@ -25,8 +25,9 @@ def about(request):
 def user_detail(request, user_id):
     user = User.objects.get(id=user_id)
     profile = user.profile
+    achievements = ProfileAchievement.objects.filter(user=user)
     return render(request, 'user/user_detail.html', {
-       'user': user, 'profile': profile
+       'user': user, 'profile': profile, 'achievements': achievements
     })
 
 # def user_update(request):
@@ -89,6 +90,15 @@ def subjects_create(request):
             subject = form.save(commit=False)
             subject.user = request.user
             subject.save()
+            # Check if the user has created any subjects before
+            existing_subjects_count = Subject.objects.filter(user=request.user).exclude(pk=subject.pk).count()
+            # Check if 'Getting Started' quest is not already in achievements
+            getting_started_quest = Quest.objects.get(name='Getting Started')
+            if existing_subjects_count == 0 and not ProfileAchievement.objects.filter(user=request.user, quest=getting_started_quest).exists():
+                # Add 'Getting Started' quest and update XP
+                ProfileAchievement.objects.create(user=request.user, quest=getting_started_quest)
+                request.user.profile.xp += getting_started_quest.xp_earned
+                request.user.profile.save()
             return redirect('subjects_detail', pk=subject.pk)
     else:
         form = SubjectForm()
