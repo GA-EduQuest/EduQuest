@@ -14,29 +14,20 @@
 </div>
 
 <div class="list-container">
-  <div class="completed-quest-list">
-    <h2>Completed Quests</h2>
-    <ul>
-      {% for achievement in achieved_quests %}
-      <div class="quest-and-badge">
-        <a href="{% url 'quests_detail' pk=achievement.quest.pk %}"><img src="{{ achievement.quest.badge_image_url }}" alt="Badge Image" /></a>
-        <a href="{% url 'quests_detail' pk=achievement.quest.pk %}" class="btn btn-primary">{{ achievement.quest.name }}</a>
+  <div class="all-quest-list">
+    <h2>All Quests</h2>
+    {% for quest in all_quests %}
+    <div class="quest-and-badge">
+      <div class="image-container">
+        <a href="{% url 'quests_detail' pk=quest.pk %}">
+          <img src="{{ quest.badge_image_url }}" alt="Badge Image" {% if quest.id in achieved_quest_ids %}style="filter: grayscale(0%);" {% else %}style="filter: grayscale(100%);" {% endif %} />
+        </a>
       </div>
-      {% endfor %}
-    </ul>
-  </div>
-</div>
-<div class="list-container">
-  <div class="uncompleted-quest-list">
-    <h2>Quests Still To Complete</h2>
-    <ul>
-      {% for uncompleted_quest in uncompleted_quests %}
-      <div class="quest-and-badge">
-        <a href="{% url 'quests_detail' pk=uncompleted_quest.pk %}"><img src="{{ uncompleted_quest.badge_image_url }}" alt="Badge Image" /></a>
-        <a href="{% url 'quests_detail' pk=uncompleted_quest.pk %}" class="btn btn-primary">{{ uncompleted_quest.name }}</a>
+      <div class="link-container">
+        <a href="{% url 'quests_detail' pk=quest.pk %}" class="">{{ quest.name }}</a>
       </div>
-      {% endfor %}
-    </ul>
+    </div>
+    {% endfor %}
   </div>
 </div>
 

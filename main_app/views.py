@@ -49,8 +49,9 @@ def quests_index(request):
     all_quests = Quest.objects.all()
     # Filter ProfileAchievement objects for the current user
     achieved_quests = ProfileAchievement.objects.filter(user=user)
+    achieved_quest_ids = list(achieved_quests.values_list('quest__id', flat=True))
     uncompleted_quests = all_quests.exclude(id__in=achieved_quests.values_list('quest', flat=True))
-    return render(request, 'quests/quests_index.html', {'all_quests': all_quests, 'achieved_quests': achieved_quests, 'uncompleted_quests': uncompleted_quests })
+    return render(request, 'quests/quests_index.html', {'all_quests': all_quests, 'achieved_quest_ids': achieved_quest_ids, 'uncompleted_quests': uncompleted_quests })
 
 def quests_detail(request, pk):
     quest = get_object_or_404(Quest, pk=pk)
