@@ -116,8 +116,6 @@ def subjects_create(request):
                 if existing_subjects_count == 0:
                     getting_started_quest = Quest.objects.get(name=getting_started_quest_name)
                     ProfileAchievement.objects.create(user=request.user, quest=getting_started_quest)
-
-                    # Add XP to the user's profile based on the 'Getting Started' quest
                     request.user.profile.xp += ProfileAchievement.get_quest_xp(getting_started_quest_name)
                     request.user.profile.save()
             # Exam Slayer Quest Check
@@ -160,6 +158,15 @@ def subjects_delete(request, pk):
 #About Leaderboards
 def leaderboard(request):
     leaderboard_data = Profile.objects.all().order_by('-xp')
+    # Check if the current user is at the top of the leaderboard for Elite Leaderboard Champion Quest
+    current_user = request.user
+    is_elite_champion = leaderboard_data.first() == current_user.profile
+    elite_champion_quest_name = 'Elite Leaderboard Champion'
+    if is_elite_champion and not ProfileAchievement.has_quest_achievement(current_user, elite_champion_quest_name):
+        elite_champion_quest = Quest.objects.get(name=elite_champion_quest_name)
+        ProfileAchievement.objects.create(user=current_user, quest=elite_champion_quest)
+        current_user.profile.xp += ProfileAchievement.get_quest_xp(elite_champion_quest_name)
+        current_user.profile.save()
     context = {
         'leaderboard_data': leaderboard_data,
     }

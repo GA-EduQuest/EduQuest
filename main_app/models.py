@@ -144,10 +144,10 @@ class ProfileAchievement(models.Model):
         # Get the XP earned for a specific quest
         return Quest.objects.get(name=quest_name).xp_earned
 
-# Checks if the user has met the requirements for exam slayer (they've passed an exam date) on login
+# On login - check if user has achieved any quests
 @receiver(user_logged_in, sender=User)
-def check_exam_slayer_achievement_on_login(sender, request, user, **kwargs):
-    # Check if the user has achieved the 'Exam Slayer' quest
+def check_achievements_on_login(sender, request, user, **kwargs):
+    # Check Exam Slayer achievement
     exam_slayer_quest_name = 'Exam Slayer'
     if not ProfileAchievement.has_quest_achievement(user, exam_slayer_quest_name):
         subjects_with_passed_exams = Subject.objects.filter(user=user, exam_date__lt=date.today())
@@ -156,3 +156,13 @@ def check_exam_slayer_achievement_on_login(sender, request, user, **kwargs):
             ProfileAchievement.objects.create(user=user, quest=exam_slayer_quest)
             user.profile.xp += ProfileAchievement.get_quest_xp(exam_slayer_quest_name)
             user.profile.save()
+
+    # Check Elite Leaderboard Champion achievement
+    leaderboard_data = Profile.objects.all().order_by('-xp')
+    is_elite_champion = leaderboard_data.first() == user.profile
+    elite_champion_quest_name = 'Elite Leaderboard Champion'
+    if is_elite_champion and not ProfileAchievement.has_quest_achievement(user, elite_champion_quest_name):
+        elite_champion_quest = Quest.objects.get(name=elite_champion_quest_name)
+        ProfileAchievement.objects.create(user=user, quest=elite_champion_quest)
+        user.profile.xp += ProfileAchievement.get_quest_xp(elite_champion_quest_name)
+        user.profile.save()
