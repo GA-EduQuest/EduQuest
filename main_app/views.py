@@ -8,7 +8,7 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Profile, Subject, Assignment, Avatar, Quest, ProfileAchievement, User
+from .models import Profile, Subject, Assignment, Quest, ProfileAchievement, User
 from .forms import SubjectForm
 from datetime import date
 
@@ -87,6 +87,15 @@ def owned_badges(request, user_id, quest_id, badge_id):
 def subjects_index(request):
     subjects = Subject.objects.filter(user=request.user)
     upcoming_exam = subjects.filter(exam_date__gte=date.today()).order_by('exam_date').first()
+    # Exam Slayer Quest Check
+    exam_slayer_quest_name = 'Exam Slayer'
+    if not ProfileAchievement.has_quest_achievement(request.user, exam_slayer_quest_name):
+        subjects_with_passed_exams = Subject.objects.filter(user=request.user, exam_date__lt=date.today())
+        if subjects_with_passed_exams.exists():
+            exam_slayer_quest = Quest.objects.get(name=exam_slayer_quest_name)
+            ProfileAchievement.objects.create(user=request.user, quest=exam_slayer_quest)
+            request.user.profile.xp += ProfileAchievement.get_quest_xp(exam_slayer_quest_name)
+            request.user.profile.save()
     return render(request, 'subjects/index.html', {'subjects': subjects, 'upcoming_exam': upcoming_exam, })
 
 def subjects_detail(request, pk):
@@ -100,15 +109,24 @@ def subjects_create(request):
             subject = form.save(commit=False)
             subject.user = request.user
             subject.save()
-            # Check if the user has created any subjects before
-            existing_subjects_count = Subject.objects.filter(user=request.user).exclude(pk=subject.pk).count()
-            # Check if 'Getting Started' quest is not already in achievements
-            getting_started_quest = Quest.objects.get(name='Getting Started')
-            if existing_subjects_count == 0 and not ProfileAchievement.objects.filter(user=request.user, quest=getting_started_quest).exists():
-                # Add 'Getting Started' quest and update XP
-                ProfileAchievement.objects.create(user=request.user, quest=getting_started_quest)
-                request.user.profile.xp += getting_started_quest.xp_earned
-                request.user.profile.save()
+            # Getting Started Quest Check
+            getting_started_quest_name = 'Getting Started'
+            if not ProfileAchievement.has_quest_achievement(request.user, getting_started_quest_name):
+                existing_subjects_count = Subject.objects.filter(user=request.user).exclude(pk=subject.pk).count()
+                if existing_subjects_count == 0:
+                    getting_started_quest = Quest.objects.get(name=getting_started_quest_name)
+                    ProfileAchievement.objects.create(user=request.user, quest=getting_started_quest)
+                    request.user.profile.xp += ProfileAchievement.get_quest_xp(getting_started_quest_name)
+                    request.user.profile.save()
+            # Exam Slayer Quest Check
+            exam_slayer_quest_name = 'Exam Slayer'
+            if not ProfileAchievement.has_quest_achievement(request.user, exam_slayer_quest_name):
+                subjects_with_passed_exams = Subject.objects.filter(user=request.user, exam_date__lt=date.today())
+                if subjects_with_passed_exams.exists():
+                    exam_slayer_quest = Quest.objects.get(name=exam_slayer_quest_name)
+                    ProfileAchievement.objects.create(user=request.user, quest=exam_slayer_quest)
+                    request.user.profile.xp += ProfileAchievement.get_quest_xp(exam_slayer_quest_name)
+                    request.user.profile.save()
             return redirect('subjects_detail', pk=subject.pk)
     else:
         form = SubjectForm()
@@ -140,6 +158,15 @@ def subjects_delete(request, pk):
 #About Leaderboards
 def leaderboard(request):
     leaderboard_data = Profile.objects.all().order_by('-xp')
+    # Check if the current user is at the top of the leaderboard for Elite Leaderboard Champion Quest
+    current_user = request.user
+    is_elite_champion = leaderboard_data.first() == current_user.profile
+    elite_champion_quest_name = 'Elite Leaderboard Champion'
+    if is_elite_champion and not ProfileAchievement.has_quest_achievement(current_user, elite_champion_quest_name):
+        elite_champion_quest = Quest.objects.get(name=elite_champion_quest_name)
+        ProfileAchievement.objects.create(user=current_user, quest=elite_champion_quest)
+        current_user.profile.xp += ProfileAchievement.get_quest_xp(elite_champion_quest_name)
+        current_user.profile.save()
     context = {
         'leaderboard_data': leaderboard_data,
     }
