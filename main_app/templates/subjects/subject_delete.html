@@ -3,11 +3,13 @@
 {% block title %}Delete {{ subject.name }}{% endblock %}
 
 {% block content %}
-  <h2>Delete {{ subject.name }}</h2>
-  <p>Are you sure you want to delete this subject?</p>
-  <form method="post" action="#">
-    {% csrf_token %}
-    <button type="submit">Delete</button>
-  </form>
-  <a href="{% url 'subjects_detail' pk=subject.pk %}">Cancel</a>
+  <div class="delete-content">
+    <h2>Delete {{ subject.name }}</h2>
+    <p>Are you sure you want to delete this subject?</p>
+    <form method="post" action="#" class="delete-form">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-danger">Delete</button>
+      <a href="{% url 'subjects_detail' pk=subject.pk %}" class="btn btn-secondary">Cancel</a>
+    </form>
+  </div>
 {% endblock %}

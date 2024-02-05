@@ -9,7 +9,7 @@
     <div class="row justify-content-center">
       <div class="col-md-5">
         <div class="title-card">
-          <h1>Subjects</h1>
+          <h1>Mystic Academia</h1>
         </div>
         <div class="add-subject text-center mt-3">
           <a href="{% url 'subjects_create' %}" class="btn btn-primary">Add Subject</a>
@@ -21,14 +21,29 @@
 
   <div class="list-container">
     <div class="subject-list">
-      <h2>Subjects</h2>
+      <h2>Arcane Studies</h2>
       <ul>
         {% for subject in subjects %}
-          <li><a class="btn btn-outline-primary" href="{% url 'subjects_detail' pk=subject.pk %}" style="text-decoration: none;">{{ subject.name }} </a></li>
+          <li><a class="btn btn-secondary" href="{% url 'subjects_detail' pk=subject.pk %}" >{{ subject.name }} </a></li>
           {% endfor %}
       </ul>
     </div>
 
+    <div class="center-column">
+      <div class="pie-container">
+        <h2>Progression pie chart</h2>
+      </div>
+      <div class="upcoming-container">
+    {% if upcoming_exam %}
+        <h3>Upcoming Exam</h3>
+        <p>Subject: {{ upcoming_exam.name }}</p>
+        <p>Exam Date: {{ upcoming_exam.exam_date }}</p>
+
+    {% else %}
+        <p>No upcoming exams</p>
+    {% endif %}
+      </div>
+    </div>
 
     <div class="quest-list">
       <h2>Quests List:</h2>
@@ -39,11 +54,7 @@
     </div>
   </div>
 
-  <div class="pie-container">
-    <div class="center-column">
-      <h2>Progression pie chart</h2>
-      <h2>Whats upcoming </h2>
-    </div>
-  </div>
+
+
 
   {% endblock %}

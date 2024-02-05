@@ -10,6 +10,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Profile, Subject, Assignment, Avatar, Quest, ProfileAchievement, User
 from .forms import SubjectForm
+from datetime import date
 
 #Create your views here.
 
@@ -75,11 +76,12 @@ def owned_badges(request, user_id, quest_id, badge_id):
 #Subjects Views
 def subjects_index(request):
     subjects = Subject.objects.filter(user=request.user)
-    return render(request, 'subjects/index.html', {'subjects': subjects})
+    upcoming_exam = subjects.filter(exam_date__gte=date.today()).order_by('exam_date').first()
+    return render(request, 'subjects/index.html', {'subjects': subjects, 'upcoming_exam': upcoming_exam})
 
 def subjects_detail(request, pk):
     subject = get_object_or_404(Subject, pk=pk)
-    return render(request, 'subjects/subject_detail.html', {'subject': subject})
+    return render(request, 'subjects/subject_detail.html', {'subject': subject })
 
 def subjects_create(request):
     if request.method == 'POST':
