@@ -66,7 +66,8 @@ class Subject(models.Model):
     start_date = models.DateField(("Date"), default=date.today)
     end_date = models.DateField(("Date"), default=date.today)
     progress = models.IntegerField(
-        validators=[MinValueValidator(0), MaxValueValidator(100)]
+        validators=[MinValueValidator(0), MaxValueValidator(100)],
+        default=1
     )
     exam_date = models.DateField(("Date"), default=date.today)
     grade = models.CharField(
@@ -83,6 +84,21 @@ class Subject(models.Model):
     # need to confirm the view to send people to
     def get_absolute_url(self):
         return reverse("model_detail", kwargs={"pk": self.pk})
+
+    def save(self, *args, **kwargs):
+        # Calculate progress based on the proximity of today's date to start and end dates
+        today = date.today()
+        # Handling case where start and end dates are the same
+        if self.start_date == self.end_date:
+            self.progress = 100
+        else:
+            days_total = (self.end_date - self.start_date).days
+            days_passed = (today - self.start_date).days
+            progress = min(100, max(0, int((days_passed / days_total) * 100)))
+
+            self.progress = progress
+
+        super().save(*args, **kwargs)
 
 class Assignment(models.Model):
     name = models.CharField(max_length=100)

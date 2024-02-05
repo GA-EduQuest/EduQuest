@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Leaderboard{% endblock %}
+
+{% block content %}
+  <div class="container mt-4">
+    <div class="card">
+      <div class="card-header text-white" style="background-color: #8c34ff;">
+        <h2 class="mb-0">Leaderboard</h2>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">Rank</th>
+                <th scope="col">User</th>
+                <th scope="col">XP</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for profile in leaderboard_data %}
+                <tr>
+                  <td>{{ forloop.counter }}</td>
+                  <td>{{ profile.user.username }}</td>
+                  <td>{{ profile.xp }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

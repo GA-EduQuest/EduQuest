@@ -38,11 +38,12 @@
           </div>
 
           <div class="col-md-6">
-            <div class="details-section text-center">
-              <h3>Progress</h3>
-              <canvas id="progressChart" width="200" height="200"></canvas>
-            </div>
-          </div>
+              <div class="details-section text-center" data-progress="{{ subject.progress }}">
+                  <h3>Progress</h3>
+                  <div class="chart-container" style="position: relative; height: 350px; width: 350px;">
+                    <canvas id="progressChart"></canvas>
+                  </div>
+              </div>
         </div>
       </div>
       <div class="row mt-4">
@@ -60,5 +61,36 @@
 
 
   <a href="#">Add Assignment</a>
+
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script>
+    const progressValue = parseInt(document.querySelector('.details-section[data-progress]').dataset.progress);
+
+    const data = {
+      labels: ['Completed', 'Remaining'],
+      datasets: [{
+        data: [progressValue, 100 - progressValue],
+        backgroundColor: ['#36A2EB', '#FF6384'],
+        hoverBackgroundColor: ['#36A2EB', '#FF6384']
+      }]
+    };
+
+    const ctx = document.getElementById('progressChart').getContext('2d');
+
+    const myPieChart = new Chart(ctx, {
+      type: 'pie',
+      data: data,
+      options: {
+        responsive: true,
+        maintainAspectRatio: false
+      }
+    });
+  </script>
 
 {% endblock %}
