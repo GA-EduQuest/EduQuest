@@ -8,7 +8,7 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Profile, Subject, Assignment, Avatar, Quest, Badge, ProfileAchievement, User
+from .models import Profile, Subject, Assignment, Avatar, Quest, ProfileAchievement, User
 from .forms import SubjectForm
 
 #Create your views here.
