@@ -13,4 +13,18 @@
 {% else %}
 <p>Please set up your profile details.</p>
 <a href="#">Add Profile</a>
-{% endif %} {% endblock %}
+{% endif %}
+
+<div class="subject-list">
+  <h2>Quest Achievements</h2>
+  <ul>
+    {% for achievement in achievements %}
+    <li>
+      {{ achievement.quest.name }} - {{ achievement.date_achieved }}
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+
+{% endblock %}
