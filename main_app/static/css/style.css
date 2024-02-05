@@ -54,6 +54,7 @@ body > main {
 
 .home-page-image {
     width: 100%;
+    max-width: 2000px;
     height: 60vh;
     max-height: 900px;
     border: 1px solid black;
@@ -62,6 +63,8 @@ body > main {
     background-position: center;
     background-size: cover;
     box-shadow: 0 0 50px rgba(0, 0, 0, 0.39);
+    margin: 0 auto;
+    position: relative;
 }
 
 .hero-content {
@@ -72,7 +75,31 @@ body > main {
 
 .cta-buttons {
     text-align: center;
-    margin-top: 20px;
+    position: absolute;
+    top: 90%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+}
+
+.cta-buttons a.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 18px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #fff;
+    background-color: #474747;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgb(225, 255, 29);
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out,
+        box-shadow 0.3s ease-in-out;
+}
+
+.cta-buttons a.btn:hover {
+    background-color: #c4c4c4;
+    color: #fff;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .about {
@@ -83,7 +110,7 @@ body > main {
 .about-content {
     max-width: 600px;
     margin: 0 auto;
-    margin-bottom: 300px;
+    margin-bottom: 250px;
 }
 .center-container {
     display: flex;
@@ -94,14 +121,10 @@ body > main {
 }
 
 .title-card {
-    text-align: center;
     padding: 20px;
-    background-color: #a15aff;
-    box-shadow: 0 0 50px rgba(0, 0, 0, 0.39);
-    border-radius: 8px;
-    max-width: 400px;
-    width: 100%;
-    margin-bottom: 20px;
+    background: linear-gradient(#306bac, #a86ef4);
+    font-family: "TT Alientz Serif", sans-serif;
+    width: auto;
 }
 
 .list-container {
@@ -116,12 +139,36 @@ body > main {
 .quest-list {
     flex: 1;
     max-width: 230px;
-    border-radius: 10px;
     background: linear-gradient(-45deg, #306bac, #a86ef4);
-    min-height: 400px;
+    min-height: 600px;
     height: auto;
-    box-shadow: 0 0 50px rgba(0, 0, 0, 0.39);
-    border: 1px solid rgb(202, 202, 202);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    margin: 10px;
+}
+
+.subject-list ul,
+.quest-list ul {
+    list-style: none;
+    padding: 0;
+}
+
+.subject-list h2,
+.quest-list h2 {
+    color: #080808;
+    text-align: center;
+    font-size: 1.5rem;
+    font-family: "TT Alientz Serif", sans-serif;
+}
+
+.subject-list li,
+.quest-list li {
+    margin-bottom: 10px;
+}
+
+.subject-link {
+    width: 100%;
+    text-align: center;
 }
 
 .center-column {
@@ -146,13 +193,56 @@ body > main {
 .upcoming-container {
     width: 270px;
     height: 150px;
-    background-color: rgba(153, 182, 239, 0.844);
+    background-color: rgba(65, 105, 225, 0.9);
     margin-top: 100px;
     color: #fff;
-    border-radius: 10px;
-    border: 1px solid rgb(202, 202, 202);
+    border: 2px solid #cbd2dc;
     padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
 }
+
+.upcoming-container h3 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+.add-subject a,
+.add-subject a:hover,
+.add-subject a:active,
+.add-subject a:visited,
+.add-subject a:focus,
+.add-subject a:visited:focus {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 0 5px;
+    text-decoration: none;
+    font-weight: bold;
+    color: #fff;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.add-subject a.btn-subject {
+    background-color: rgba(65, 105, 225, 0.9); /* Fantasy blue color */
+    border: 2px solid #4a90e2; /* Slightly darker than background */
+}
+
+.add-subject a.btn-subject:hover {
+    background-color: #4a90e2; /* Darker blue on hover */
+}
+
+.add-subject a.btn-quests {
+    background-color: rgba(59, 179, 111, 0.9); /* Subdued green color */
+    border: 2px solid #2e8b57; /* Slightly darker than background */
+}
+
+.add-subject a.btn-quests:hover {
+    background-color: #42c77c; /* Darker green on hover */
+}
+
 .subject-details-container {
     display: flex;
     justify-content: center;
@@ -278,4 +368,40 @@ body > main {
 
 .table-striped tbody tr:nth-of-type(even) {
     background-color: #fff;
+}
+
+.badge-container {
+    border: 1px solid rgb(219, 219, 219);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+    margin: 10px;
+    background-color: #0856a9;
+}
+
+.badge-container:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.quest-and-badge {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.link-container {
+    padding: 10px;
+    background-color: #b9b9b9;
+    border-bottom: 1px solid rgb(219, 219, 219);
+    text-align: center;
+}
+
+.link-container a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
 }

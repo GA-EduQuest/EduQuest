@@ -8,11 +8,12 @@
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-md-5">
-        <div class="title-card">
+        <div class="title-card text-center">
           <h1>Mystic Academia</h1>
         </div>
         <div class="add-subject text-center mt-3">
-          <a href="{% url 'subjects_create' %}" class="btn btn-primary">Add Subject</a>
+          <a href="{% url 'subjects_create' %}" class="btn btn-subject me-5">Add Subject</a>
+          <a href="{% url 'quests_index' %}" class="btn btn-quests">Quests</a>
         </div>
       </div>
     </div>
@@ -24,15 +25,21 @@
       <h2>Arcane Studies</h2>
       <ul>
         {% for subject in subjects %}
-          <li><a class="btn btn-secondary" href="{% url 'subjects_detail' pk=subject.pk %}" >{{ subject.name }} </a></li>
-          {% endfor %}
+          <li><a class="btn btn-secondary subject-link" href="{% url 'subjects_detail' pk=subject.pk %}" >{{ subject.name }} </a></li>
+        {% endfor %}
       </ul>
     </div>
 
     <div class="center-column">
-      <div class="pie-container">
-        <h2>Progression pie chart</h2>
+      <div class="details-section text-center" data-progress="{{ subject.progress }}">
+          <h3>Progress</h3>
+          <canvas id="progressChart" width="200" height="200"></canvas>
       </div>
+
+      <div class="pie-chart">
+          <canvas id="cumulativeProgressChart" width="200" height="200"></canvas>
+      </div>
+
       <div class="upcoming-container">
     {% if upcoming_exam %}
         <h3>Upcoming Exam</h3>
@@ -46,14 +53,13 @@
     </div>
 
     <div class="quest-list">
-      <h2>Quests List:</h2>
+      <h2>Quests </h2>
       <ul>
-        {% for achievement in achievements %}
-        <li>
-          {{ achievement.quest.name }} - {{ achievement.date_achieved }}
-          {% if achievement.quest.badge_image_url %}
-          {% endif %}
-        </li>
+        {% for quest in all_quests %}
+          <li>
+            {{ quest.name }} - {% if quest.badge_image_url %} <img src="{{ quest.badge_image_url }}" alt="{{ quest.name }} Badge"> {% endif %}
+            <a href="{% url 'quests_detail' quest.id %}">Details</a>
+          </li>
         {% endfor %}
       </ul>
     </div>

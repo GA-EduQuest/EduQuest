@@ -1,12 +1,14 @@
-{% extends 'base.html' %} {% block title %}{{ quest.name }}{% endblock %}
+{% extends 'base.html' %}
+
+{% block title %}{{ quest.name }}{% endblock %}
 
 {% block content %}
   <div class="container">
-    <div class="quest-details-card mx-auto">
-      <div class="quest-details-header">
+    <div class="quest-details-card mx-auto mt-5">
+      <div class="quest-details-header bg-primary text-white p-3">
         <h2>Quest: {{ quest.name }}</h2>
       </div>
-      <div class="quest-details-body" style="padding: 20px;">
+      <div class="quest-details-body p-4">
         <div class="row">
           <div class="col-md-6">
             <div class="details-section">
@@ -18,27 +20,25 @@
               <h3>XP Earned</h3>
               <p>{{ quest.xp_earned }}</p>
             </div>
+          </div>
 
           <div class="col-md-6">
             <div class="details-section text-center">
               <h3>Badge</h3>
-              <img src="{{ quest.badge_image_url }}" alt="Badge Image" />
+              <img src="{{ quest.badge_image_url }}" alt="Badge Image" class="img-fluid" />
             </div>
           </div>
         </div>
       </div>
       <div class="row mt-4">
-        <div class="col-md-12 text-center" style="padding: 20px;">
+        <div class="col-md-12 text-center p-4">
           {% if achieved_quest %}
-          <p>You have achieved this quest!</p>
+          <p class="text">You have achieved this quest!</p>
           {% else %}
-          <p>You have not achieved this quest yet.</p>
+          <p class="text-danger">You have not achieved this quest yet.</p>
           {% endif %}
         </div>
       </div>
     </div>
-
   </div>
-
-
 {% endblock %}
