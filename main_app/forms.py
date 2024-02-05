@@ -4,7 +4,7 @@ from .models import Subject
 class SubjectForm(forms.ModelForm):
     class Meta:
         model = Subject
-        fields = ['name', 'field', 'start_date', 'end_date', 'progress', 'exam_date', 'grade']
+        fields = ['name', 'field', 'start_date', 'end_date', 'exam_date', 'grade']
         widgets = {
             'start_date': forms.DateInput(attrs={'type': 'date'}),
             'end_date': forms.DateInput(attrs={'type': 'date'}),

@@ -252,3 +252,29 @@ body > main {
 .xp-section p {
     margin: 20px 0;
 }
+
+.card-header {
+    background-color: #007bff;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    background: linear-gradient(45deg, #306bac, #a86ef4);
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.39);
+}
+
+.table thead th {
+    background-color: #343a40;
+    color: #fff;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f8f9fa;
+}
+
+.table-striped tbody tr:nth-of-type(even) {
+    background-color: #fff;
+}

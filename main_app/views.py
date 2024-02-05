@@ -77,7 +77,7 @@ def owned_badges(request, user_id, quest_id, badge_id):
 def subjects_index(request):
     subjects = Subject.objects.filter(user=request.user)
     upcoming_exam = subjects.filter(exam_date__gte=date.today()).order_by('exam_date').first()
-    return render(request, 'subjects/index.html', {'subjects': subjects, 'upcoming_exam': upcoming_exam})
+    return render(request, 'subjects/index.html', {'subjects': subjects, 'upcoming_exam': upcoming_exam, })
 
 def subjects_detail(request, pk):
     subject = get_object_or_404(Subject, pk=pk)
@@ -129,7 +129,11 @@ def subjects_delete(request, pk):
 
 #About Leaderboards
 def leaderboard(request):
-    pass
+    leaderboard_data = Profile.objects.all().order_by('-xp')
+    context = {
+        'leaderboard_data': leaderboard_data,
+    }
+    return render(request, 'main_app/leaderboard.html', context)
 
 #Assignments Views
 class AssignmentList(DetailView):

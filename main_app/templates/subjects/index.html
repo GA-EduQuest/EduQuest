@@ -48,8 +48,13 @@
     <div class="quest-list">
       <h2>Quests List:</h2>
       <ul>
-        <li>Quest 1</li>
-        <li>Quest 2</li>
+        {% for achievement in achievements %}
+        <li>
+          {{ achievement.quest.name }} - {{ achievement.date_achieved }}
+          {% if achievement.quest.badge_image_url %}
+          {% endif %}
+        </li>
+        {% endfor %}
       </ul>
     </div>
   </div>
