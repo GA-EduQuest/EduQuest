@@ -6,7 +6,7 @@
 
 {% block content %}
 
-<form action="" method="POST" class="subject-form fantasy-form">
+<form id="subject-form" action="" method="POST" class="subject-form fantasy-form">
     {% csrf_token %}
 
     <div class="form-section fantasy-form-group">
@@ -33,15 +33,17 @@
           </div>
         </div>
 
-        <div class="form-section fantasy-form-group">
-          <h2 class="fantasy-section-heading">Grade</h2>
-          <div class="form-group col-md-4">
-              {{ form.exam_date|as_crispy_field }}
-          </div>
+    <div class="form-section fantasy-form-group">
+        <h2 class="fantasy-section-heading">Exam</h2>
+        <div class="form-group col-md-4">
+            {{ form.exam_date|as_crispy_field }}
+        </div>
         <div class="form-group">
             {{ form.grade|as_crispy_field }}
+            <p id="grade-message" style="color: white;">Once you slay the exam, enter its grade to receive a reward.</p>
         </div>
     </div>
+
 
     <div class="form-group">
         {% if subject %}
@@ -51,7 +53,17 @@
         {% endif %}
     </div>
 </form>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const examDateField = document.getElementById('id_exam_date');
+        const gradeField = document.getElementById('id_grade');
 
+        // Check if the exam date has arrived
+        if (new Date(examDateField.value) <= new Date()) {
+            gradeField.style.display = 'block';
+        }
+    });
+</script>
 
 
 {% endblock %}

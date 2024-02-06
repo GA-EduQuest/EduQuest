@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 from django.contrib.auth.signals import user_logged_in
-from datetime import date
+from datetime import date, timedelta
 
 FIELD = (
     ('MA', 'Maths'),
@@ -70,7 +70,7 @@ class Subject(models.Model):
         validators=[MinValueValidator(0), MaxValueValidator(100)],
         default=1
     )
-    exam_date = models.DateField(("Date"), default=date.today)
+    exam_date = models.DateField(("Date"), default=lambda: date.today() + timedelta(days=1))
     grade = models.CharField(
         max_length=1,
         choices=GRADE,

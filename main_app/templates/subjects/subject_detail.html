@@ -30,11 +30,14 @@
               <h3>Exam Date</h3>
               <p>{{ subject.exam_date }}</p>
             </div>
-
-            <div class="details-section">
-              <h3>Grade</h3>
-              <p>{{ subject.get_grade_display }}</p>
-            </div>
+Exam Date: {{ subject.exam_date }}
+Current Date: {{ current_date }}
+          {% if subject.exam_date == current_date %}
+              <div class="details-section">
+                  <h3>Grade</h3>
+                  <p>{{ subject.get_grade_display }}</p>
+              </div>
+          {% endif %}
           </div>
 
           <div class="progress-container col-md-6 ">

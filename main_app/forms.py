@@ -11,6 +11,7 @@ class SubjectForm(forms.ModelForm):
             'start_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control', 'style': 'width: 100%; padding: 10px;'}),
             'end_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control', 'style': 'width: 100%; padding: 10px;'}),
             'exam_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control', 'style': 'width: 100%; padding: 10px;'}),
+            'grade': forms.Select(attrs={'class': 'form-control', 'style': 'width: 100%; padding: 10px; display: none;'}),
         }
         labels = {
             'start_date': 'Start Date',

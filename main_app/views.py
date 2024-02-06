@@ -11,6 +11,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Profile, Subject, Assignment, Quest, ProfileAchievement, User
 from .forms import SubjectForm
 from datetime import date
+from django.utils import timezone
+
 
 #Create your views here.
 
@@ -107,11 +109,15 @@ def subjects_index(request):
             ProfileAchievement.objects.create(user=request.user, quest=exam_slayer_quest)
             request.user.profile.xp += ProfileAchievement.get_quest_xp(exam_slayer_quest_name)
             request.user.profile.save()
-    return render(request, 'subjects/index.html', {'subjects': subjects, 'upcoming_exam': upcoming_exam, })
+
+    all_quests = Quest.objects.all()
+
+    return render(request, 'subjects/index.html', {'subjects': subjects, 'upcoming_exam': upcoming_exam, 'all_quests': all_quests})
 
 def subjects_detail(request, pk):
     subject = get_object_or_404(Subject, pk=pk)
-    return render(request, 'subjects/subject_detail.html', {'subject': subject })
+    current_date = timezone.now()
+    return render(request, 'subjects/subject_detail.html', {'subject': subject, 'current_date': current_date })
 
 def subjects_create(request):
     if request.method == 'POST':

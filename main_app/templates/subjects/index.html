@@ -58,7 +58,7 @@
     <ul>
         {% for quest in all_quests %}
             <li>
-                <a class="card-link" href="{% url 'quests_detail' quest.id %}">
+                <a class="card-link text-center" href="{% url 'quests_detail' quest.id %}">
                     {{ quest.name }} {% if quest.badge_image_url %}
                     <img src="{{ quest.badge_image_url }}" alt="{{ quest.name }} Badge"> {% endif %}
                 </a>

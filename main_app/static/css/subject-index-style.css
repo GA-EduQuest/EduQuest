@@ -20,7 +20,7 @@
     height: auto;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
     padding: 20px;
-    margin: 10px;
+    margin: 20px;
     clip-path: polygon(0 0, 100% 0, 100% 75%, 50% 100%, 0% 75%);
 }
 
@@ -84,7 +84,7 @@
 .quest-list li {
     padding: 10px;
     border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px rgb(0, 0, 0);
     margin-bottom: 10px;
     width: 100%;
     height: auto;
@@ -95,9 +95,9 @@
 }
 
 .quest-list li {
-    background-color: rgb(112, 55, 246);
+    background-color: rgba(45, 164, 255, 0.765);
     text-decoration: none;
-    display: block;
+    display: flex;
     padding: 10px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -115,6 +115,7 @@
 }
 
 .quest-list ul a {
+    color: white !important;
     text-decoration: none;
     color: inherit;
     font-size: 12px;
@@ -132,6 +133,7 @@
     justify-content: center;
     align-items: center;
     height: 100%;
+    margin-top: 20px;
 }
 
 .pie-container {
