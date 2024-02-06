@@ -132,6 +132,12 @@ class Quest(models.Model):
         all_quests_except_grandmaster = Quest.objects.exclude(name='Grandmaster of EduQuest')
         return all(ProfileAchievement.has_quest_achievement(user, quest.name) for quest in all_quests_except_grandmaster)
 
+    @staticmethod
+    def is_multitasking_maven(user):
+        # Check if the user has finished two subjects with grades A or B
+        completed_subjects = Subject.objects.filter(user=user, progress=100, grade__in=['A', 'B']).count()
+        return completed_subjects >= 2
+
 class ProfileAchievement(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     quest = models.ForeignKey(Quest, on_delete=models.CASCADE)
@@ -180,4 +186,12 @@ def check_achievements_on_login(sender, request, user, **kwargs):
         grandmaster_quest = Quest.objects.get(name=grandmaster_quest_name)
         ProfileAchievement.objects.create(user=user, quest=grandmaster_quest)
         user.profile.xp += ProfileAchievement.get_quest_xp(grandmaster_quest_name)
+        user.profile.save()
+
+    # Check Multitasking Maven achievement
+    multitasking_maven_quest_name = 'Multitasking Maven'
+    if Quest.is_multitasking_maven(user) and not ProfileAchievement.has_quest_achievement(user, multitasking_maven_quest_name):
+        multitasking_maven_quest = Quest.objects.get(name=multitasking_maven_quest_name)
+        ProfileAchievement.objects.create(user=user, quest=multitasking_maven_quest)
+        user.profile.xp += ProfileAchievement.get_quest_xp(multitasking_maven_quest_name)
         user.profile.save()

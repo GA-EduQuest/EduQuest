@@ -168,6 +168,15 @@ def subjects_update(request, pk):
                 ProfileAchievement.objects.create(user=request.user, quest=subject_explorer_quest)
                 request.user.profile.xp += ProfileAchievement.get_quest_xp(subject_explorer_quest_name)
                 request.user.profile.save()
+
+            # Check Multitasking Maven achievement after subject update
+            multitasking_maven_quest_name = 'Multitasking Maven'
+            if Quest.is_multitasking_maven(request.user) and not ProfileAchievement.has_quest_achievement(request.user, multitasking_maven_quest_name):
+                multitasking_maven_quest = Quest.objects.get(name=multitasking_maven_quest_name)
+                ProfileAchievement.objects.create(user=request.user, quest=multitasking_maven_quest)
+                request.user.profile.xp += ProfileAchievement.get_quest_xp(multitasking_maven_quest_name)
+                request.user.profile.save()
+
             return redirect('subjects_detail', pk=pk)
     else:
         form = SubjectForm(instance=subject)
