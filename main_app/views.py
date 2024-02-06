@@ -87,7 +87,8 @@ def owned_badges(request, user_id, quest_id, badge_id):
 def subjects_index(request):
     subjects = Subject.objects.filter(user=request.user)
     upcoming_exam = subjects.filter(exam_date__gte=date.today()).order_by('exam_date').first()
-    return render(request, 'subjects/index.html', {'subjects': subjects, 'upcoming_exam': upcoming_exam, })
+    all_quests = Quest.objects.all()
+    return render(request, 'subjects/index.html', {'subjects': subjects, 'upcoming_exam': upcoming_exam, 'all_quests': all_quests})
 
 def subjects_detail(request, pk):
     subject = get_object_or_404(Subject, pk=pk)

@@ -5,23 +5,56 @@
 {% block content %}
   <div class="container">
     <div class="form-title text-center">
-      <h1>{% if subject %}Edit <span class="teal-text">{{ subject.name }}</span>{% else %}Add Subject{% endif %}</h1>
+      <h1 class="fantasy-heading">{% if subject %}Edit <span class="teal-text">{{ subject.name }}</span>{% else %}Add Subject{% endif %}</h1>
     </div>
 
-    <form action="" method="POST" class="subject-form">
+    <form action="" method="POST" class="subject-form fantasy-form">
       {% csrf_token %}
 
-      {% for field in form %}
-        <div class="form-group">
-          <label for="{{ field.id }}">{{ field.label }}:</label>
-          {{ field }}
+      <div class="form-section">
+        <h2 class="fantasy-section-heading">General Information</h2>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="{{ form.name.id }}" class="fantasy-label">{{ form.name.label }}:</label>
+            {{ form.name }}
+          </div>
+          <div class="form-group col-md-6">
+            <label for="{{ form.field.id }}" class="fantasy-label">{{ form.field.label }}:</label>
+            {{ form.field }}
+          </div>
         </div>
-      {% endfor %}
+      </div>
+
+      <div class="form-section">
+        <h2 class="fantasy-section-heading">Dates</h2>
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label for="{{ form.start_date.id }}" class="fantasy-label">{{ form.start_date.label }}:</label>
+            {{ form.start_date }}
+          </div>
+          <div class="form-group col-md-4">
+            <label for="{{ form.end_date.id }}" class="fantasy-label">{{ form.end_date.label }}:</label>
+            {{ form.end_date }}
+          </div>
+          <div class="form-group col-md-4">
+            <label for="{{ form.exam_date.id }}" class="fantasy-label">{{ form.exam_date.label }}:</label>
+            {{ form.exam_date }}
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h2 class="fantasy-section-heading">Grade</h2>
+        <div class="form-group">
+          <label for="{{ form.grade.id }}" class="fantasy-label">{{ form.grade.label }}:</label>
+          {{ form.grade }}
+        </div>
+      </div>
 
       {% if subject %}
-        <input type="submit" value="Update Subject" class="btn btn-primary">
+        <input type="submit" value="Update Subject" class="btn btn-primary fantasy-btn">
       {% else %}
-        <input type="submit" value="Add Subject" class="btn btn-primary">
+        <input type="submit" value="Add Subject" class="btn btn-primary fantasy-btn">
       {% endif %}
     </form>
   </div>

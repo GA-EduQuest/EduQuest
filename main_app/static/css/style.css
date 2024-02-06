@@ -1,24 +1,25 @@
 @import url(https://db.onlinewebfonts.com/c/30a54a4676e0320733a2676919db6577?family=TT+Alientz+Serif);
 
+/* Body and main */
+/* --------------------------------------------------------------------------------------------------------------- */
 body {
     display: flex;
     min-height: 100vh;
     flex-direction: column;
     margin-bottom: 50px;
-    background: linear-gradient(to bottom, #509ed7, #306bac);
+    background-image: url(/static/images/stock-background.jpeg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
 }
-
-footer.page-footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    padding-top: 0;
-    text-align: right;
-    background-color: #99b6efbf; /* Set your desired background color */
-    z-index: 1000;
+body > main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
-
+/* --------------------------------------------------------------------------------------------------------------- */
+/* Navbar and Footer */
+/* --------------------------------------------------------------------------------------------------------------- */
 .navbar {
     height: 70px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.39);
@@ -28,30 +29,31 @@ footer.page-footer {
     width: 100%;
 }
 
+.logo-img {
+    height: 50px;
+    width: auto;
+}
+
+footer.page-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding-top: 0;
+    text-align: right;
+    background-color: #99b6efbf;
+    z-index: 1000;
+}
+
 footer {
     height: 50px;
     padding: 0px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.39);
     background-color: #99b6efbf;
 }
-
-body > main {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.logo-img {
-    height: 50px;
-    width: auto;
-}
-
-.hero {
-    text-align: center;
-    margin-bottom: 150px;
-    color: #fff;
-}
-
+/* --------------------------------------------------------------------------------------------------------------- */
+/* Home Page */
+/* --------------------------------------------------------------------------------------------------------------- */
 .home-page-image {
     width: 100%;
     max-width: 2000px;
@@ -104,7 +106,7 @@ body > main {
 
 .about {
     text-align: center;
-    color: #333;
+    color: #c8c8c8;
 }
 
 .about-content {
@@ -112,6 +114,9 @@ body > main {
     margin: 0 auto;
     margin-bottom: 250px;
 }
+/* --------------------------------------------------------------------------------------------------------------- */
+/*  Title cards */
+/* --------------------------------------------------------------------------------------------------------------- */
 .center-container {
     display: flex;
     flex-wrap: wrap;
@@ -122,127 +127,14 @@ body > main {
 
 .title-card {
     padding: 20px;
-    background: linear-gradient(#306bac, #a86ef4);
+    background: linear-gradient(#306cac7a, #a86ef48d);
     font-family: "TT Alientz Serif", sans-serif;
     width: auto;
+    border-radius: 10px;
 }
+/* --------------------------------------------------------------------------------------------------------------- */
 
-.list-container {
-    position: relative;
-    display: flex;
-    justify-content: space-around;
-    align-items: flex-start;
-    margin-top: 30px;
-}
-
-.subject-list,
-.quest-list {
-    flex: 1;
-    max-width: 230px;
-    background: linear-gradient(-45deg, #306bac, #a86ef4);
-    min-height: 600px;
-    height: auto;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-    padding: 20px;
-    margin: 10px;
-}
-
-.subject-list ul,
-.quest-list ul {
-    list-style: none;
-    padding: 0;
-}
-
-.subject-list h2,
-.quest-list h2 {
-    color: #080808;
-    text-align: center;
-    font-size: 1.5rem;
-    font-family: "TT Alientz Serif", sans-serif;
-}
-
-.subject-list li,
-.quest-list li {
-    margin-bottom: 10px;
-}
-
-.subject-link {
-    width: 100%;
-    text-align: center;
-}
-
-.center-column {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-}
-
-.pie-container {
-    width: 170px;
-    height: 170px;
-    background-color: #3498db;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-}
-
-.upcoming-container {
-    width: 270px;
-    height: 150px;
-    background-color: rgba(65, 105, 225, 0.9);
-    margin-top: 100px;
-    color: #fff;
-    border: 2px solid #cbd2dc;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-}
-
-.upcoming-container h3 {
-    font-size: 1.2rem;
-    margin-bottom: 10px;
-}
-
-.add-subject a,
-.add-subject a:hover,
-.add-subject a:active,
-.add-subject a:visited,
-.add-subject a:focus,
-.add-subject a:visited:focus {
-    display: inline-block;
-    padding: 10px 20px;
-    margin: 0 5px;
-    text-decoration: none;
-    font-weight: bold;
-    color: #fff;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-}
-
-.add-subject a.btn-subject {
-    background-color: rgba(65, 105, 225, 0.9); /* Fantasy blue color */
-    border: 2px solid #4a90e2; /* Slightly darker than background */
-}
-
-.add-subject a.btn-subject:hover {
-    background-color: #4a90e2; /* Darker blue on hover */
-}
-
-.add-subject a.btn-quests {
-    background-color: rgba(59, 179, 111, 0.9); /* Subdued green color */
-    border: 2px solid #2e8b57; /* Slightly darker than background */
-}
-
-.add-subject a.btn-quests:hover {
-    background-color: #42c77c; /* Darker green on hover */
-}
-
+/* --------------------------------------------------------------------------------------------------------------- */
 .subject-details-container {
     display: flex;
     justify-content: center;
@@ -404,4 +296,34 @@ body > main {
     text-decoration: none;
     color: #333;
     font-weight: bold;
+}
+
+.progress-container {
+    display: flex;
+    justify-content: center;
+}
+
+.fantasy-heading {
+    font-family: "TT Alientz Serif", sans-serif;
+    color: #ffffff;
+}
+
+.fantasy-form {
+    background: linear-gradient(-45deg, #306cac7a, #a86ef48d);
+    border: 2px solid #993300;
+    padding: 20px;
+}
+
+.fantasy-form-group {
+    margin-bottom: 20px;
+}
+
+.fantasy-label {
+    color: #333;
+}
+
+.fantasy-btn {
+    background-color: #993300;
+    color: #fff;
+    border: none;
 }

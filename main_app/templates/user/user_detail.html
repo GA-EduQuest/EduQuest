@@ -5,47 +5,50 @@
 {% endblock %}
 
 {% block content %}
-<div class="profile-container">
-  <div class="names-section">
-    <h2>{{ user.username }}</h2>
+<div class="container">
+  <div class="profile-container mt-5">
+    <div class="names-section">
+      <h2>{{ user.username }}</h2>
+
+      {% if profile %}
+      <p><strong>First Name:</strong> {{ profile.first_name }}</p>
+      <p><strong>Last Name:</strong> {{ profile.last_name }}</p>
+      {% else %}
+      <p>Please set up your profile details.</p>
+      {% endif %}
+    </div>
+
+    <div class="email-section mt-3">
+      {% if profile %}
+      <p><strong>Email:</strong> {{ profile.email }}</p>
+      {% endif %}
+    </div>
+
+    <div class="xp-section mt-3">
+      {% if profile %}
+      <p><strong>Total XP:</strong> {{ profile.xp }}</p>
+      {% else %}
+      <!-- Add default content or leave empty if no profile -->
+      {% endif %}
+    </div>
 
     {% if profile %}
-    <p><strong>First Name:</strong> {{ profile.first_name }}</p>
-    <p><strong>Last Name:</strong> {{ profile.last_name }}</p>
+    <a href="{% url 'profile_update' pk=profile.id %}" class="btn btn-primary mt-3" style="height: 35px !important;">Edit</a>
     {% else %}
-    <p>Please set up your profile details.</p>
+    <a href="#" class="add-profile-link mt-3">Add Profile</a>
     {% endif %}
   </div>
 
-  <div class="email-section">
-    {% if profile %}
-    <p><strong>Email:</strong> {{ profile.email }}</p>
-    {% endif %}
+  <div class="achievements-list mt-5">
+    <h2>Quest Achievements</h2>
+    <ul class="list-unstyled">
+      {% for achievement in achievements %}
+      <li class="mb-3">
+        {{ achievement.quest.name }} - {{ achievement.date_achieved }}
+        <img src="{{ achievement.quest.badge_image_url }}" alt="Badge Image" class="img-fluid ml-2" >
+      </li>
+      {% endfor %}
+    </ul>
   </div>
-
-  <div class="xp-section">
-    {% if profile %}
-    <p><strong>Total XP:</strong> {{ profile.xp }}</p>
-    {% else %}
-    {% endif %}
-  </div>
-  {% if profile %}
-  <a href="{% url 'profile_update' pk=profile.id %}" class="btn btn-primary" style="height: 35px !important;">Edit</a>
-  {% else %}
-  <a href="#" class="add-profile-link">Add Profile</a>
-  {% endif %}
 </div>
-
-<div class="achievements-list">
-<h2>Quest Achievements</h2>
-<ul>
-  {% for achievement in achievements %}
-  <li>
-    {{ achievement.quest.name }} - {{ achievement.date_achieved }}
-    <img src="{{ achievement.quest.badge_image_url }}" alt="Badge Image">
-  </li>
-  {% endfor %}
-</ul>
-</div>
-
 {% endblock %}

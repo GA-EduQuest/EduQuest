@@ -2,6 +2,7 @@
 
 {% block title %}Subjects{% endblock %}
 
+
 {% block content %}
 
   <div class="center-container">
@@ -52,19 +53,19 @@
       </div>
     </div>
 
-    <div class="quest-list">
-      <h2>Quests </h2>
-      <ul>
+<div class="quest-list">
+    <h2>Quests</h2>
+    <ul>
         {% for quest in all_quests %}
-          <li>
-            {{ quest.name }} - {% if quest.badge_image_url %} <img src="{{ quest.badge_image_url }}" alt="{{ quest.name }} Badge"> {% endif %}
-            <a href="{% url 'quests_detail' quest.id %}">Details</a>
-          </li>
+            <li>
+                <a class="card-link" href="{% url 'quests_detail' quest.id %}">
+                    {{ quest.name }} {% if quest.badge_image_url %}
+                    <img src="{{ quest.badge_image_url }}" alt="{{ quest.name }} Badge"> {% endif %}
+                </a>
+            </li>
         {% endfor %}
-      </ul>
-    </div>
-  </div>
-
+    </ul>
+</div>
 
 
 
