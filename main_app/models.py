@@ -126,6 +126,18 @@ class Quest(models.Model):
     def __str__(self):
         return self.name
 
+    @staticmethod
+    def is_grandmaster(user):
+        # Check if the user has achieved all quests except 'Grandmaster of EduQuest' (to be eligible for the Grandmaster quest)
+        all_quests_except_grandmaster = Quest.objects.exclude(name='Grandmaster of EduQuest')
+        return all(ProfileAchievement.has_quest_achievement(user, quest.name) for quest in all_quests_except_grandmaster)
+
+    @staticmethod
+    def is_multitasking_maven(user):
+        # Check if the user has finished two subjects with grades A or B
+        completed_subjects = Subject.objects.filter(user=user, progress=100, grade__in=['A', 'B']).count()
+        return completed_subjects >= 2
+
 class ProfileAchievement(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     quest = models.ForeignKey(Quest, on_delete=models.CASCADE)
@@ -143,6 +155,7 @@ class ProfileAchievement(models.Model):
     def get_quest_xp(quest_name):
         # Get the XP earned for a specific quest
         return Quest.objects.get(name=quest_name).xp_earned
+
 
 # On login - check if user has achieved any quests
 @receiver(user_logged_in, sender=User)
@@ -165,4 +178,20 @@ def check_achievements_on_login(sender, request, user, **kwargs):
         elite_champion_quest = Quest.objects.get(name=elite_champion_quest_name)
         ProfileAchievement.objects.create(user=user, quest=elite_champion_quest)
         user.profile.xp += ProfileAchievement.get_quest_xp(elite_champion_quest_name)
+        user.profile.save()
+
+    # Check Grandmaster of EduQuest achievement
+    grandmaster_quest_name = 'Grandmaster of EduQuest'
+    if Quest.is_grandmaster(user) and not ProfileAchievement.has_quest_achievement(user, grandmaster_quest_name):
+        grandmaster_quest = Quest.objects.get(name=grandmaster_quest_name)
+        ProfileAchievement.objects.create(user=user, quest=grandmaster_quest)
+        user.profile.xp += ProfileAchievement.get_quest_xp(grandmaster_quest_name)
+        user.profile.save()
+
+    # Check Multitasking Maven achievement
+    multitasking_maven_quest_name = 'Multitasking Maven'
+    if Quest.is_multitasking_maven(user) and not ProfileAchievement.has_quest_achievement(user, multitasking_maven_quest_name):
+        multitasking_maven_quest = Quest.objects.get(name=multitasking_maven_quest_name)
+        ProfileAchievement.objects.create(user=user, quest=multitasking_maven_quest)
+        user.profile.xp += ProfileAchievement.get_quest_xp(multitasking_maven_quest_name)
         user.profile.save()

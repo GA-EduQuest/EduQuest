@@ -47,10 +47,21 @@ class ProfileUpdate(LoginRequiredMixin, UpdateView):
 def quests_index(request):
     user = request.user
     all_quests = Quest.objects.all()
+
+    # Check Grandmaster of EduQuest achievement
+    grandmaster_quest_name = 'Grandmaster of EduQuest'
+    is_grandmaster = Quest.is_grandmaster(user)
+    if is_grandmaster and not ProfileAchievement.has_quest_achievement(user, grandmaster_quest_name):
+        grandmaster_quest = Quest.objects.get(name=grandmaster_quest_name)
+        ProfileAchievement.objects.create(user=user, quest=grandmaster_quest)
+        user.profile.xp += ProfileAchievement.get_quest_xp(grandmaster_quest_name)
+        user.profile.save()
+
     # Filter ProfileAchievement objects for the current user
     achieved_quests = ProfileAchievement.objects.filter(user=user)
     achieved_quest_ids = list(achieved_quests.values_list('quest__id', flat=True))
     uncompleted_quests = all_quests.exclude(id__in=achieved_quests.values_list('quest', flat=True))
+
     return render(request, 'quests/quests_index.html', {'all_quests': all_quests, 'achieved_quest_ids': achieved_quest_ids, 'uncompleted_quests': uncompleted_quests })
 
 def quests_detail(request, pk):
@@ -127,6 +138,14 @@ def subjects_create(request):
                     ProfileAchievement.objects.create(user=request.user, quest=exam_slayer_quest)
                     request.user.profile.xp += ProfileAchievement.get_quest_xp(exam_slayer_quest_name)
                     request.user.profile.save()
+            # Subject Explorer Quest Check
+            subject_explorer_quest_name = 'Subject Explorer'
+            subjects_count_by_field = Subject.objects.filter(user=request.user).values('field').distinct().count()
+            if subjects_count_by_field >= 4 and not ProfileAchievement.has_quest_achievement(request.user, subject_explorer_quest_name):
+                subject_explorer_quest = Quest.objects.get(name=subject_explorer_quest_name)
+                ProfileAchievement.objects.create(user=request.user, quest=subject_explorer_quest)
+                request.user.profile.xp += ProfileAchievement.get_quest_xp(subject_explorer_quest_name)
+                request.user.profile.save()
             return redirect('subjects_detail', pk=subject.pk)
     else:
         form = SubjectForm()
@@ -140,6 +159,24 @@ def subjects_update(request, pk):
         form = SubjectForm(request.POST, instance=subject)
         if form.is_valid():
             form.save()
+
+            # Subject Explorer Quest Check
+            subject_explorer_quest_name = 'Subject Explorer'
+            subjects_count_by_field = Subject.objects.filter(user=request.user).values('field').distinct().count()
+            if subjects_count_by_field >= 4 and not ProfileAchievement.has_quest_achievement(request.user, subject_explorer_quest_name):
+                subject_explorer_quest = Quest.objects.get(name=subject_explorer_quest_name)
+                ProfileAchievement.objects.create(user=request.user, quest=subject_explorer_quest)
+                request.user.profile.xp += ProfileAchievement.get_quest_xp(subject_explorer_quest_name)
+                request.user.profile.save()
+
+            # Check Multitasking Maven achievement after subject update
+            multitasking_maven_quest_name = 'Multitasking Maven'
+            if Quest.is_multitasking_maven(request.user) and not ProfileAchievement.has_quest_achievement(request.user, multitasking_maven_quest_name):
+                multitasking_maven_quest = Quest.objects.get(name=multitasking_maven_quest_name)
+                ProfileAchievement.objects.create(user=request.user, quest=multitasking_maven_quest)
+                request.user.profile.xp += ProfileAchievement.get_quest_xp(multitasking_maven_quest_name)
+                request.user.profile.save()
+
             return redirect('subjects_detail', pk=pk)
     else:
         form = SubjectForm(instance=subject)
