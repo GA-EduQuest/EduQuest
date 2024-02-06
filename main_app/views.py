@@ -47,10 +47,21 @@ class ProfileUpdate(LoginRequiredMixin, UpdateView):
 def quests_index(request):
     user = request.user
     all_quests = Quest.objects.all()
+
+    # Check Grandmaster of EduQuest achievement
+    grandmaster_quest_name = 'Grandmaster of EduQuest'
+    is_grandmaster = Quest.is_grandmaster(user)
+    if is_grandmaster and not ProfileAchievement.has_quest_achievement(user, grandmaster_quest_name):
+        grandmaster_quest = Quest.objects.get(name=grandmaster_quest_name)
+        ProfileAchievement.objects.create(user=user, quest=grandmaster_quest)
+        user.profile.xp += ProfileAchievement.get_quest_xp(grandmaster_quest_name)
+        user.profile.save()
+
     # Filter ProfileAchievement objects for the current user
     achieved_quests = ProfileAchievement.objects.filter(user=user)
     achieved_quest_ids = list(achieved_quests.values_list('quest__id', flat=True))
     uncompleted_quests = all_quests.exclude(id__in=achieved_quests.values_list('quest', flat=True))
+
     return render(request, 'quests/quests_index.html', {'all_quests': all_quests, 'achieved_quest_ids': achieved_quest_ids, 'uncompleted_quests': uncompleted_quests })
 
 def quests_detail(request, pk):
