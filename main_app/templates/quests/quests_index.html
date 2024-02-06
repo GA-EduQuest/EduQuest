@@ -5,7 +5,7 @@
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-md-5">
-        <div class="title-card">
+        <div class="title-card text-center">
           <h1>Quests</h1>
         </div>
       </div>
@@ -14,19 +14,22 @@
 </div>
 
 <div class="list-container">
-  <div class="all-quest-list">
+  <div class="all-quest-list text-center">
     <h2>All Quests</h2>
     {% for quest in all_quests %}
+  <div class="badge-container">
     <div class="quest-and-badge">
+      <div class="link-container text-center">
+        <a href="{% url 'quests_detail' pk=quest.pk %}" class="">{{ quest.name }}</a>
+      </div>
       <div class="image-container">
         <a href="{% url 'quests_detail' pk=quest.pk %}">
           <img src="{{ quest.badge_image_url }}" alt="Badge Image" {% if quest.id in achieved_quest_ids %}style="filter: grayscale(0%);" {% else %}style="filter: grayscale(100%);" {% endif %} />
         </a>
       </div>
-      <div class="link-container">
-        <a href="{% url 'quests_detail' pk=quest.pk %}" class="">{{ quest.name }}</a>
-      </div>
     </div>
+  </div>
+
     {% endfor %}
   </div>
 </div>

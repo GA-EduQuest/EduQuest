@@ -1,24 +1,26 @@
 @import url(https://db.onlinewebfonts.com/c/30a54a4676e0320733a2676919db6577?family=TT+Alientz+Serif);
 
+/* Body and main */
+/* --------------------------------------------------------------------------------------------------------------- */
 body {
     display: flex;
     min-height: 100vh;
     flex-direction: column;
     margin-bottom: 50px;
-    background: linear-gradient(to bottom, #509ed7, #306bac);
+    background-image: url(/static/images/stock-background.jpeg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+body > main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
-footer.page-footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    padding-top: 0;
-    text-align: right;
-    background-color: #99b6efbf; /* Set your desired background color */
-    z-index: 1000;
-}
-
+/* --------------------------------------------------------------------------------------------------------------- */
+/* Navbar and Footer */
+/* --------------------------------------------------------------------------------------------------------------- */
 .navbar {
     height: 70px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.39);
@@ -28,32 +30,34 @@ footer.page-footer {
     width: 100%;
 }
 
+.logo-img {
+    height: 50px;
+    width: auto;
+}
+
+footer.page-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding-top: 0;
+    text-align: right;
+    background-color: #99b6efbf;
+    z-index: 1000;
+}
+
 footer {
     height: 50px;
     padding: 0px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.39);
     background-color: #99b6efbf;
 }
-
-body > main {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.logo-img {
-    height: 50px;
-    width: auto;
-}
-
-.hero {
-    text-align: center;
-    margin-bottom: 150px;
-    color: #fff;
-}
-
+/* --------------------------------------------------------------------------------------------------------------- */
+/* Home Page */
+/* --------------------------------------------------------------------------------------------------------------- */
 .home-page-image {
     width: 100%;
+    max-width: 2000px;
     height: 60vh;
     max-height: 900px;
     border: 1px solid black;
@@ -62,6 +66,8 @@ body > main {
     background-position: center;
     background-size: cover;
     box-shadow: 0 0 50px rgba(0, 0, 0, 0.39);
+    margin: 0 auto;
+    position: relative;
 }
 
 .hero-content {
@@ -72,19 +78,46 @@ body > main {
 
 .cta-buttons {
     text-align: center;
-    margin-top: 20px;
+    position: absolute;
+    top: 90%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+}
+
+.cta-buttons a.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 18px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #fff;
+    background-color: #474747;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgb(225, 255, 29);
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out,
+        box-shadow 0.3s ease-in-out;
+}
+
+.cta-buttons a.btn:hover {
+    background-color: #c4c4c4;
+    color: #fff;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .about {
     text-align: center;
-    color: #333;
+    color: #c8c8c8;
 }
 
 .about-content {
     max-width: 600px;
     margin: 0 auto;
-    margin-bottom: 300px;
+    margin-bottom: 250px;
 }
+/* --------------------------------------------------------------------------------------------------------------- */
+/*  Title cards */
+/* --------------------------------------------------------------------------------------------------------------- */
 .center-container {
     display: flex;
     flex-wrap: wrap;
@@ -94,65 +127,15 @@ body > main {
 }
 
 .title-card {
-    text-align: center;
     padding: 20px;
-    background-color: #a15aff;
-    box-shadow: 0 0 50px rgba(0, 0, 0, 0.39);
-    border-radius: 8px;
-    max-width: 400px;
+    background: linear-gradient(#306cac7a, #a86ef48d);
+    font-family: "TT Alientz Serif", sans-serif;
     width: 100%;
-    margin-bottom: 20px;
-}
-
-.list-container {
-    position: relative;
-    display: flex;
-    justify-content: space-around;
-    align-items: flex-start;
-    margin-top: 30px;
-}
-
-.subject-list,
-.quest-list {
-    flex: 1;
-    max-width: 230px;
     border-radius: 10px;
-    background: linear-gradient(-45deg, #306bac, #a86ef4);
-    min-height: 400px;
-    height: auto;
-    box-shadow: 0 0 50px rgba(0, 0, 0, 0.39);
-    border: 1px solid rgb(202, 202, 202);
 }
-
-.center-column {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-}
-
-.pie-container {
-    width: 170px;
-    height: 170px;
-    background-color: #3498db;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-}
-
-.upcoming-container {
-    width: 270px;
-    height: 150px;
-    background-color: rgba(153, 182, 239, 0.844);
-    margin-top: 100px;
-    color: #fff;
-    border-radius: 10px;
-    border: 1px solid rgb(202, 202, 202);
-    padding: 20px;
-}
+/* --------------------------------------------------------------------------------------------------------------- */
+/* Subject details  */
+/* --------------------------------------------------------------------------------------------------------------- */
 .subject-details-container {
     display: flex;
     justify-content: center;
@@ -191,6 +174,13 @@ body > main {
     margin-top: 20px;
 }
 
+.progress-container {
+    display: flex;
+    justify-content: center;
+}
+/* --------------------------------------------------------------------------------------------------------------- */
+/* Subject Form */
+/* --------------------------------------------------------------------------------------------------------------- */
 .subject-form {
     background-color: rgb(255, 253, 253);
     border-radius: 10px;
@@ -199,15 +189,35 @@ body > main {
     margin: auto;
     box-shadow: 0 0 50px rgba(0, 0, 0, 0.39);
 }
-
-.form-group {
-    margin-bottom: 20px;
+.fantasy-form {
+    background: linear-gradient(-45deg, #306cac7a, #a86ef48d);
+    border: 2px solid #ffffff;
+    padding: 20px;
+    height: 100%;
+    width: 100%;
+    margin-top: 30px;
 }
-.form-title {
-    text-align: center;
-    margin-top: 20px;
+.fantasy-section-heading {
+    color: #ffffff;
 }
 
+.fantasy-btn {
+    border: none;
+    cursor: pointer;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+.fantasy-btn-primary {
+    background-color: #993300;
+    color: #fff;
+}
+.asteriskField {
+    display: none;
+}
+/* --------------------------------------------------------------------------------------------------------------- */
+/* Subject Delete  */
+/* --------------------------------------------------------------------------------------------------------------- */
 .delete-content {
     text-align: center;
     margin: auto;
@@ -223,36 +233,24 @@ body > main {
     justify-content: space-between;
     margin-top: 20px;
 }
-
+/* --------------------------------------------------------------------------------------------------------------- */
+/* Profile Page */
+/* --------------------------------------------------------------------------------------------------------------- */
 .profile-container {
     display: flex;
     justify-content: space-between;
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
-    background-color: #f5f5f5;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     margin-top: 20px;
+    background-color: #b68beea7;
 }
 
-.names-section,
-.email-section,
-.xp-section {
-    flex: 1;
-    margin: 10px 50px;
-}
-
-.names-section h2 {
-    margin-bottom: 20px;
-}
-
-.names-section p,
-.email-section p,
-.xp-section p {
-    margin: 20px 0;
-}
-
+/* --------------------------------------------------------------------------------------------------------------- */
+/* Leaderboard Page */
+/* --------------------------------------------------------------------------------------------------------------- */
 .card-header {
     background-color: #007bff;
     color: #fff;
@@ -279,3 +277,55 @@ body > main {
 .table-striped tbody tr:nth-of-type(even) {
     background-color: #fff;
 }
+/* --------------------------------------------------------------------------------------------------------------- */
+/* Badge detail Page */
+/* --------------------------------------------------------------------------------------------------------------- */
+.badge-container {
+    border: 1px solid rgb(219, 219, 219);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+    margin: 10px;
+    background-color: #0856a9;
+}
+
+.badge-container:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.quest-and-badge {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.link-container {
+    padding: 10px;
+    background-color: #b9b9b9;
+    border-bottom: 1px solid rgb(219, 219, 219);
+    text-align: center;
+}
+
+.link-container a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+.quest-details-card {
+    background-color: rgba(185, 185, 185, 0.523);
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.39);
+}
+.text-danger {
+    font-weight: bold;
+}
+.quest-details-header {
+    background: linear-gradient(-45deg, #306cacb0, #a86ef4cd);
+}
+/* --------------------------------------------------------------------------------------------------------------- */
+
+/* --------------------------------------------------------------------------------------------------------------- */

@@ -37,7 +37,7 @@
             </div>
           </div>
 
-          <div class="col-md-6">
+          <div class="progress-container col-md-6 ">
               <div class="details-section text-center" data-progress="{{ subject.progress }}">
                   <h3>Progress</h3>
                   <div class="chart-container" style="position: relative; height: 350px; width: 350px;">
@@ -48,7 +48,7 @@
       </div>
       <div class="row mt-4">
         <div class="col-md-12 text-center" style="padding: 20px;">
-          <a href="{% url 'subjects_update' pk=subject.pk %}" class="btn btn-primary me-5">Edit</a>
+          <a href="{% url 'subjects_update' pk=subject.pk %}" class="btn btn-secondary me-5" style="border: 1px solid white;">Edit</a>
           <a href="{% url 'subjects_delete' pk=subject.pk %}" class="btn btn-danger">Delete</a>
         </div>
       </div>

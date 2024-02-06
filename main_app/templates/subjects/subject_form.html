@@ -2,27 +2,56 @@
 
 {% block title %}Subject{% endblock %}
 
+{% load crispy_forms_tags %}
+
 {% block content %}
-  <div class="container">
-    <div class="form-title text-center">
-      <h1>{% if subject %}Edit <span class="teal-text">{{ subject.name }}</span>{% else %}Add Subject{% endif %}</h1>
+
+<form action="" method="POST" class="subject-form fantasy-form">
+    {% csrf_token %}
+
+    <div class="form-section fantasy-form-group">
+        <h2 class="fantasy-section-heading">General Information</h2>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                {{ form.name|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-6">
+                {{ form.field|as_crispy_field }}
+            </div>
+        </div>
     </div>
 
-    <form action="" method="POST" class="subject-form">
-      {% csrf_token %}
-
-      {% for field in form %}
-        <div class="form-group">
-          <label for="{{ field.id }}">{{ field.label }}:</label>
-          {{ field }}
+    <div class="form-section fantasy-form-group">
+        <h2 class="fantasy-section-heading">Dates</h2>
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                {{ form.start_date|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-4">
+                {{ form.end_date|as_crispy_field }}
+            </div>
+          </div>
         </div>
-      {% endfor %}
 
-      {% if subject %}
-        <input type="submit" value="Update Subject" class="btn btn-primary">
-      {% else %}
-        <input type="submit" value="Add Subject" class="btn btn-primary">
-      {% endif %}
-    </form>
-  </div>
+        <div class="form-section fantasy-form-group">
+          <h2 class="fantasy-section-heading">Grade</h2>
+          <div class="form-group col-md-4">
+              {{ form.exam_date|as_crispy_field }}
+          </div>
+        <div class="form-group">
+            {{ form.grade|as_crispy_field }}
+        </div>
+    </div>
+
+    <div class="form-group">
+        {% if subject %}
+            <button type="submit" class="btn fantasy-btn fantasy-btn-primary">Update Subject</button>
+        {% else %}
+            <button type="submit" class="btn fantasy-btn fantasy-btn-primary">Add Subject</button>
+        {% endif %}
+    </div>
+</form>
+
+
+
 {% endblock %}
