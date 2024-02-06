@@ -5,18 +5,13 @@
 {% endblock %}
 
 {% block content %}
-<div class="container">
-  <div class="profile-container mt-5">
-    <div class="names-section">
-      <h2 class="text-primary">{{ user.username }}</h2>
 
-      {% if profile %}
-      <p><strong>First Name:</strong> {{ profile.first_name }}</p>
-      <p><strong>Last Name:</strong> {{ profile.last_name }}</p>
-      {% else %}
-      <p class="text-muted">Please set up your profile details.</p>
-      {% endif %}
-    </div>
+<div class="profile-container">
+  <div class="names-section">
+    <h2>{{ user.username }}</h2>
+    <p><strong>First Name:</strong> {{ profile.first_name }}</p>
+    <p><strong>Last Name:</strong> {{ profile.last_name }}</p>
+  </div>
 
     <div class="email-section mt-3">
       {% if profile %}
@@ -38,6 +33,10 @@
     <a href="#" class="btn btn-outline-secondary mt-3">Add Profile</a>
     {% endif %}
   </div>
+ <div>
+  <a href="{% url 'profile_update' pk=profile.id %}" class="btn btn-primary" style="height: 35px !important;">Edit</a>
+</div>
+
 
   <div class="achievements-list mt-5">
     <h2 class="text-success">Quest Achievements</h2>
