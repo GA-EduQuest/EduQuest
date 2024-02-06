@@ -3,6 +3,7 @@ import uuid
 import json
 # import boto3
 from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
 from django.contrib.auth import login
@@ -13,6 +14,7 @@ from .models import Profile, Subject, Assignment, Quest, ProfileAchievement, Use
 from .forms import SubjectForm
 from datetime import date
 from django.utils import timezone
+from django.urls import reverse_lazy
 
 
 #Create your views here.
@@ -219,21 +221,45 @@ def leaderboard(request):
     }
     return render(request, 'main_app/leaderboard.html', context)
 
-#Assignments Views
-class AssignmentList(DetailView):
-  model = Assignment
+# Assignments Views
+class AssignmentDetail(DetailView):
+    model = Assignment
+    template_name = 'assignments/assignment_detail.html'
+    context_object_name = 'assignment'
 
 class AssignmentCreate(CreateView):
-  model = Assignment
-  fields = '__all__'
+    model = Assignment
+    template_name = 'assignments/assignment_form.html'
+    context_object_name = 'subjects'
+    fields = '__all__'
+
+    def get_success_url(self):
+        # Get the subject's pk from the created assignment instance
+        subject_pk = self.object.subject.pk
+        # Redirect to the subjects_detail page
+        return reverse_lazy('subjects_detail', kwargs={'pk': subject_pk})
 
 class AssignmentUpdate(UpdateView):
-  model = Assignment
-  fields = '__all__'
+    model = Assignment
+    template_name = 'assignments/assignment_form.html'
+    context_object_name = 'assignment'
+    fields = '__all__'
 
-class AssignmentsDelete(DeleteView):
-  model = Assignment
-  success_url = '/assignment'
+    def get_success_url(self):
+        pk = self.kwargs['pk']
+        return reverse('assignments_detail', kwargs={'pk': pk})
+
+class AssignmentDelete(DeleteView):
+    model = Assignment
+    template_name = 'assignments/assignment_delete.html'
+    context_object_name = 'assignment'
+
+    def get_success_url(self):
+        # Get the subject's pk from the created assignment instance
+        subject_pk = self.object.subject.pk
+        # Redirect to the subjects_detail page
+        return reverse_lazy('subjects_detail', kwargs={'pk': subject_pk})
+
 
 #Signup Views
 def signup(request):

@@ -30,10 +30,10 @@ urlpatterns = [
     path('subjects/<int:pk>/update/', views.subjects_update, name='subjects_update'),
     path('subjects/<int:pk>/delete/', views.subjects_delete, name='subjects_delete'),
     #About Assignment
-    path('assignments/', views.AssignmentList.as_view(), name='assignments_list'),
     path('assignments/create/', views.AssignmentCreate.as_view(), name='assignments_create'),
+    path('assignments/<int:pk>', views.AssignmentDetail.as_view(), name='assignments_detail'),
     path('assignments/<int:pk>/update/', views.AssignmentUpdate.as_view(), name='assignments_update'),
-    path('assignments/<int:pk>/delete/', views.AssignmentsDelete.as_view(), name='assignments_delete'),
+    path('assignments/<int:pk>/delete/', views.AssignmentDelete.as_view(), name='assignments_delete'),
     #About Leaderboards
     path('leaderboard/', views.leaderboard, name='leaderboard'),
     #Signup
