@@ -33,7 +33,7 @@
 
     <div class="center-column">
       <div class="details-section text-center" data-progress="{{ subject.progress }}">
-          <h3>Progress</h3>
+          <h3>PROGRESS</h3>
           <canvas id="progressChart" width="200" height="200"></canvas>
       </div>
 
@@ -42,14 +42,8 @@
       </div>
 
       <div class="upcoming-container">
-    {% if upcoming_exam %}
-        <h3>Upcoming Exam</h3>
-        <p>Subject: {{ upcoming_exam.name }}</p>
-        <p>Exam Date: {{ upcoming_exam.exam_date }}</p>
-
-    {% else %}
-        <p>No upcoming exams</p>
-    {% endif %}
+          <h3 id="upcoming-exam-title">Upcoming Exam</h3>
+          <p id="exam-details">Loading...</p>
       </div>
     </div>
 
@@ -58,7 +52,7 @@
     <ul>
         {% for quest in all_quests %}
             <li>
-                <a class="card-link" href="{% url 'quests_detail' quest.id %}">
+                <a class="card-link text-center" href="{% url 'quests_detail' quest.id %}">
                     {{ quest.name }} {% if quest.badge_image_url %}
                     <img src="{{ quest.badge_image_url }}" alt="{{ quest.name }} Badge"> {% endif %}
                 </a>
@@ -67,6 +61,20 @@
     </ul>
 </div>
 
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const exams = JSON.parse("{{ upcoming_exams_data|escapejs }}");
+    let currentIndex = 0;
 
+    function showNextExam() {
+        var exam = exams[currentIndex];
+        document.getElementById("exam-details").textContent =
+            exam.name + " | Date: " + exam.exam_date + " |";
+        currentIndex = (currentIndex + 1) % exams.length;
+    }
 
+    showNextExam();
+    setInterval(showNextExam, 5000);
+});
+</script>
   {% endblock %}

@@ -1,5 +1,6 @@
 import os
 import uuid
+import json
 # import boto3
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -11,6 +12,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Profile, Subject, Assignment, Quest, ProfileAchievement, User
 from .forms import SubjectForm
 from datetime import date
+from django.utils import timezone
+
 
 #Create your views here.
 
@@ -97,7 +100,7 @@ def owned_badges(request, user_id, quest_id, badge_id):
 #Subjects Views
 def subjects_index(request):
     subjects = Subject.objects.filter(user=request.user)
-    upcoming_exam = subjects.filter(exam_date__gte=date.today()).order_by('exam_date').first()
+    upcoming_exams = subjects.filter(exam_date__gte=date.today()).order_by('exam_date')
     # Exam Slayer Quest Check
     exam_slayer_quest_name = 'Exam Slayer'
     if not ProfileAchievement.has_quest_achievement(request.user, exam_slayer_quest_name):
@@ -107,11 +110,18 @@ def subjects_index(request):
             ProfileAchievement.objects.create(user=request.user, quest=exam_slayer_quest)
             request.user.profile.xp += ProfileAchievement.get_quest_xp(exam_slayer_quest_name)
             request.user.profile.save()
-    return render(request, 'subjects/index.html', {'subjects': subjects, 'upcoming_exam': upcoming_exam, })
+
+    upcoming_exams_data = json.dumps([
+        {'name': exam.name, 'exam_date': exam.exam_date.strftime('%d-%m-%Y')} for exam in upcoming_exams
+    ])
+    all_quests = Quest.objects.all()
+
+    return render(request, 'subjects/index.html', {'subjects': subjects, 'upcoming_exams_data': upcoming_exams_data, 'all_quests': all_quests})
 
 def subjects_detail(request, pk):
     subject = get_object_or_404(Subject, pk=pk)
-    return render(request, 'subjects/subject_detail.html', {'subject': subject })
+    current_date = timezone.now()
+    return render(request, 'subjects/subject_detail.html', {'subject': subject, 'current_date': current_date })
 
 def subjects_create(request):
     if request.method == 'POST':
