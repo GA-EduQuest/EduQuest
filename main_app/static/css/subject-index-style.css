@@ -135,7 +135,9 @@
     height: 100%;
     margin-top: 20px;
 }
-
+.details-section {
+    font-family: "TT Alientz Serif", sans-serif;
+}
 .pie-container {
     width: 170px;
     height: 170px;
