@@ -127,6 +127,14 @@ def subjects_create(request):
                     ProfileAchievement.objects.create(user=request.user, quest=exam_slayer_quest)
                     request.user.profile.xp += ProfileAchievement.get_quest_xp(exam_slayer_quest_name)
                     request.user.profile.save()
+            # Subject Explorer Quest Check
+            subject_explorer_quest_name = 'Subject Explorer'
+            subjects_count_by_field = Subject.objects.filter(user=request.user).values('field').distinct().count()
+            if subjects_count_by_field >= 4 and not ProfileAchievement.has_quest_achievement(request.user, subject_explorer_quest_name):
+                subject_explorer_quest = Quest.objects.get(name=subject_explorer_quest_name)
+                ProfileAchievement.objects.create(user=request.user, quest=subject_explorer_quest)
+                request.user.profile.xp += ProfileAchievement.get_quest_xp(subject_explorer_quest_name)
+                request.user.profile.save()
             return redirect('subjects_detail', pk=subject.pk)
     else:
         form = SubjectForm()
@@ -140,6 +148,15 @@ def subjects_update(request, pk):
         form = SubjectForm(request.POST, instance=subject)
         if form.is_valid():
             form.save()
+
+            # Subject Explorer Quest Check
+            subject_explorer_quest_name = 'Subject Explorer'
+            subjects_count_by_field = Subject.objects.filter(user=request.user).values('field').distinct().count()
+            if subjects_count_by_field >= 4 and not ProfileAchievement.has_quest_achievement(request.user, subject_explorer_quest_name):
+                subject_explorer_quest = Quest.objects.get(name=subject_explorer_quest_name)
+                ProfileAchievement.objects.create(user=request.user, quest=subject_explorer_quest)
+                request.user.profile.xp += ProfileAchievement.get_quest_xp(subject_explorer_quest_name)
+                request.user.profile.save()
             return redirect('subjects_detail', pk=pk)
     else:
         form = SubjectForm(instance=subject)
