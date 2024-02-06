@@ -17,6 +17,7 @@ body > main {
     flex-direction: column;
     justify-content: center;
 }
+
 /* --------------------------------------------------------------------------------------------------------------- */
 /* Navbar and Footer */
 /* --------------------------------------------------------------------------------------------------------------- */
@@ -129,11 +130,11 @@ footer {
     padding: 20px;
     background: linear-gradient(#306cac7a, #a86ef48d);
     font-family: "TT Alientz Serif", sans-serif;
-    width: auto;
+    width: 100%;
     border-radius: 10px;
 }
 /* --------------------------------------------------------------------------------------------------------------- */
-
+/* Subject details  */
 /* --------------------------------------------------------------------------------------------------------------- */
 .subject-details-container {
     display: flex;
@@ -173,6 +174,13 @@ footer {
     margin-top: 20px;
 }
 
+.progress-container {
+    display: flex;
+    justify-content: center;
+}
+/* --------------------------------------------------------------------------------------------------------------- */
+/* Subject Form */
+/* --------------------------------------------------------------------------------------------------------------- */
 .subject-form {
     background-color: rgb(255, 253, 253);
     border-radius: 10px;
@@ -181,15 +189,35 @@ footer {
     margin: auto;
     box-shadow: 0 0 50px rgba(0, 0, 0, 0.39);
 }
-
-.form-group {
-    margin-bottom: 20px;
+.fantasy-form {
+    background: linear-gradient(-45deg, #306cac7a, #a86ef48d);
+    border: 2px solid #ffffff;
+    padding: 20px;
+    height: 100%;
+    width: 100%;
+    margin-top: 30px;
 }
-.form-title {
-    text-align: center;
-    margin-top: 20px;
+.fantasy-section-heading {
+    color: #ffffff;
 }
 
+.fantasy-btn {
+    border: none;
+    cursor: pointer;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+.fantasy-btn-primary {
+    background-color: #993300;
+    color: #fff;
+}
+.asteriskField {
+    display: none;
+}
+/* --------------------------------------------------------------------------------------------------------------- */
+/* Subject Delete  */
+/* --------------------------------------------------------------------------------------------------------------- */
 .delete-content {
     text-align: center;
     margin: auto;
@@ -205,36 +233,24 @@ footer {
     justify-content: space-between;
     margin-top: 20px;
 }
-
+/* --------------------------------------------------------------------------------------------------------------- */
+/* Profile Page */
+/* --------------------------------------------------------------------------------------------------------------- */
 .profile-container {
     display: flex;
     justify-content: space-between;
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
-    background-color: #f5f5f5;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     margin-top: 20px;
+    background-color: #b68beea7;
 }
 
-.names-section,
-.email-section,
-.xp-section {
-    flex: 1;
-    margin: 10px 50px;
-}
-
-.names-section h2 {
-    margin-bottom: 20px;
-}
-
-.names-section p,
-.email-section p,
-.xp-section p {
-    margin: 20px 0;
-}
-
+/* --------------------------------------------------------------------------------------------------------------- */
+/* Leaderboard Page */
+/* --------------------------------------------------------------------------------------------------------------- */
 .card-header {
     background-color: #007bff;
     color: #fff;
@@ -261,7 +277,9 @@ footer {
 .table-striped tbody tr:nth-of-type(even) {
     background-color: #fff;
 }
-
+/* --------------------------------------------------------------------------------------------------------------- */
+/* Badge detail Page */
+/* --------------------------------------------------------------------------------------------------------------- */
 .badge-container {
     border: 1px solid rgb(219, 219, 219);
     border-radius: 10px;
@@ -297,33 +315,17 @@ footer {
     color: #333;
     font-weight: bold;
 }
-
-.progress-container {
-    display: flex;
-    justify-content: center;
+.quest-details-card {
+    background-color: rgba(185, 185, 185, 0.523);
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.39);
 }
-
-.fantasy-heading {
-    font-family: "TT Alientz Serif", sans-serif;
-    color: #ffffff;
+.text-danger {
+    font-weight: bold;
 }
-
-.fantasy-form {
-    background: linear-gradient(-45deg, #306cac7a, #a86ef48d);
-    border: 2px solid #993300;
-    padding: 20px;
+.quest-details-header {
+    background: linear-gradient(-45deg, #306cacb0, #a86ef4cd);
 }
+/* --------------------------------------------------------------------------------------------------------------- */
 
-.fantasy-form-group {
-    margin-bottom: 20px;
-}
-
-.fantasy-label {
-    color: #333;
-}
-
-.fantasy-btn {
-    background-color: #993300;
-    color: #fff;
-    border: none;
-}
+/* --------------------------------------------------------------------------------------------------------------- */

@@ -8,8 +8,7 @@
     justify-content: space-around;
     align-items: flex-start;
     margin-top: 30px;
-    box-shadow: 0 0 50px rgba(0, 0, 0, 0.482);
-    border: 1px solid white;
+    box-shadow: 0 0 100px rgba(0, 0, 0, 0.887);
 }
 
 .subject-list,
@@ -152,7 +151,7 @@ h3 {
 .upcoming-container {
     width: 300px;
     height: 150px;
-    background-color: rgba(65, 105, 225, 0.9);
+    background-color: rgba(65, 105, 225, 0.766);
     margin-top: 300px;
     margin-bottom: 20px;
     color: #fff;
