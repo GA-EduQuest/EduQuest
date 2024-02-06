@@ -182,7 +182,7 @@ h3 {
 
 .add-subject a.btn-subject {
     background-color: #6a0dab;
-    border: 2px solid #4a90e2;
+    border-color: none;
 }
 
 .add-subject a.btn-subject:hover {
