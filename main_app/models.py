@@ -73,7 +73,7 @@ class Subject(models.Model):
         validators=[MinValueValidator(0), MaxValueValidator(100)],
         default=1
     )
-    exam_date = models.DateField(("Date"), default=one_day_after)
+    exam_date = models.DateField(("Date"), default=date.today() + timedelta(days=1))
     grade = models.CharField(
         max_length=1,
         choices=GRADE,

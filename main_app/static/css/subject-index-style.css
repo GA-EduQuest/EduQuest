@@ -80,7 +80,25 @@
     height: auto;
     margin-top: 20px;
 }
+.subject-list li a.btn {
+    background-image: url(/static/images/book-binder.jpeg) !important;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    color: white !important;
+    font-family: "TT Alientz Serif", sans-serif;
+    padding: 10px 15px;
+    border-radius: 5px;
+    border: none;
+    position: relative;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    display: inline-block;
+}
 
+.subject-list li a.btn:hover {
+    background-color: #8b4513 !important;
+    transform: scale(1.1);
+}
 /* Quest List */
 
 .quest-list ul {

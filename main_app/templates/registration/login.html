@@ -14,7 +14,8 @@
                         {% csrf_token %}
                         {{ form|crispy }}
                         <input type="hidden" name="next" value="{{ next }}" />
-                        <button type="submit" class="btn btn-primary">Log In</button>
+                        <button type="submit" class="btn btn-primary me-3">Log In</button>
+                        <a href="{% url 'signup' %}" class="btn btn-secondary">Sign up</a>
                     </form>
                 </div>
             </div>
