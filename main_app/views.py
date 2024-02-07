@@ -26,6 +26,7 @@ def about(request):
     return render(request, 'about.html')
 
 #User Views
+@login_required
 def user_detail(request, user_id):
     user = User.objects.get(id=user_id)
     profile = user.profile
@@ -48,6 +49,7 @@ class ProfileUpdate(LoginRequiredMixin, UpdateView):
 
 
 #Quest Views
+@login_required
 def quests_index(request):
     user = request.user
     all_quests = Quest.objects.all()
@@ -68,6 +70,7 @@ def quests_index(request):
 
     return render(request, 'quests/quests_index.html', {'all_quests': all_quests, 'achieved_quest_ids': achieved_quest_ids, 'uncompleted_quests': uncompleted_quests })
 
+@login_required
 def quests_detail(request, pk):
     quest = get_object_or_404(Quest, pk=pk)
     user = request.user
@@ -99,6 +102,7 @@ def owned_badges(request, user_id, quest_id, badge_id):
 
 
 #Subjects Views
+@login_required
 def subjects_index(request):
     subjects = Subject.objects.filter(user=request.user)
     upcoming_exams = subjects.filter(exam_date__gte=date.today()).order_by('exam_date')
@@ -123,6 +127,7 @@ def subjects_index(request):
 
     return render(request, 'subjects/index.html', {'subjects': subjects, 'upcoming_exams_data': upcoming_exams_data, 'all_quests': all_quests, 'subjects_json': subjects_json})
 
+@login_required
 def subjects_detail(request, pk):
     subject = get_object_or_404(Subject, pk=pk)
     current_date = datetime.now().date()
@@ -130,6 +135,7 @@ def subjects_detail(request, pk):
     exam_has_passed = exam_date < current_date
     return render(request, 'subjects/subject_detail.html', {'subject': subject, 'current_date': current_date, 'exam_has_passed': exam_has_passed })
 
+@login_required
 def subjects_create(request):
     if request.method == 'POST':
         form = SubjectForm(request.POST)
@@ -169,6 +175,7 @@ def subjects_create(request):
 
     return render(request, 'subjects/subject_form.html', {'form': form, 'subject': None})
 
+@login_required
 def subjects_update(request, pk):
     subject = get_object_or_404(Subject, pk=pk)
 
@@ -200,6 +207,7 @@ def subjects_update(request, pk):
 
     return render(request, 'subjects/subject_form.html', {'form': form, 'subject': subject})
 
+@login_required
 def subjects_delete(request, pk):
     subject = get_object_or_404(Subject, pk=pk)
     if request.method == 'POST':
@@ -212,27 +220,30 @@ def subjects_delete(request, pk):
 #About Leaderboards
 def leaderboard(request):
     leaderboard_data = Profile.objects.all().order_by('-xp')
-    # Check if the current user is at the top of the leaderboard for Elite Leaderboard Champion Quest
     current_user = request.user
-    is_elite_champion = leaderboard_data.first() == current_user.profile
-    elite_champion_quest_name = 'Elite Leaderboard Champion'
-    if is_elite_champion and not ProfileAchievement.has_quest_achievement(current_user, elite_champion_quest_name):
-        elite_champion_quest = Quest.objects.get(name=elite_champion_quest_name)
-        ProfileAchievement.objects.create(user=current_user, quest=elite_champion_quest)
-        current_user.profile.xp += ProfileAchievement.get_quest_xp(elite_champion_quest_name)
-        current_user.profile.save()
+
+    if current_user.is_authenticated:
+        # Check if the current user is at the top of the leaderboard for Elite Leaderboard Champion Quest
+        is_elite_champion = leaderboard_data.first() == current_user.profile
+        elite_champion_quest_name = 'Elite Leaderboard Champion'
+        if is_elite_champion and not ProfileAchievement.has_quest_achievement(current_user, elite_champion_quest_name):
+            elite_champion_quest = Quest.objects.get(name=elite_champion_quest_name)
+            ProfileAchievement.objects.create(user=current_user, quest=elite_champion_quest)
+            current_user.profile.xp += ProfileAchievement.get_quest_xp(elite_champion_quest_name)
+            current_user.profile.save()
+
     context = {
         'leaderboard_data': leaderboard_data,
     }
     return render(request, 'main_app/leaderboard.html', context)
 
 # Assignments Views
-class AssignmentDetail(DetailView):
+class AssignmentDetail(LoginRequiredMixin, DetailView):
     model = Assignment
     template_name = 'assignments/assignment_detail.html'
     context_object_name = 'assignment'
 
-class AssignmentCreate(CreateView):
+class AssignmentCreate(LoginRequiredMixin, CreateView):
     model = Assignment
     template_name = 'assignments/assignment_form.html'
     context_object_name = 'subjects'
@@ -244,7 +255,7 @@ class AssignmentCreate(CreateView):
         # Redirect to the subjects_detail page
         return reverse_lazy('subjects_detail', kwargs={'pk': subject_pk})
 
-class AssignmentUpdate(UpdateView):
+class AssignmentUpdate(LoginRequiredMixin, UpdateView):
     model = Assignment
     template_name = 'assignments/assignment_form.html'
     context_object_name = 'assignment'
@@ -254,7 +265,7 @@ class AssignmentUpdate(UpdateView):
         pk = self.kwargs['pk']
         return reverse('assignments_detail', kwargs={'pk': pk})
 
-class AssignmentDelete(DeleteView):
+class AssignmentDelete(LoginRequiredMixin, DeleteView):
     model = Assignment
     template_name = 'assignments/assignment_delete.html'
     context_object_name = 'assignment'
