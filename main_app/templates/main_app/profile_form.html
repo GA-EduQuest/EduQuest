@@ -1,10 +1,29 @@
-{% extends 'base.html' %} {% block title %}{{ user.username }}{% endblock %}
-{%block content %}
-<h2>Update Profile</h2>
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
 
-<form method="post" action="">
-  {% csrf_token %} {{ form.as_p }}
-  <button type="submit">Update</button>
-</form>
+{% block title %}
+    Update Profile
+{% endblock %}
 
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title text-center">Update Profile</h2>
+                </div>
+                <div class="card-body">
+                    <form method="post" action="">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-block mt-3">Update</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

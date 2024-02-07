@@ -2,6 +2,29 @@ from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Column
 from .models import Subject
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.models import User
+
+
+class SignUpForm(UserCreationForm):
+    password1 = forms.CharField(
+        label="Password",
+        strip=False,
+        widget=forms.PasswordInput,
+        help_text="Your password can't be too similar to your other personal information, must contain at least 8 characters, and can't be entirely numeric."
+    )
+    password2 = forms.CharField(
+        label="Password confirmation",
+        widget=forms.PasswordInput,
+        strip=False,
+        help_text="Enter the same password as before, for verification."
+    )
+
+    class Meta:
+        model = User
+        fields = ('username', 'password1', 'password2')
+
+
 
 class SubjectForm(forms.ModelForm):
     class Meta:
