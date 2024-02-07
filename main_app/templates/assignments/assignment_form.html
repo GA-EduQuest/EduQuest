@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
+
 {% load crispy_forms_tags %}
+
 {% block title %}
+
 {% if assignment.pk %}
 Update Assignment
 {% else %}
@@ -24,6 +27,6 @@ Create Assignment
   <input type="hidden" name="action" value="create">
   {{ form|crispy }}
   <button type="submit" class="btn fantasy-btn fantasy-btn-primary">Create</button>
+
   {% endif %}
 </form>
-{% endblock %}

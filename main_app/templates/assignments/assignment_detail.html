@@ -34,5 +34,11 @@
       </div>
     </div>
   </div>
+  <div class="row mt-4">
+    <div class="col-md-12 text-center" style="padding: 20px;">
+      <a href="{% url 'subjects_detail' pk=assignment.subject.pk %}" class="btn btn-primary">Back To
+        {{assignment.subject.name}} Detail</a>
+    </div>
+  </div>
 </div>
 {% endblock %}
