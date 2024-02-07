@@ -116,13 +116,9 @@ def subjects_index(request):
     upcoming_exams_data = json.dumps([
         {'name': exam.name, 'exam_date': exam.exam_date.strftime('%d-%m-%Y')} for exam in upcoming_exams
     ])
-
-    subjects_data = [{'name': subject.name, 'progress': subject.progress} for subject in subjects]
-    subjects_json = json.dumps(subjects_data)
-
     all_quests = Quest.objects.all()
 
-    return render(request, 'subjects/index.html', {'subjects': subjects, 'upcoming_exams_data': upcoming_exams_data, 'all_quests': all_quests, 'subjects_json': subjects_json})
+    return render(request, 'subjects/index.html', {'subjects': subjects, 'upcoming_exams_data': upcoming_exams_data, 'all_quests': all_quests})
 
 def subjects_detail(request, pk):
     subject = get_object_or_404(Subject, pk=pk)
@@ -248,6 +244,18 @@ class AssignmentUpdate(UpdateView):
     template_name = 'assignments/assignment_form.html'
     context_object_name = 'assignment'
     fields = '__all__'
+
+    # Overriding the form_valid to check if they qualify for the Assignment Conqueror quest (1 assignment complete)
+    def form_valid(self, form):
+        if form.cleaned_data['status'] == 'CM':
+            user = self.request.user
+            quest_name = 'Assignment Conqueror'
+            if not ProfileAchievement.has_quest_achievement(user, quest_name):
+                quest = Quest.objects.get(name=quest_name)
+                ProfileAchievement.objects.create(user=user, quest=quest)
+                user.profile.xp += ProfileAchievement.get_quest_xp(quest_name)
+                user.profile.save()
+        return super().form_valid(form)
 
     def get_success_url(self):
         pk = self.kwargs['pk']
