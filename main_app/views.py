@@ -26,6 +26,7 @@ def about(request):
     return render(request, 'about.html')
 
 #User Views
+@login_required
 def user_detail(request, user_id):
     user = User.objects.get(id=user_id)
     profile = user.profile
@@ -48,31 +49,35 @@ class ProfileUpdate(LoginRequiredMixin, UpdateView):
 
 
 #Quest Views
+@login_required
 def quests_index(request):
     user = request.user
     all_quests = Quest.objects.all()
 
-    # Check Grandmaster of EduQuest achievement
-    grandmaster_quest_name = 'Grandmaster of EduQuest'
-    is_grandmaster = Quest.is_grandmaster(user)
-    if is_grandmaster and not ProfileAchievement.has_quest_achievement(user, grandmaster_quest_name):
-        grandmaster_quest = Quest.objects.get(name=grandmaster_quest_name)
-        ProfileAchievement.objects.create(user=user, quest=grandmaster_quest)
-        user.profile.xp += ProfileAchievement.get_quest_xp(grandmaster_quest_name)
-        user.profile.save()
+    if Quest.objects.exists():  # Check if there are any quests in the database
+        # Check Grandmaster of EduQuest achievement
+        grandmaster_quest_name = 'Grandmaster of EduQuest'
+        is_grandmaster = Quest.is_grandmaster(user)
+        if is_grandmaster and not ProfileAchievement.has_quest_achievement(user, grandmaster_quest_name):
+            grandmaster_quest = Quest.objects.get(name=grandmaster_quest_name)
+            ProfileAchievement.objects.create(user=user, quest=grandmaster_quest)
+            user.profile.xp += ProfileAchievement.get_quest_xp(grandmaster_quest_name)
+            user.profile.save()
 
-    # Filter ProfileAchievement objects for the current user
-    achieved_quests = ProfileAchievement.objects.filter(user=user)
-    achieved_quest_ids = list(achieved_quests.values_list('quest__id', flat=True))
-    uncompleted_quests = all_quests.exclude(id__in=achieved_quests.values_list('quest', flat=True))
+        # Filter ProfileAchievement objects for the current user
+        achieved_quests = ProfileAchievement.objects.filter(user=user)
+        achieved_quest_ids = list(achieved_quests.values_list('quest__id', flat=True))
+        uncompleted_quests = all_quests.exclude(id__in=achieved_quests.values_list('quest', flat=True))
 
     return render(request, 'quests/quests_index.html', {'all_quests': all_quests, 'achieved_quest_ids': achieved_quest_ids, 'uncompleted_quests': uncompleted_quests })
 
+@login_required
 def quests_detail(request, pk):
     quest = get_object_or_404(Quest, pk=pk)
     user = request.user
-    # Check if the user has achieved the quest - returns a true or false
-    achieved_quest = ProfileAchievement.objects.filter(user=user, quest=quest).exists()
+    if Quest.objects.exists():  # Check if there are any quests in the database
+        # Check if the user has achieved the quest - returns a true or false
+        achieved_quest = ProfileAchievement.objects.filter(user=user, quest=quest).exists()
     return render(request, 'quests/quests_detail.html', {'quest': quest, 'achieved_quest': achieved_quest })
 
 #Badges Views
@@ -99,18 +104,20 @@ def owned_badges(request, user_id, quest_id, badge_id):
 
 
 #Subjects Views
+@login_required
 def subjects_index(request):
     subjects = Subject.objects.filter(user=request.user)
     upcoming_exams = subjects.filter(exam_date__gte=date.today()).order_by('exam_date')
-    # Exam Slayer Quest Check
-    exam_slayer_quest_name = 'Exam Slayer'
-    if not ProfileAchievement.has_quest_achievement(request.user, exam_slayer_quest_name):
-        subjects_with_passed_exams = Subject.objects.filter(user=request.user, exam_date__lt=date.today())
-        if subjects_with_passed_exams.exists():
-            exam_slayer_quest = Quest.objects.get(name=exam_slayer_quest_name)
-            ProfileAchievement.objects.create(user=request.user, quest=exam_slayer_quest)
-            request.user.profile.xp += ProfileAchievement.get_quest_xp(exam_slayer_quest_name)
-            request.user.profile.save()
+    if Quest.objects.exists():  # Check if there are any quests in the database
+        # Exam Slayer Quest Check
+        exam_slayer_quest_name = 'Exam Slayer'
+        if not ProfileAchievement.has_quest_achievement(request.user, exam_slayer_quest_name):
+            subjects_with_passed_exams = Subject.objects.filter(user=request.user, exam_date__lt=date.today())
+            if subjects_with_passed_exams.exists():
+                exam_slayer_quest = Quest.objects.get(name=exam_slayer_quest_name)
+                ProfileAchievement.objects.create(user=request.user, quest=exam_slayer_quest)
+                request.user.profile.xp += ProfileAchievement.get_quest_xp(exam_slayer_quest_name)
+                request.user.profile.save()
 
     upcoming_exams_data = json.dumps([
         {'name': exam.name, 'exam_date': exam.exam_date.strftime('%d-%m-%Y')} for exam in upcoming_exams
@@ -123,6 +130,7 @@ def subjects_index(request):
 
     return render(request, 'subjects/index.html', {'subjects': subjects, 'upcoming_exams_data': upcoming_exams_data, 'all_quests': all_quests, 'subjects_json': subjects_json})
 
+@login_required
 def subjects_detail(request, pk):
     subject = get_object_or_404(Subject, pk=pk)
     current_date = datetime.now().date()
@@ -130,6 +138,7 @@ def subjects_detail(request, pk):
     exam_has_passed = exam_date < current_date
     return render(request, 'subjects/subject_detail.html', {'subject': subject, 'current_date': current_date, 'exam_has_passed': exam_has_passed })
 
+@login_required
 def subjects_create(request):
     if request.method == 'POST':
         form = SubjectForm(request.POST)
@@ -137,38 +146,40 @@ def subjects_create(request):
             subject = form.save(commit=False)
             subject.user = request.user
             subject.save()
-            # Getting Started Quest Check
-            getting_started_quest_name = 'Getting Started'
-            if not ProfileAchievement.has_quest_achievement(request.user, getting_started_quest_name):
-                existing_subjects_count = Subject.objects.filter(user=request.user).exclude(pk=subject.pk).count()
-                if existing_subjects_count == 0:
-                    getting_started_quest = Quest.objects.get(name=getting_started_quest_name)
-                    ProfileAchievement.objects.create(user=request.user, quest=getting_started_quest)
-                    request.user.profile.xp += ProfileAchievement.get_quest_xp(getting_started_quest_name)
+            if Quest.objects.exists():  # Check if there are any quests in the database
+                # Getting Started Quest Check
+                getting_started_quest_name = 'Getting Started'
+                if not ProfileAchievement.has_quest_achievement(request.user, getting_started_quest_name):
+                    existing_subjects_count = Subject.objects.filter(user=request.user).exclude(pk=subject.pk).count()
+                    if existing_subjects_count == 0:
+                        getting_started_quest = Quest.objects.get(name=getting_started_quest_name)
+                        ProfileAchievement.objects.create(user=request.user, quest=getting_started_quest)
+                        request.user.profile.xp += ProfileAchievement.get_quest_xp(getting_started_quest_name)
+                        request.user.profile.save()
+                # Exam Slayer Quest Check
+                exam_slayer_quest_name = 'Exam Slayer'
+                if not ProfileAchievement.has_quest_achievement(request.user, exam_slayer_quest_name):
+                    subjects_with_passed_exams = Subject.objects.filter(user=request.user, exam_date__lt=date.today())
+                    if subjects_with_passed_exams.exists():
+                        exam_slayer_quest = Quest.objects.get(name=exam_slayer_quest_name)
+                        ProfileAchievement.objects.create(user=request.user, quest=exam_slayer_quest)
+                        request.user.profile.xp += ProfileAchievement.get_quest_xp(exam_slayer_quest_name)
+                        request.user.profile.save()
+                # Subject Explorer Quest Check
+                subject_explorer_quest_name = 'Subject Explorer'
+                subjects_count_by_field = Subject.objects.filter(user=request.user).values('field').distinct().count()
+                if subjects_count_by_field >= 4 and not ProfileAchievement.has_quest_achievement(request.user, subject_explorer_quest_name):
+                    subject_explorer_quest = Quest.objects.get(name=subject_explorer_quest_name)
+                    ProfileAchievement.objects.create(user=request.user, quest=subject_explorer_quest)
+                    request.user.profile.xp += ProfileAchievement.get_quest_xp(subject_explorer_quest_name)
                     request.user.profile.save()
-            # Exam Slayer Quest Check
-            exam_slayer_quest_name = 'Exam Slayer'
-            if not ProfileAchievement.has_quest_achievement(request.user, exam_slayer_quest_name):
-                subjects_with_passed_exams = Subject.objects.filter(user=request.user, exam_date__lt=date.today())
-                if subjects_with_passed_exams.exists():
-                    exam_slayer_quest = Quest.objects.get(name=exam_slayer_quest_name)
-                    ProfileAchievement.objects.create(user=request.user, quest=exam_slayer_quest)
-                    request.user.profile.xp += ProfileAchievement.get_quest_xp(exam_slayer_quest_name)
-                    request.user.profile.save()
-            # Subject Explorer Quest Check
-            subject_explorer_quest_name = 'Subject Explorer'
-            subjects_count_by_field = Subject.objects.filter(user=request.user).values('field').distinct().count()
-            if subjects_count_by_field >= 4 and not ProfileAchievement.has_quest_achievement(request.user, subject_explorer_quest_name):
-                subject_explorer_quest = Quest.objects.get(name=subject_explorer_quest_name)
-                ProfileAchievement.objects.create(user=request.user, quest=subject_explorer_quest)
-                request.user.profile.xp += ProfileAchievement.get_quest_xp(subject_explorer_quest_name)
-                request.user.profile.save()
             return redirect('subjects_detail', pk=subject.pk)
     else:
         form = SubjectForm()
 
     return render(request, 'subjects/subject_form.html', {'form': form, 'subject': None})
 
+@login_required
 def subjects_update(request, pk):
     subject = get_object_or_404(Subject, pk=pk)
 
@@ -177,22 +188,23 @@ def subjects_update(request, pk):
         if form.is_valid():
             form.save()
 
-            # Subject Explorer Quest Check
-            subject_explorer_quest_name = 'Subject Explorer'
-            subjects_count_by_field = Subject.objects.filter(user=request.user).values('field').distinct().count()
-            if subjects_count_by_field >= 4 and not ProfileAchievement.has_quest_achievement(request.user, subject_explorer_quest_name):
-                subject_explorer_quest = Quest.objects.get(name=subject_explorer_quest_name)
-                ProfileAchievement.objects.create(user=request.user, quest=subject_explorer_quest)
-                request.user.profile.xp += ProfileAchievement.get_quest_xp(subject_explorer_quest_name)
-                request.user.profile.save()
+            if Quest.objects.exists():  # Check if there are any quests in the database
+                # Subject Explorer Quest Check
+                subject_explorer_quest_name = 'Subject Explorer'
+                subjects_count_by_field = Subject.objects.filter(user=request.user).values('field').distinct().count()
+                if subjects_count_by_field >= 4 and not ProfileAchievement.has_quest_achievement(request.user, subject_explorer_quest_name):
+                    subject_explorer_quest = Quest.objects.get(name=subject_explorer_quest_name)
+                    ProfileAchievement.objects.create(user=request.user, quest=subject_explorer_quest)
+                    request.user.profile.xp += ProfileAchievement.get_quest_xp(subject_explorer_quest_name)
+                    request.user.profile.save()
 
-            # Check Multitasking Maven achievement after subject update
-            multitasking_maven_quest_name = 'Multitasking Maven'
-            if Quest.is_multitasking_maven(request.user) and not ProfileAchievement.has_quest_achievement(request.user, multitasking_maven_quest_name):
-                multitasking_maven_quest = Quest.objects.get(name=multitasking_maven_quest_name)
-                ProfileAchievement.objects.create(user=request.user, quest=multitasking_maven_quest)
-                request.user.profile.xp += ProfileAchievement.get_quest_xp(multitasking_maven_quest_name)
-                request.user.profile.save()
+                # Check Multitasking Maven achievement after subject update
+                multitasking_maven_quest_name = 'Multitasking Maven'
+                if Quest.is_multitasking_maven(request.user) and not ProfileAchievement.has_quest_achievement(request.user, multitasking_maven_quest_name):
+                    multitasking_maven_quest = Quest.objects.get(name=multitasking_maven_quest_name)
+                    ProfileAchievement.objects.create(user=request.user, quest=multitasking_maven_quest)
+                    request.user.profile.xp += ProfileAchievement.get_quest_xp(multitasking_maven_quest_name)
+                    request.user.profile.save()
 
             return redirect('subjects_detail', pk=pk)
     else:
@@ -200,6 +212,7 @@ def subjects_update(request, pk):
 
     return render(request, 'subjects/subject_form.html', {'form': form, 'subject': subject})
 
+@login_required
 def subjects_delete(request, pk):
     subject = get_object_or_404(Subject, pk=pk)
     if request.method == 'POST':
@@ -212,27 +225,31 @@ def subjects_delete(request, pk):
 #About Leaderboards
 def leaderboard(request):
     leaderboard_data = Profile.objects.all().order_by('-xp')
-    # Check if the current user is at the top of the leaderboard for Elite Leaderboard Champion Quest
     current_user = request.user
-    is_elite_champion = leaderboard_data.first() == current_user.profile
-    elite_champion_quest_name = 'Elite Leaderboard Champion'
-    if is_elite_champion and not ProfileAchievement.has_quest_achievement(current_user, elite_champion_quest_name):
-        elite_champion_quest = Quest.objects.get(name=elite_champion_quest_name)
-        ProfileAchievement.objects.create(user=current_user, quest=elite_champion_quest)
-        current_user.profile.xp += ProfileAchievement.get_quest_xp(elite_champion_quest_name)
-        current_user.profile.save()
+
+    if current_user.is_authenticated:
+        if Quest.objects.exists():  # Check if there are any quests in the database
+            # Check if the current user is at the top of the leaderboard for Elite Leaderboard Champion Quest
+            is_elite_champion = leaderboard_data.first() == current_user.profile
+            elite_champion_quest_name = 'Elite Leaderboard Champion'
+            if is_elite_champion and not ProfileAchievement.has_quest_achievement(current_user, elite_champion_quest_name):
+                elite_champion_quest = Quest.objects.get(name=elite_champion_quest_name)
+                ProfileAchievement.objects.create(user=current_user, quest=elite_champion_quest)
+                current_user.profile.xp += ProfileAchievement.get_quest_xp(elite_champion_quest_name)
+                current_user.profile.save()
+
     context = {
         'leaderboard_data': leaderboard_data,
     }
     return render(request, 'main_app/leaderboard.html', context)
 
 # Assignments Views
-class AssignmentDetail(DetailView):
+class AssignmentDetail(LoginRequiredMixin, DetailView):
     model = Assignment
     template_name = 'assignments/assignment_detail.html'
     context_object_name = 'assignment'
 
-class AssignmentCreate(CreateView):
+class AssignmentCreate(LoginRequiredMixin, CreateView):
     model = Assignment
     template_name = 'assignments/assignment_form.html'
     context_object_name = 'subjects'
@@ -244,7 +261,7 @@ class AssignmentCreate(CreateView):
         # Redirect to the subjects_detail page
         return reverse_lazy('subjects_detail', kwargs={'pk': subject_pk})
 
-class AssignmentUpdate(UpdateView):
+class AssignmentUpdate(LoginRequiredMixin, UpdateView):
     model = Assignment
     template_name = 'assignments/assignment_form.html'
     context_object_name = 'assignment'
@@ -254,7 +271,7 @@ class AssignmentUpdate(UpdateView):
         pk = self.kwargs['pk']
         return reverse('assignments_detail', kwargs={'pk': pk})
 
-class AssignmentDelete(DeleteView):
+class AssignmentDelete(LoginRequiredMixin, DeleteView):
     model = Assignment
     template_name = 'assignments/assignment_delete.html'
     context_object_name = 'assignment'
