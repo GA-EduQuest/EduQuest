@@ -12,8 +12,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Profile, Subject, Assignment, Quest, ProfileAchievement, User
 from .forms import SubjectForm
-from datetime import date
-from django.utils import timezone
+from datetime import date, datetime
 from django.urls import reverse_lazy
 
 
@@ -126,8 +125,10 @@ def subjects_index(request):
 
 def subjects_detail(request, pk):
     subject = get_object_or_404(Subject, pk=pk)
-    current_date = timezone.now()
-    return render(request, 'subjects/subject_detail.html', {'subject': subject, 'current_date': current_date })
+    current_date = datetime.now().date()
+    exam_date = subject.exam_date
+    exam_has_passed = exam_date < current_date
+    return render(request, 'subjects/subject_detail.html', {'subject': subject, 'current_date': current_date, 'exam_has_passed': exam_has_passed })
 
 def subjects_create(request):
     if request.method == 'POST':

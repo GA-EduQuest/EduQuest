@@ -30,14 +30,15 @@
               <h3>Exam Date</h3>
               <p>{{ subject.exam_date }}</p>
             </div>
-Exam Date: {{ subject.exam_date }}
-Current Date: {{ current_date }}
-          {% if subject.exam_date == current_date %}
-              <div class="details-section">
-                  <h3>Grade</h3>
-                  <p>{{ subject.get_grade_display }}</p>
-              </div>
-          {% endif %}
+
+            {% if exam_has_passed %}
+                <div class="details-section">
+                    <h3>Grade</h3>
+                    <p>{{ subject.get_grade_display }}</p>
+                </div>
+            {% else %}
+                <p>The exam, a monstrous foe, awaits conquest..</p>
+            {% endif %}
           </div>
 
           <div class="progress-container col-md-6 ">
@@ -60,7 +61,7 @@ Current Date: {{ current_date }}
 
   <div class="row mt-4">
     <div class="col-md-12 text-center" style="padding: 20px;">
-      <a href="{% url 'assignments_create' %}" class="btn btn-danger">Add Assignments</a>
+      <a href="{% url 'assignments_create' %}" class="btn btn-primary">Add Assignments</a>
     </div>
   </div>
 
