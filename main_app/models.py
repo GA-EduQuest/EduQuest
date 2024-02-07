@@ -57,6 +57,9 @@ def create_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
 
+def one_day_after():
+    date.today() + timedelta(days=1)
+
 class Subject(models.Model):
     name = models.CharField(max_length=100)
     field = models.CharField(
@@ -70,7 +73,7 @@ class Subject(models.Model):
         validators=[MinValueValidator(0), MaxValueValidator(100)],
         default=1
     )
-    exam_date = models.DateField(("Date"), default=lambda: date.today() + timedelta(days=1))
+    exam_date = models.DateField(("Date"), default=date.today() + timedelta(days=1))
     grade = models.CharField(
         max_length=1,
         choices=GRADE,
@@ -161,38 +164,39 @@ class ProfileAchievement(models.Model):
 # On login - check if user has achieved any quests
 @receiver(user_logged_in, sender=User)
 def check_achievements_on_login(sender, request, user, **kwargs):
-    # Check Exam Slayer achievement
-    exam_slayer_quest_name = 'Exam Slayer'
-    if not ProfileAchievement.has_quest_achievement(user, exam_slayer_quest_name):
-        subjects_with_passed_exams = Subject.objects.filter(user=user, exam_date__lt=date.today())
-        if subjects_with_passed_exams.exists():
-            exam_slayer_quest = Quest.objects.get(name=exam_slayer_quest_name)
-            ProfileAchievement.objects.create(user=user, quest=exam_slayer_quest)
-            user.profile.xp += ProfileAchievement.get_quest_xp(exam_slayer_quest_name)
+    if Quest.objects.exists():  # Check if there are any quests in the database
+        # Check Exam Slayer achievement
+        exam_slayer_quest_name = 'Exam Slayer'
+        if not ProfileAchievement.has_quest_achievement(user, exam_slayer_quest_name):
+            subjects_with_passed_exams = Subject.objects.filter(user=user, exam_date__lt=date.today())
+            if subjects_with_passed_exams.exists():
+                exam_slayer_quest = Quest.objects.get(name=exam_slayer_quest_name)
+                ProfileAchievement.objects.create(user=user, quest=exam_slayer_quest)
+                user.profile.xp += ProfileAchievement.get_quest_xp(exam_slayer_quest_name)
+                user.profile.save()
+
+        # Check Elite Leaderboard Champion achievement
+        leaderboard_data = Profile.objects.all().order_by('-xp')
+        is_elite_champion = leaderboard_data.first() == user.profile
+        elite_champion_quest_name = 'Elite Leaderboard Champion'
+        if is_elite_champion and not ProfileAchievement.has_quest_achievement(user, elite_champion_quest_name):
+            elite_champion_quest = Quest.objects.get(name=elite_champion_quest_name)
+            ProfileAchievement.objects.create(user=user, quest=elite_champion_quest)
+            user.profile.xp += ProfileAchievement.get_quest_xp(elite_champion_quest_name)
             user.profile.save()
 
-    # Check Elite Leaderboard Champion achievement
-    leaderboard_data = Profile.objects.all().order_by('-xp')
-    is_elite_champion = leaderboard_data.first() == user.profile
-    elite_champion_quest_name = 'Elite Leaderboard Champion'
-    if is_elite_champion and not ProfileAchievement.has_quest_achievement(user, elite_champion_quest_name):
-        elite_champion_quest = Quest.objects.get(name=elite_champion_quest_name)
-        ProfileAchievement.objects.create(user=user, quest=elite_champion_quest)
-        user.profile.xp += ProfileAchievement.get_quest_xp(elite_champion_quest_name)
-        user.profile.save()
+        # Check Grandmaster of EduQuest achievement
+        grandmaster_quest_name = 'Grandmaster of EduQuest'
+        if Quest.is_grandmaster(user) and not ProfileAchievement.has_quest_achievement(user, grandmaster_quest_name):
+            grandmaster_quest = Quest.objects.get(name=grandmaster_quest_name)
+            ProfileAchievement.objects.create(user=user, quest=grandmaster_quest)
+            user.profile.xp += ProfileAchievement.get_quest_xp(grandmaster_quest_name)
+            user.profile.save()
 
-    # Check Grandmaster of EduQuest achievement
-    grandmaster_quest_name = 'Grandmaster of EduQuest'
-    if Quest.is_grandmaster(user) and not ProfileAchievement.has_quest_achievement(user, grandmaster_quest_name):
-        grandmaster_quest = Quest.objects.get(name=grandmaster_quest_name)
-        ProfileAchievement.objects.create(user=user, quest=grandmaster_quest)
-        user.profile.xp += ProfileAchievement.get_quest_xp(grandmaster_quest_name)
-        user.profile.save()
-
-    # Check Multitasking Maven achievement
-    multitasking_maven_quest_name = 'Multitasking Maven'
-    if Quest.is_multitasking_maven(user) and not ProfileAchievement.has_quest_achievement(user, multitasking_maven_quest_name):
-        multitasking_maven_quest = Quest.objects.get(name=multitasking_maven_quest_name)
-        ProfileAchievement.objects.create(user=user, quest=multitasking_maven_quest)
-        user.profile.xp += ProfileAchievement.get_quest_xp(multitasking_maven_quest_name)
-        user.profile.save()
+        # Check Multitasking Maven achievement
+        multitasking_maven_quest_name = 'Multitasking Maven'
+        if Quest.is_multitasking_maven(user) and not ProfileAchievement.has_quest_achievement(user, multitasking_maven_quest_name):
+            multitasking_maven_quest = Quest.objects.get(name=multitasking_maven_quest_name)
+            ProfileAchievement.objects.create(user=user, quest=multitasking_maven_quest)
+            user.profile.xp += ProfileAchievement.get_quest_xp(multitasking_maven_quest_name)
+            user.profile.save()

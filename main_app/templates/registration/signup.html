@@ -14,7 +14,8 @@
             {% if error_message %}
               <p class="text-danger">{{ error_message }}</p>
             {% endif %}
-            <button type="submit" class="btn btn-primary btn-block mt-4">Sign Up</button>
+            <button type="submit" class="btn btn-primary btn-block mt-4 me-5">Sign Up</button>
+            <a class="btn btn-danger mt-4" href="{% url 'home' %}" >Back</a>
           </form>
         </div>
       </div>
