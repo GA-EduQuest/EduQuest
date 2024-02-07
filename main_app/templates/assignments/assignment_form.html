@@ -1,9 +1,29 @@
 {% extends 'base.html' %}
-
-{% block title %}Assignments{% endblock %}
+{% load crispy_forms_tags %}
+{% block title %}
+{% if assignment.pk %}
+Update Assignment
+{% else %}
+Create Assignment
+{% endif %}
+{% endblock %}
 
 {% block content %}
-
-
-
+<h2>{% if assignment.pk %}Update Assignment{% else %}Create Assignment{% endif %}</h2>
+<form method="post" class="fantasy-form">
+  {% csrf_token %}
+  {% if assignment.pk %}
+  <!-- Fields for updating an existing assignment -->
+  <input type="hidden" name="action" value="update">
+  <input type="hidden" name="assignment_id" value="{{ assignment.pk }}">
+  {{ form|crispy }}
+  <button type="submit" class="btn fantasy-btn fantasy-btn-primary">Update</button>
+  <a href="{% url 'assignments_detail' pk=assignment.pk %}" class="btn btn-danger">Go Back</a>
+  {% else %}
+  <!-- Fields for creating a new assignment -->
+  <input type="hidden" name="action" value="create">
+  {{ form|crispy }}
+  <button type="submit" class="btn fantasy-btn fantasy-btn-primary">Create</button>
+  {% endif %}
+</form>
 {% endblock %}
