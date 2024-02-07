@@ -5,21 +5,15 @@
 
 {% block content %}
 
-  <div class="center-container">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-md-5">
+    <div class="center-container">
         <div class="title-card text-center">
-          <h1>Mystic Academia</h1>
+            <h1>Mystic Academia</h1>
         </div>
         <div class="add-subject text-center mt-3">
-          <a href="{% url 'subjects_create' %}" class="btn btn-subject me-5">Add Subject</a>
-          <a href="{% url 'quests_index' %}" class="btn btn-quests">Quests</a>
+            <a href="{% url 'subjects_create' %}" class="btn btn-subject me-5">Add Studies</a>
+            <a href="{% url 'quests_index' %}" class="btn btn-quests">Quests</a>
         </div>
-      </div>
     </div>
-  </div>
-  </div>
 
   <div class="list-container">
     <div class="subject-list">
@@ -51,8 +45,10 @@
         {% for quest in all_quests %}
             <li>
                 <a class="card-link text-center" href="{% url 'quests_detail' quest.id %}">
-                    {{ quest.name }} {% if quest.badge_image_url %}
-                    <img src="{{ quest.badge_image_url }}" alt="{{ quest.name }} Badge"> {% endif %}
+                    {% if quest.badge_image_url %}
+                    <img src="{{ quest.badge_image_url }}" alt="{{ quest.name }} Badge">
+                    {% endif %}
+                    <span class="quest-name">{{ quest.name }}</span>
                 </a>
             </li>
         {% endfor %}
@@ -62,22 +58,22 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-//   document.addEventListener("DOMContentLoaded", function () {
-//     const exams = JSON.parse("{{ upcoming_exams_data|escapejs }}");
-//     let currentIndex = 0;
-
-//     function showNextExam() {
-//         const exam = exams[currentIndex];
-//         document.getElementById("exam-details").textContent =
-//             exam.name + " | Date: " + exam.exam_date + " |";
-//         currentIndex = (currentIndex + 1) % exams.length;
-//     }
-
-//     showNextExam();
-//     setInterval(showNextExam, 5000);
-// });
-
   document.addEventListener("DOMContentLoaded", function () {
+    const exams = JSON.parse("{{ upcoming_exams_data|escapejs }}");
+    let currentIndex = 0;
+
+    function showNextExam() {
+        const exam = exams[currentIndex];
+        document.getElementById("exam-details").textContent =
+            exam.name + " | Date: " + exam.exam_date + " |";
+        currentIndex = (currentIndex + 1) % exams.length;
+    }
+
+    showNextExam();
+    setInterval(showNextExam, 5000);
+});
+
+document.addEventListener("DOMContentLoaded", function () {
       const subjects = JSON.parse('{{ subjects_json|escapejs }}');
 
       const labels = subjects.map(subject => subject.name);

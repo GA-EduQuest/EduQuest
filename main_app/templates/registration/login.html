@@ -1,6 +1,7 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
 
-
+{% block content %}
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
@@ -9,11 +10,9 @@
                     <h1 class="card-title">Log In</h1>
                 </div>
                 <div class="card-body">
-                    <form action="{% url 'login' %}" method="POST">
+                    <form method="post">
                         {% csrf_token %}
-                        <div class="mb-3">
-                            {{ form.as_p }}
-                        </div>
+                        {{ form|crispy }}
                         <input type="hidden" name="next" value="{{ next }}" />
                         <button type="submit" class="btn btn-primary">Log In</button>
                     </form>
@@ -22,5 +21,4 @@
         </div>
     </div>
 </div>
-
 {% endblock %}
