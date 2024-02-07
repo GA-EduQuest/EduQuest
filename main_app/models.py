@@ -57,6 +57,9 @@ def create_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
 
+def one_day_after():
+    date.today() + timedelta(days=1)
+
 class Subject(models.Model):
     name = models.CharField(max_length=100)
     field = models.CharField(
@@ -70,7 +73,7 @@ class Subject(models.Model):
         validators=[MinValueValidator(0), MaxValueValidator(100)],
         default=1
     )
-    exam_date = models.DateField(("Date"), default=lambda: date.today() + timedelta(days=1))
+    exam_date = models.DateField(("Date"), default=one_day_after)
     grade = models.CharField(
         max_length=1,
         choices=GRADE,
