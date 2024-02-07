@@ -1,20 +1,30 @@
-{% extends 'base.html' %} {% block content %}
-
-<div class="signin-container" style="margin-top: 100px">
-  <div class="card my-4">
-    <div class="card-body">
-      <h1 class="card-title text-center">Sign Up</h1>
-      <p class="text-danger text-center">{{ error_message }}</p>
-      <form method="POST" action="{% url 'signup' %}">
-        {% csrf_token %} {{ form.as_p }}
-        <input
-          type="submit"
-          class="btn btn-primary btn-block"
-          value="Sign Up"
-        />
-      </form>
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+  <div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+      <div class="card shadow">
+        <div class="card-body">
+          <h2 class="card-title text-center mb-4">Sign Up</h2>
+          <form method="POST" action="{% url 'signup' %}">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="form-group " style="color: white;">
+              <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+              {{ field }}
+              {% if field.help_text %}
+              <small class="form-text" style="color: white;">{{ field.help_text }}</small>
+              {% endif %}
+              {% for error in field.errors %}
+              <span class="text-danger">{{ error }}</span>
+              {% endfor %}
+            </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary btn-block mt-4">Sign Up</button>
+          </form>
+        </div>
+      </div>
     </div>
   </div>
 </div>
-
 {% endblock %}

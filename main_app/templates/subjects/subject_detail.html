@@ -119,8 +119,8 @@ Current Date: {{ current_date }}
       labels: ['Completed', 'Remaining'],
       datasets: [{
         data: [progressValue, 100 - progressValue],
-        backgroundColor: ['#36A2EB', '#FF6384'],
-        hoverBackgroundColor: ['#36A2EB', '#FF6384']
+        backgroundColor: ['#F6D55C', '#3CAEA3'],
+        hoverBackgroundColor: ['#FFB627', '#218F86']
       }]
     };
 
@@ -131,7 +131,14 @@ Current Date: {{ current_date }}
       data: data,
       options: {
         responsive: true,
-        maintainAspectRatio: false
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            labels: {
+              color: 'white'
+            }
+          }
+        }
       }
     });
   </script>

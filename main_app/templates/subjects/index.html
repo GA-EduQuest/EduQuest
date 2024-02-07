@@ -32,17 +32,15 @@
     </div>
 
     <div class="center-column">
-      <div class="details-section text-center" data-progress="{{ subject.progress }}">
-          <h3>PROGRESS</h3>
-          <canvas id="progressChart" width="200" height="200"></canvas>
-      </div>
+        <div class="details-section text-center">
+            <h3>PROGRESS</h3>
+            <canvas id="donutChart" style="max-width: 600px; max-height: 400px;"></canvas>
+        </div>
 
-      <div class="pie-chart">
-          <canvas id="cumulativeProgressChart" width="200" height="200"></canvas>
-      </div>
+
 
       <div class="upcoming-container">
-          <h3 id="upcoming-exam-title">Upcoming Exam</h3>
+          <h3 id="upcoming-exam-title">Upcoming Exams</h3>
           <p id="exam-details">Loading...</p>
       </div>
     </div>
@@ -61,20 +59,66 @@
     </ul>
 </div>
 
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+//   document.addEventListener("DOMContentLoaded", function () {
+//     const exams = JSON.parse("{{ upcoming_exams_data|escapejs }}");
+//     let currentIndex = 0;
+
+//     function showNextExam() {
+//         const exam = exams[currentIndex];
+//         document.getElementById("exam-details").textContent =
+//             exam.name + " | Date: " + exam.exam_date + " |";
+//         currentIndex = (currentIndex + 1) % exams.length;
+//     }
+
+//     showNextExam();
+//     setInterval(showNextExam, 5000);
+// });
+
   document.addEventListener("DOMContentLoaded", function () {
-    const exams = JSON.parse("{{ upcoming_exams_data|escapejs }}");
-    let currentIndex = 0;
+      const subjects = JSON.parse('{{ subjects_json|escapejs }}');
 
-    function showNextExam() {
-        var exam = exams[currentIndex];
-        document.getElementById("exam-details").textContent =
-            exam.name + " | Date: " + exam.exam_date + " |";
-        currentIndex = (currentIndex + 1) % exams.length;
-    }
+      const labels = subjects.map(subject => subject.name);
+      const progressData = subjects.map(subject => subject.progress);
 
-    showNextExam();
-    setInterval(showNextExam, 5000);
+      const ctx = document.getElementById('donutChart').getContext('2d');
+      const donutChart = new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+              labels: labels,
+              datasets: [{
+                data: progressData,
+                backgroundColor: [
+                      'rgba(255, 99, 132, 0.5)',
+                      'rgba(54, 162, 235, 0.5)',
+                      'rgba(255, 206, 86, 0.5)',
+                      'rgba(75, 192, 192, 0.5)',
+                      'rgba(153, 102, 255, 0.5)',
+                      'rgba(255, 140, 0, 0.5)',
+                      'rgba(127, 255, 0, 0.5)',
+                      'rgba(147, 112, 219, 0.5)',
+                      'rgba(50, 205, 50, 0.5)'
+                  ]
+                }]
+            },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            legend: {
+                display: true,
+                position: 'bottom'
+            },
+            plugins: {
+                legend: {
+                    labels: {
+                        color: 'white'
+                    }
+                }
+            }
+        }
+    });
 });
 </script>
   {% endblock %}
