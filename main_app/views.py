@@ -114,9 +114,13 @@ def subjects_index(request):
     upcoming_exams_data = json.dumps([
         {'name': exam.name, 'exam_date': exam.exam_date.strftime('%d-%m-%Y')} for exam in upcoming_exams
     ])
+
+    subjects_data = [{'name': subject.name, 'progress': subject.progress} for subject in subjects]
+    subjects_json = json.dumps(subjects_data)
+
     all_quests = Quest.objects.all()
 
-    return render(request, 'subjects/index.html', {'subjects': subjects, 'upcoming_exams_data': upcoming_exams_data, 'all_quests': all_quests})
+    return render(request, 'subjects/index.html', {'subjects': subjects, 'upcoming_exams_data': upcoming_exams_data, 'all_quests': all_quests, 'subjects_json': subjects_json})
 
 def subjects_detail(request, pk):
     subject = get_object_or_404(Subject, pk=pk)

@@ -7,18 +7,15 @@
 {% block content %}
 
 <div class="profile-container">
-  <div class="names-section">
+  <div class="profile-info" style="color: white;">
     <h2>{{ user.username }}</h2>
     <p><strong>First Name:</strong> {{ profile.first_name }}</p>
     <p><strong>Last Name:</strong> {{ profile.last_name }}</p>
-  </div>
-
     <div class="email-section mt-3">
       {% if profile %}
       <p><strong>Email:</strong> {{ profile.email }}</p>
       {% endif %}
     </div>
-
     <div class="xp-section mt-3">
       {% if profile %}
       <p><strong>Total XP:</strong> {{ profile.xp }}</p>
@@ -26,28 +23,26 @@
       <p class="text-muted">No XP available.</p>
       {% endif %}
     </div>
-
     {% if profile %}
-    <a href="{% url 'profile_update' pk=profile.id %}" class="btn btn-primary mt-3">Edit Profile</a>
+    <a href="{% url 'profile_update' pk=profile.id %}" class="btn btn-secondary mt-3">Edit Profile</a>
     {% else %}
     <a href="#" class="btn btn-outline-secondary mt-3">Add Profile</a>
     {% endif %}
   </div>
- <div>
-  <a href="{% url 'profile_update' pk=profile.id %}" class="btn btn-primary" style="height: 35px !important;">Edit</a>
-</div>
 
-
-  <div class="achievements-list mt-5">
-    <h2 class="text-success">Quest Achievements</h2>
-    <ul class="list-unstyled">
-      {% for achievement in achievements %}
-      <li class="mb-3">
-        {{ achievement.quest.name }} - {{ achievement.date_achieved }}
-        <img src="{{ achievement.quest.badge_image_url }}" alt="Badge Image" class="img-fluid ml-2" style="max-width: 50px;">
-      </li>
-      {% endfor %}
-    </ul>
+<div class="completed-quest-list">
+  <h2 style="color: #edebeb; text-align: center;">Quest Achievements</h2>
+  <div class="quest-grid">
+    {% for achievement in achievements %}
+    <div class="quest-item">
+      <img src="{{ achievement.quest.badge_image_url }}" alt="Badge Image" class="quest-badge">
+      <div class="quest-details">
+        <h3>{{ achievement.quest.name }}</h3>
+        <p class="date">{{ achievement.date_achieved }}</p>
+      </div>
+    </div>
+    {% endfor %}
   </div>
 </div>
+
 {% endblock %}
