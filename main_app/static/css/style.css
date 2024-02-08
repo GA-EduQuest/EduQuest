@@ -62,15 +62,21 @@ footer p {
     text-align: center;
 }
 
-@media (max-width: 991.98px) {
-    /* Target the collapsed navbar */
+@media (max-width: 990px) {
     .navbar-collapse {
-        /* Apply background color to the links */
-        background-color: rgba(153, 182, 239, 0.708);
+        background-color: rgb(153, 182, 239);
         border-radius: 20px;
     }
+}
 
-    /* Target the links inside the collapsed navbar */
+@media (max-width: 767px) {
+    .logo-img {
+        height: 45px;
+        width: auto;
+    }
+    .username-xp {
+        display: none;
+    }
 }
 
 /* --------------------------------------------------------------------------------------------------------------- */
@@ -108,8 +114,9 @@ footer p {
 }
 
 .cta-buttons a.btn {
-    display: inline-block;
-    padding: 10px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-size: 18px;
     font-weight: bold;
     text-decoration: none;
@@ -119,6 +126,8 @@ footer p {
     box-shadow: 0 0 10px rgb(225, 255, 29);
     transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out,
         box-shadow 0.3s ease-in-out;
+    height: 50px;
+    width: 100px;
 }
 
 .cta-buttons a.btn:hover {
@@ -136,6 +145,10 @@ footer p {
     max-width: 600px;
     margin: 0 auto;
     margin-bottom: 250px;
+    padding: 20px;
+    line-height: 1.6;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.571);
+    border-radius: 8px;
 }
 /* --------------------------------------------------------------------------------------------------------------- */
 /*  Title cards */
@@ -148,11 +161,11 @@ footer p {
     height: auto;
     width: 100%;
     margin-top: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.571);
 }
 
 .title-card {
     padding: 20px;
-    background: linear-gradient(#306cac7a, #a86ef48d);
     font-family: "TT Alientz Serif", sans-serif;
     width: 100%;
 }
@@ -443,4 +456,35 @@ footer p {
 /* --------------------------------------------------------------------------------------------------------------- */
 .form-text {
     color: white;
+}
+.form-label {
+    color: white;
+}
+
+h2 {
+    font-family: "TT Alientz Serif", sans-serif;
+}
+
+.assignment-form {
+    margin: 20px auto;
+    max-width: 900px;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.assignment-form .card {
+    border: none;
+    background-color: none !important;
+    border-radius: 10px;
+}
+
+.assignment-form .card-header {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 20px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.assignment-form h2 {
+    margin-bottom: 0;
 }

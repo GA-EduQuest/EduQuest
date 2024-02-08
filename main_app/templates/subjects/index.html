@@ -2,17 +2,18 @@
 
 {% block title %}Subjects{% endblock %}
 
-
+{% load static %}
 {% block content %}
 
     <div class="center-container">
         <div class="title-card text-center">
             <h1>Mystic Academia</h1>
         </div>
-        <div class="add-subject text-center mt-3">
-            <a href="{% url 'subjects_create' %}" class="btn btn-subject me-5">Add Studies</a>
-            <a href="{% url 'quests_index' %}" class="btn btn-quests">Quests</a>
-        </div>
+
+    </div>
+    <div class="add-subject text-center mt-3">
+        <a href="{% url 'subjects_create' %}" class="btn btn-subject me-5">Add Studies</a>
+        <a href="{% url 'quests_index' %}" class="btn btn-quests">Quests</a>
     </div>
 
   <div class="list-container">
@@ -31,18 +32,16 @@
             <canvas id="donutChart" style="max-width: 600px; max-height: 400px;"></canvas>
         </div>
 
-
-
       <div class="upcoming-container">
           <h3 id="upcoming-exam-title">Upcoming Exams</h3>
           <p id="exam-details">Loading...</p>
       </div>
     </div>
 
-<div class="quest-list">
-    <h2>Quests</h2>
-    <ul>
-        {% for quest in all_quests %}
+    <div class="quest-list">
+      <h2>Quests</h2>
+        <ul>
+          {% for quest in all_quests %}
             <li>
                 <a class="card-link text-center" href="{% url 'quests_detail' quest.id %}">
                     {% if quest.badge_image_url %}
@@ -52,69 +51,14 @@
                 </a>
             </li>
         {% endfor %}
-    </ul>
+        </ul>
+  </div>
 </div>
+
+<div id="upcoming-exams-data" data-upcoming-exams="{{ upcoming_exams_data }}"></div>
+<div id="subjects-data" data-subjects="{{ subjects_json }}"></div>
 
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const exams = JSON.parse("{{ upcoming_exams_data|escapejs }}");
-    let currentIndex = 0;
-
-    function showNextExam() {
-        const exam = exams[currentIndex];
-        document.getElementById("exam-details").textContent =
-            exam.name + " | Date: " + exam.exam_date + " |";
-        currentIndex = (currentIndex + 1) % exams.length;
-    }
-
-    showNextExam();
-    setInterval(showNextExam, 5000);
-});
-
-document.addEventListener("DOMContentLoaded", function () {
-      const subjects = JSON.parse('{{ subjects_json|escapejs }}');
-
-      const labels = subjects.map(subject => subject.name);
-      const progressData = subjects.map(subject => subject.progress);
-
-      const ctx = document.getElementById('donutChart').getContext('2d');
-      const donutChart = new Chart(ctx, {
-          type: 'doughnut',
-          data: {
-              labels: labels,
-              datasets: [{
-                data: progressData,
-                backgroundColor: [
-                      'rgba(255, 99, 132, 0.5)',
-                      'rgba(54, 162, 235, 0.5)',
-                      'rgba(255, 206, 86, 0.5)',
-                      'rgba(75, 192, 192, 0.5)',
-                      'rgba(153, 102, 255, 0.5)',
-                      'rgba(255, 140, 0, 0.5)',
-                      'rgba(127, 255, 0, 0.5)',
-                      'rgba(147, 112, 219, 0.5)',
-                      'rgba(50, 205, 50, 0.5)'
-                  ]
-                }]
-            },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            legend: {
-                display: true,
-                position: 'bottom'
-            },
-            plugins: {
-                legend: {
-                    labels: {
-                        color: 'white'
-                    }
-                }
-            }
-        }
-    });
-});
-</script>
+<script src="{% static 'js/script.js' %}"></script>
   {% endblock %}
