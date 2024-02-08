@@ -1,4 +1,5 @@
-{% extends 'base.html' %} {% block title %}Quests{% endblock %}
+{% extends 'base.html' %}
+{% block title %}Quests{% endblock %}
 {% block content %}
 
 <div class="center-container">
@@ -16,19 +17,22 @@
 <div class="quest-list-container" style="padding: 10%;">
   <div class="all-quest-list text-center" style="display: flex; flex-wrap: wrap; justify-content: space-around;">
     {% for quest in all_quests %}
-  <div class="badge-container">
-    <div class="quest-and-badge">
-      <div class="link-container text-center">
-        <a href="{% url 'quests_detail' pk=quest.pk %}" class="">{{ quest.name }}</a>
+      <div class="badge-container">
+        <div class="quest-and-badge">
+          <div class="link-container text-center">
+            {% if quest.id in achieved_quest_ids %}
+              <a href="{% url 'quests_detail' pk=quest.pk %}" style="color: white;">{{ quest.name }}</a>
+            {% else %}
+              <a href="{% url 'quests_detail' pk=quest.pk %}">{{ quest.name }}</a>
+            {% endif %}
+          </div>
+          <div class="image-container">
+            <a href="{% url 'quests_detail' pk=quest.pk %}">
+              <img src="{{ quest.badge_image_url }}" alt="Badge Image" {% if quest.id in achieved_quest_ids %}style="filter: grayscale(0%);" {% else %}style="filter: grayscale(100%);" {% endif %} />
+            </a>
+          </div>
+        </div>
       </div>
-      <div class="image-container">
-        <a href="{% url 'quests_detail' pk=quest.pk %}">
-          <img src="{{ quest.badge_image_url }}" alt="Badge Image" {% if quest.id in achieved_quest_ids %}style="filter: grayscale(0%);" {% else %}style="filter: grayscale(100%);" {% endif %} />
-        </a>
-      </div>
-    </div>
-  </div>
-
     {% endfor %}
   </div>
 </div>

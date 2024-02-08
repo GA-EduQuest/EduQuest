@@ -20,10 +20,11 @@ body > main {
 /* --------------------------------------------------------------------------------------------------------------- */
 /* Navbar and Footer */
 /* --------------------------------------------------------------------------------------------------------------- */
+
 .navbar {
     height: 70px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.39);
-    background-color: rgba(153, 182, 239, 0.587);
+    background-color: rgba(153, 182, 239, 0.708);
     font-family: "TT Alientz Serif", sans-serif;
     top: 0;
     width: 100%;
@@ -34,6 +35,11 @@ body > main {
 .logo-img {
     height: 50px;
     width: auto;
+}
+
+.avatar {
+    width: 30px;
+    height: 30px;
 }
 
 footer {
@@ -54,6 +60,17 @@ footer p {
     padding: 0;
     font-size: 14px;
     text-align: center;
+}
+
+@media (max-width: 991.98px) {
+    /* Target the collapsed navbar */
+    .navbar-collapse {
+        /* Apply background color to the links */
+        background-color: rgba(153, 182, 239, 0.708);
+        border-radius: 20px;
+    }
+
+    /* Target the links inside the collapsed navbar */
 }
 
 /* --------------------------------------------------------------------------------------------------------------- */
@@ -81,7 +98,8 @@ footer p {
 }
 
 .cta-buttons {
-    text-align: center;
+    display: flex;
+    justify-content: space-evenly;
     position: absolute;
     top: 90%;
     left: 50%;
@@ -338,7 +356,7 @@ footer p {
 /* Leaderboard Page */
 /* --------------------------------------------------------------------------------------------------------------- */
 .card-header {
-    background-color: #007bff;
+    background-color: #583d72;
     color: #fff;
     display: flex;
     justify-content: center;
@@ -347,21 +365,29 @@ footer p {
 }
 
 .card {
-    background: linear-gradient(45deg, #306bac, #a86ef4);
+    background: linear-gradient(45deg, #583d72, #4b6cb7);
     box-shadow: 0 0 50px rgba(0, 0, 0, 0.39);
 }
-
-.table thead th {
-    background-color: #343a40;
+.table {
+    color: white;
+    border-radius: 10px;
+}
+.table tbody tr:nth-of-type(odd) td {
     color: #fff;
 }
 
+.table thead th {
+    background-color: #342750;
+    color: white;
+}
+
 .table-striped tbody tr:nth-of-type(odd) {
-    background-color: #f8f9fa;
+    background-color: #5c4d8d;
+    color: white;
 }
 
 .table-striped tbody tr:nth-of-type(even) {
-    background-color: #fff;
+    background-color: #445b97;
 }
 /* --------------------------------------------------------------------------------------------------------------- */
 /* Badge detail Page */
