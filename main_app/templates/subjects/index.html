@@ -11,6 +11,10 @@
         </div>
 
     </div>
+    <div class="add-subject text-center mt-3">
+        <a href="{% url 'subjects_create' %}" class="btn btn-subject me-5">Add Studies</a>
+        <a href="{% url 'quests_index' %}" class="btn btn-quests">Quests</a>
+    </div>
 
   <div class="list-container">
     <div class="subject-list">
@@ -28,10 +32,6 @@
             <canvas id="donutChart" style="max-width: 600px; max-height: 400px;"></canvas>
         </div>
 
-        <div class="add-subject text-center mt-3">
-            <a href="{% url 'subjects_create' %}" class="btn btn-subject me-5">Add Studies</a>
-            <a href="{% url 'quests_index' %}" class="btn btn-quests">Quests</a>
-        </div>
       <div class="upcoming-container">
           <h3 id="upcoming-exam-title">Upcoming Exams</h3>
           <p id="exam-details">Loading...</p>

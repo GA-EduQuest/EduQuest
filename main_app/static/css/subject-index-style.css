@@ -212,7 +212,6 @@
     font-weight: bold;
     color: #fff;
     border-radius: 5px;
-    margin-top: 50px;
     box-shadow: 0 0 10px rgb(225, 255, 29);
     transition: background-color 0.3s ease;
 }
