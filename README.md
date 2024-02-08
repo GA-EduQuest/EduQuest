@@ -18,8 +18,9 @@ This apps goal is to gamify the learning experience and can significantly enhanc
 
 # Getting Started
 
-[Click to View Project Planning](your Trello url here)
-[Click to Play Connect Four!](your deployment url here)
+[Click here to vist our app](https://eduquest-team.fly.dev/)
+
+[Click to View Project Planning](https://trello.com/b/ElLEECsK/project-3-eduquest)
 
 # Next Steps
 
