@@ -39,16 +39,28 @@ def user_detail(request, user_id):
        'user': user, 'profile': profile, 'achievements': achievements
     })
 
-# def user_update(request):
-#     pass
-
-# def user_delete(request):
-#     pass
-
 # Profile Views
 class ProfileUpdate(LoginRequiredMixin, UpdateView):
-   model = Profile
-   fields = ['email', 'first_name', 'last_name', 'school_year']
+    model = Profile
+    fields = ['email', 'first_name', 'last_name', 'school_year']
+
+    def form_valid(self, form):
+        # Check if the first name and last name have been changed
+        if set(form.changed_data).intersection({'first_name', 'last_name'}):
+            self.grant_name_to_face_quest(form.instance.user)
+
+        return super().form_valid(form)
+
+    def grant_name_to_face_quest(self, user):
+        name_to_face_quest_name = 'A Name to a Face'
+        if not ProfileAchievement.has_quest_achievement(user, name_to_face_quest_name):
+            name_to_face_quest = Quest.objects.get(name=name_to_face_quest_name)
+            ProfileAchievement.objects.create(user=user, quest=name_to_face_quest)
+            user.profile.xp += ProfileAchievement.get_quest_xp(name_to_face_quest_name)
+            user.profile.save()
+
+    def get_success_url(self):
+        return reverse('user_detail', kwargs={'user_id': self.object.user.id})
 
 
 
@@ -83,29 +95,6 @@ def quests_detail(request, pk):
         # Check if the user has achieved the quest - returns a true or false
         achieved_quest = ProfileAchievement.objects.filter(user=user, quest=quest).exists()
     return render(request, 'quests/quests_detail.html', {'quest': quest, 'achieved_quest': achieved_quest })
-
-#Badges Views
-def badges_list(request):
-    pass
-
-def badges_detail(request):
-    pass
-# ---Admin Only Views--- #
-def badges_create(request):
-    pass
-
-def badges_update(request):
-    pass
-
-def badges_delete(request):
-    pass
-
-def not_owned_badges(request, user_id, quest_id, badge_id):
-   pass
-
-def owned_badges(request, user_id, quest_id, badge_id):
-   pass
-
 
 #Subjects Views
 @login_required
