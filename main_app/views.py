@@ -15,6 +15,9 @@ from .forms import SubjectForm
 from datetime import date, datetime
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
+from django.utils import timezone
+from django.db.models import F
+
 
 
 #Create your views here.
@@ -240,6 +243,7 @@ def leaderboard(request):
     }
     return render(request, 'main_app/leaderboard.html', context)
 
+
 # Assignments Views
 class AssignmentDetail(LoginRequiredMixin, DetailView):
     model = Assignment
@@ -250,14 +254,17 @@ class AssignmentCreate(LoginRequiredMixin, CreateView):
     model = Assignment
     template_name = 'assignments/assignment_form.html'
     context_object_name = 'subjects'
-    fields = '__all__'
+    fields = ['name', 'description', 'due_date', 'status', 'subject']
 
     def form_valid(self, form):
-        # Save the assignment instance
-        form.instance.user = self.request.user  # Assign the current user to the assignment
+        form.instance.user = self.request.user
+        # Checks if the status is 'completed', if so, sets the complete_date to today
+        if form.cleaned_data['status'] == 'CM':
+            form.instance.complete_date = timezone.now().date()
+
         response = super().form_valid(form)
 
-        # Check Master the basics achievement
+        # Check Master the basics quest
         if self.check_master_the_basics():
             self.grant_master_the_basics_quest()
 
@@ -276,6 +283,15 @@ class AssignmentCreate(LoginRequiredMixin, CreateView):
             self.request.user.profile.xp += ProfileAchievement.get_quest_xp(master_the_basics_quest_name)
             self.request.user.profile.save()
 
+    def check_time_management_pro(self):
+        # Count the number of completed assignments before their due date
+        completed_assignments = Assignment.objects.filter(
+            user=self.request.user,
+            status='CM',
+            complete_date__lte=F('due_date')
+        ).count()
+        return completed_assignments >= 2
+
     def get_success_url(self):
         # Access the newly created assignment object and then its subject
         assignment = self.object
@@ -285,11 +301,19 @@ class AssignmentUpdate(LoginRequiredMixin, UpdateView):
     model = Assignment
     template_name = 'assignments/assignment_form.html'
     context_object_name = 'assignment'
-    fields = '__all__'
+    fields = ['name', 'description', 'due_date', 'status', 'subject']
 
     # Overriding the form_valid to check if they qualify for the Assignment Conqueror quest (1 assignment complete)
     def form_valid(self, form):
         if form.cleaned_data['status'] == 'CM':
+            # Checks if the status is 'completed', if so, sets the complete_date to today
+            form.instance.complete_date = timezone.now().date()
+
+            # Check if the user qualifies for the Time Management Pro quest
+            if self.check_time_management_pro():
+                self.grant_time_management_pro_quest()
+
+            # Check if the user qualifies for the Assignment Conqueror quest
             user = self.request.user
             quest_name = 'Assignment Conqueror'
             if not ProfileAchievement.has_quest_achievement(user, quest_name):
@@ -297,7 +321,26 @@ class AssignmentUpdate(LoginRequiredMixin, UpdateView):
                 ProfileAchievement.objects.create(user=user, quest=quest)
                 user.profile.xp += ProfileAchievement.get_quest_xp(quest_name)
                 user.profile.save()
+
         return super().form_valid(form)
+
+    def check_time_management_pro(self):
+        # Count the number of completed assignments before their due date for the current user
+        completed_assignments = Assignment.objects.filter(
+            status='CM',
+            complete_date__lte=F('due_date'),
+            subject__user=self.request.user  # Filter assignments by subject user
+        ).count()
+        print(completed_assignments)
+        return completed_assignments >= 2
+
+    def grant_time_management_pro_quest(self):
+        time_management_pro_quest_name = 'Time Management Pro'
+        if not ProfileAchievement.has_quest_achievement(self.request.user, time_management_pro_quest_name):
+            time_management_pro_quest = Quest.objects.get(name=time_management_pro_quest_name)
+            ProfileAchievement.objects.create(user=self.request.user, quest=time_management_pro_quest)
+            self.request.user.profile.xp += ProfileAchievement.get_quest_xp(time_management_pro_quest_name)
+            self.request.user.profile.save()
 
     def get_success_url(self):
         pk = self.kwargs['pk']

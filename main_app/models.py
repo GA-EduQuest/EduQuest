@@ -107,7 +107,8 @@ class Subject(models.Model):
 class Assignment(models.Model):
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=500)
-    due_date = models.DateField
+    due_date = models.DateField(default=date.today)
+    complete_date = models.DateField(null=True, blank=True)
     status = models.CharField(
         max_length=2,
         choices=STATUS,
