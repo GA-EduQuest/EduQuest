@@ -123,12 +123,15 @@ def subjects_index(request):
                 request.user.profile.xp += ProfileAchievement.get_quest_xp(exam_slayer_quest_name)
                 request.user.profile.save()
 
+    subjects_data = json.dumps([
+        {'name': subject.name, 'progress': subject.progress} for subject in subjects
+    ])
     upcoming_exams_data = json.dumps([
         {'name': exam.name, 'exam_date': exam.exam_date.strftime('%d-%m-%Y')} for exam in upcoming_exams
     ])
     all_quests = Quest.objects.all()
 
-    return render(request, 'subjects/index.html', {'subjects': subjects, 'upcoming_exams_data': upcoming_exams_data, 'all_quests': all_quests})
+    return render(request, 'subjects/index.html', {'subjects': subjects, 'upcoming_exams_data': upcoming_exams_data, 'all_quests': all_quests, 'subjects_json': subjects_data})
 
 @login_required
 def subjects_detail(request, pk):
