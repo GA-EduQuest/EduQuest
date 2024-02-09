@@ -55,15 +55,14 @@ def grant_multitasking_maven_quest(user):
 
 def grant_elite_leaderboard_quest():
     leaderboard_data = Profile.objects.all().order_by('-xp')
-    if Quest.objects.exists():
-        elite_champion_quest_name = 'Elite Leaderboard Champion'
-        top_profile = leaderboard_data.first()
-        if top_profile:
-            elite_champion_quest = Quest.objects.get(name=elite_champion_quest_name)
-            if not ProfileAchievement.has_quest_achievement(top_profile.user, elite_champion_quest_name):
-                ProfileAchievement.objects.create(user=top_profile.user, quest=elite_champion_quest)
-                top_profile.user.profile.xp += ProfileAchievement.get_quest_xp(elite_champion_quest_name)
-                top_profile.user.profile.save()
+    elite_champion_quest_name = 'Elite Leaderboard Champion'
+    top_profile = leaderboard_data.first()
+    if top_profile:
+        elite_champion_quest = Quest.objects.get(name=elite_champion_quest_name)
+        if not ProfileAchievement.has_quest_achievement(top_profile.user, elite_champion_quest_name):
+            ProfileAchievement.objects.create(user=top_profile.user, quest=elite_champion_quest)
+            top_profile.user.profile.xp += ProfileAchievement.get_quest_xp(elite_champion_quest_name)
+            top_profile.user.profile.save()
 
 def grant_master_the_basics_quest(user):
     master_the_basics_quest_name = 'Master the Basics'
@@ -81,13 +80,11 @@ def grant_time_management_pro_quest(user):
     time_management_pro_quest_name = 'Time Management Pro'
     if not ProfileAchievement.has_quest_achievement(user, time_management_pro_quest_name):
         # Count the number of completed assignments before or on their due date for the current user
-        completed_assignments = Assignment.objects.filter(
-            status='CM',
-            complete_date__lte=F('due_date'),
-            subject__user=user
-        ).count()
-        print(completed_assignments)
-        if completed_assignments >= 2:
+        completed_users_assignments = Assignment.objects.filter(status='CM', subject__user=user)
+        print(completed_users_assignments)
+        completed_early_assignments = sum(1 for assignment in completed_users_assignments if assignment.complete_date and assignment.complete_date <= assignment.due_date)
+        print(completed_early_assignments)
+        if completed_early_assignments >= 2:
             time_management_pro_quest = Quest.objects.get(name=time_management_pro_quest_name)
             ProfileAchievement.objects.create(user=user, quest=time_management_pro_quest)
             user.profile.xp += ProfileAchievement.get_quest_xp(time_management_pro_quest_name)
