@@ -97,7 +97,13 @@ def subjects_index(request):
     ])
     all_quests = Quest.objects.all()
 
-    return render(request, 'subjects/index.html', {'subjects': subjects, 'upcoming_exams_data': upcoming_exams_data, 'all_quests': all_quests, 'subjects_json': subjects_data})
+    context = {
+        'subjects': subjects,
+        'upcoming_exams_data': upcoming_exams_data,
+        'all_quests': all_quests,
+        'subjects_json': subjects_data
+    }
+    return render(request, 'subjects/index.html', context)
 
 @login_required
 def subjects_detail(request, pk):
