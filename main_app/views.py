@@ -59,14 +59,13 @@ def quests_index(request):
     user = request.user
     all_quests = Quest.objects.all()
 
-    if Quest.objects.exists():  # Check if there are any quests in the database - to avoid errors if it is an empty database
-        # Check & Grant (if eligible) Grandmaster of EduQuest achievement
-        grant_grandmaster_quest(user)
+    # Check & Grant (if eligible) Grandmaster of EduQuest achievement
+    grant_grandmaster_quest(user)
 
-        # Filter ProfileAchievement objects for the current user
-        achieved_quests = ProfileAchievement.objects.filter(user=user)
-        achieved_quest_ids = list(achieved_quests.values_list('quest__id', flat=True))
-        uncompleted_quests = all_quests.exclude(id__in=achieved_quests.values_list('quest', flat=True))
+    # Filter ProfileAchievement objects for the current user
+    achieved_quests = ProfileAchievement.objects.filter(user=user)
+    achieved_quest_ids = list(achieved_quests.values_list('quest__id', flat=True))
+    uncompleted_quests = all_quests.exclude(id__in=achieved_quests.values_list('quest', flat=True))
 
     return render(request, 'quests/quests_index.html', {'all_quests': all_quests, 'achieved_quest_ids': achieved_quest_ids, 'uncompleted_quests': uncompleted_quests })
 
@@ -74,9 +73,8 @@ def quests_index(request):
 def quests_detail(request, pk):
     quest = get_object_or_404(Quest, pk=pk)
     user = request.user
-    if Quest.objects.exists():
-        # Check if the user has achieved the quest - returns a true or false
-        achieved_quest = ProfileAchievement.objects.filter(user=user, quest=quest).exists()
+    # Check if the user has achieved the quest - returns a true or false
+    achieved_quest = ProfileAchievement.objects.filter(user=user, quest=quest).exists()
     return render(request, 'quests/quests_detail.html', {'quest': quest, 'achieved_quest': achieved_quest })
 
 # -------------- #
@@ -86,9 +84,8 @@ def quests_detail(request, pk):
 def subjects_index(request):
     subjects = Subject.objects.filter(user=request.user)
     upcoming_exams = subjects.filter(exam_date__gte=date.today()).order_by('exam_date')
-    if Quest.objects.exists():
-        # Check & Grant Exam Slayer quest
-        grant_exam_slayer_quest(request.user)
+    # Check & Grant Exam Slayer quest
+    grant_exam_slayer_quest(request.user)
     # Converting subjects and upcoming exams data into JSON format
     subjects_data = json.dumps([
         {'name': subject.name, 'progress': subject.progress} for subject in subjects
@@ -98,7 +95,13 @@ def subjects_index(request):
     ])
     all_quests = Quest.objects.all()
 
-    return render(request, 'subjects/index.html', {'subjects': subjects, 'upcoming_exams_data': upcoming_exams_data, 'all_quests': all_quests, 'subjects_json': subjects_data})
+    context = {
+        'subjects': subjects,
+        'upcoming_exams_data': upcoming_exams_data,
+        'all_quests': all_quests,
+        'subjects_json': subjects_data
+    }
+    return render(request, 'subjects/index.html', context)
 
 @login_required
 def subjects_detail(request, pk):
@@ -117,11 +120,12 @@ def subjects_create(request):
             subject = form.save(commit=False)
             subject.user = request.user
             subject.save()
-            if Quest.objects.exists():
-                # Quest checks for Getting Started, Exam Slayer & Subject Explorer
-                grant_getting_started_quest(request.user, subject)
-                grant_exam_slayer_quest(request.user)
-                grant_subject_explorer_quest(request.user)
+
+            # Quest checks for Getting Started, Exam Slayer & Subject Explorer
+            grant_getting_started_quest(request.user, subject)
+            grant_exam_slayer_quest(request.user)
+            grant_subject_explorer_quest(request.user)
+
             return redirect('subjects_detail', pk=subject.pk)
     else:
         form = SubjectForm()
@@ -137,10 +141,9 @@ def subjects_update(request, pk):
         if form.is_valid():
             form.save()
 
-            if Quest.objects.exists():
-                # Quest checks Subject Explorer & Multitasking Maven
-                grant_subject_explorer_quest(request.user)
-                grant_multitasking_maven_quest(request.user)
+            # Quest checks Subject Explorer & Multitasking Maven
+            grant_subject_explorer_quest(request.user)
+            grant_multitasking_maven_quest(request.user)
 
             return redirect('subjects_detail', pk=pk)
     else:
@@ -166,7 +169,6 @@ def leaderboard(request):
     current_user = request.user
 
     if current_user.is_authenticated:
-        if Quest.objects.exists():
             grant_elite_leaderboard_quest()
 
     context = {

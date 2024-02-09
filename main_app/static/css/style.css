@@ -24,7 +24,7 @@ body > main {
 .navbar {
     height: 70px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.39);
-    background-color: rgba(153, 182, 239, 0.708);
+    background-color: rgba(153, 182, 239, 0.483);
     font-family: "TT Alientz Serif", sans-serif;
     top: 0;
     width: 100%;
@@ -61,6 +61,8 @@ footer p {
     font-size: 14px;
     text-align: center;
 }
+
+/* Navbar responsive */
 
 @media (max-width: 990px) {
     .navbar-collapse {
@@ -132,7 +134,7 @@ footer p {
 
 .cta-buttons a.btn:hover {
     background-color: #c4c4c4;
-    color: #fff;
+    color: #0c0c0c;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
@@ -147,8 +149,8 @@ footer p {
     margin-bottom: 250px;
     padding: 20px;
     line-height: 1.6;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.571);
-    border-radius: 8px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.844);
+    border-radius: 20px;
 }
 /* --------------------------------------------------------------------------------------------------------------- */
 /*  Title cards */
@@ -161,13 +163,16 @@ footer p {
     height: auto;
     width: 100%;
     margin-top: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.571);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.798);
 }
 
 .title-card {
     padding: 20px;
     font-family: "TT Alientz Serif", sans-serif;
     width: 100%;
+    letter-spacing: 4px;
+    text-shadow: 0 0 5px rgb(198, 6, 246);
+    color: white;
 }
 /* --------------------------------------------------------------------------------------------------------------- */
 /* Subject details  */
@@ -186,11 +191,11 @@ footer p {
     width: auto;
     box-shadow: 0 0 50px rgba(0, 0, 0, 0.39);
     margin: 30px;
-    background: linear-gradient(-45deg, #306bac, #a86ef4);
+    background: linear-gradient(-45deg, #306cacc4, #a86ef49c);
 }
 
 .subject-details-header {
-    background-color: #a15aff;
+    background-color: #a25affb1;
     color: #fff;
     padding: 15px;
     text-align: center;
@@ -259,10 +264,11 @@ footer p {
     margin: auto;
     max-width: 400px;
     padding: 20px;
-    background-color: rgb(255, 243, 243);
+    background: linear-gradient(-45deg, #306cac7a, #a86ef48d);
     border-radius: 10px;
     margin-top: 50px;
     box-shadow: 0 0 50px rgba(0, 0, 0, 0.39);
+    border: 1px solid red;
 }
 .delete-form {
     display: flex;
@@ -282,7 +288,7 @@ footer p {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    margin-top: 30px;
+    margin-top: 70px;
     margin-bottom: 100px;
     box-shadow: 0 0 100px rgba(0, 0, 0, 0.887);
 }
@@ -301,7 +307,9 @@ footer p {
 .completed-quest-list h2 {
     color: #edebeb;
     text-align: center;
-    font-size: 1.5rem;
+    font-size: 25px;
+    letter-spacing: 3px;
+    box-shadow: 0 0 5px rgb(0, 0, 0);
     font-family: "TT Alientz Serif", sans-serif;
 }
 
@@ -337,10 +345,11 @@ footer p {
 .quest-item {
     background-color: rgba(174, 102, 241, 0.745);
     border-radius: 10px;
-    padding: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     display: flex;
+    justify-content: center;
     align-items: center;
+    width: 100%;
 }
 
 .quest-badge {
@@ -349,14 +358,12 @@ footer p {
     border-radius: 5px;
 }
 
-.quest-details {
-    margin-left: 10px;
-}
-
 .quest-details h3 {
     color: #edebeb;
     margin: 0;
-    font-size: 15px;
+    font-size: 13px;
+    font-style: bold;
+    overflow: hidden;
 }
 
 .quest-details .date {
@@ -369,7 +376,7 @@ footer p {
 /* Leaderboard Page */
 /* --------------------------------------------------------------------------------------------------------------- */
 .card-header {
-    background-color: #583d72;
+    background-color: #583d72a7;
     color: #fff;
     display: flex;
     justify-content: center;
@@ -402,9 +409,11 @@ footer p {
 .table-striped tbody tr:nth-of-type(even) {
     background-color: #445b97;
 }
+
 /* --------------------------------------------------------------------------------------------------------------- */
 /* Badge detail Page */
 /* --------------------------------------------------------------------------------------------------------------- */
+
 .badge-container {
     border: 1px solid rgb(219, 219, 219);
     border-radius: 10px;
@@ -451,19 +460,10 @@ footer p {
 .quest-details-header {
     background: linear-gradient(-45deg, #306cacb0, #a86ef4cd);
 }
-/* --------------------------------------------------------------------------------------------------------------- */
 
 /* --------------------------------------------------------------------------------------------------------------- */
-.form-text {
-    color: white;
-}
-.form-label {
-    color: white;
-}
-
-h2 {
-    font-family: "TT Alientz Serif", sans-serif;
-}
+/* Assignment forms  */
+/* --------------------------------------------------------------------------------------------------------------- */
 
 .assignment-form {
     margin: 20px auto;
@@ -487,4 +487,18 @@ h2 {
 
 .assignment-form h2 {
     margin-bottom: 0;
+}
+
+/* --------------------------------------------------------------------------------------------------------------- */
+/* Additional styles  */
+/* --------------------------------------------------------------------------------------------------------------- */
+
+.form-text {
+    color: white;
+}
+.form-label {
+    color: white;
+}
+h2 {
+    font-family: "TT Alientz Serif", sans-serif;
 }
