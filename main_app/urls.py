@@ -3,26 +3,15 @@ from . import views
 
 urlpatterns = [
     path('', views.home, name='home'),
-    path('about/', views.about, name='about'),
+    # path('about/', views.about, name='about'),
     #About User
     path('user/<int:user_id>/', views.user_detail, name='user_detail'),
-    # path('user/<int:user_id>/update/', views.user_update, name='user_update'),
-    # path('user/<int:user_id>/delete/', views.user_delete, name='user_delete'),
     #About Profile
     path('user/<int:pk>/update', views.ProfileUpdate.as_view(), name='profile_update'),
     #About Quest
     path('quests/', views.quests_index, name='quests_index'),
     path('quests/<int:pk>/', views.quests_detail, name='quests_detail'),
-    #About user earning badges
-    # path('user/<int:user_id>/unfinishedquest/<int:quest_id>/notownedbadges/<int:badge_id>', views.not_owned_badges, name='not_owned_badges'),
-    # path('user/<int:user_id>/finishedquest/<int:quest_id>/ownedbadges/<int:badge_id>', views.owned_badges, name='owned_badges'),
-    #About Badges
-    # path('badges/', views.badges_list, name='badges_list'),
-    # path('badges/<int:badges_id>/', views.badges_detail, name='subjects_detail'),
     # ---Admin Only--- #
-    path('badges/create', views.badges_create, name='badges_create'),
-    path('badges/<int:badges_id>/update/', views.badges_update, name='badges_update'),
-    path('badges/<int:badges>_id/delete/', views.badges_delete, name='badges_delete'),
     #About Subjects, main index is also here
     path('subjects/', views.subjects_index, name='index'),
     path('subjects/create', views.subjects_create, name='subjects_create'),

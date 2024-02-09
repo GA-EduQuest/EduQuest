@@ -1,14 +1,11 @@
-{% extends 'base.html' %}
-
-{% block title %}Assignments{% endblock %}
-
+{% extends 'base.html' %} {% block title %}Assignments{% endblock %}
 {% block content %}
 <div class="container">
   <div class="subject-details-card mx-auto">
     <div class="subject-details-header">
       <h2>{{ assignment.name }}</h2>
     </div>
-    <div class="subject-details-body" style="padding: 20px;">
+    <div class="subject-details-body" style="padding: 20px">
       <div class="row">
         <div class="col-md-6">
           <div class="details-section">
@@ -21,16 +18,30 @@
           </div>
           <div class="details-section">
             <h3>Status</h3>
-            <p>{{ assignment.status }}</p>
+            <p>{{ assignment.get_status_display }}</p>
           </div>
+          {% if assignment.complete_date %}
+          <div class="details-section">
+            <h3>Completed Date</h3>
+            <p>{{ assignment.complete_date }}</p>
+          </div>
+          {% endif %}
         </div>
       </div>
     </div>
     <div class="row mt-4">
-      <div class="col-md-12 text-center" style="padding: 20px;">
-        <a href="{% url 'assignments_update' pk=assignment.pk %}" class="btn btn-secondary me-5"
-          style="border: 1px solid white;">Edit</a>
-        <a href="{% url 'assignments_delete' pk=assignment.pk %}" class="btn btn-danger">Delete</a>
+      <div class="col-md-12 text-center" style="padding: 20px">
+        <a
+          href="{% url 'assignments_update' pk=assignment.pk %}"
+          class="btn btn-secondary me-5"
+          style="border: 1px solid white"
+          >Edit</a
+        >
+        <a
+          href="{% url 'assignments_delete' pk=assignment.pk %}"
+          class="btn btn-danger"
+          >Delete</a
+        >
       </div>
     </div>
   </div>
