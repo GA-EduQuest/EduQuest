@@ -3,30 +3,50 @@
 {% load crispy_forms_tags %}
 
 {% block title %}
-
-{% if assignment.pk %}
-Update Assignment
-{% else %}
-Create Assignment
-{% endif %}
+  {% if assignment.pk %}
+    Update Assignment
+  {% else %}
+    Create Assignment
+  {% endif %}
 {% endblock %}
 
 {% block content %}
-<h2>{% if assignment.pk %}Update Assignment{% else %}Create Assignment{% endif %}</h2>
-<form method="post" class="fantasy-form">
-  {% csrf_token %}
-  {% if assignment.pk %}
-  <!-- Fields for updating an existing assignment -->
-  <input type="hidden" name="action" value="update">
-  <input type="hidden" name="assignment_id" value="{{ assignment.pk }}">
-  {{ form|crispy }}
-  <button type="submit" class="btn fantasy-btn fantasy-btn-primary">Update</button>
-  <a href="{% url 'assignments_detail' pk=assignment.pk %}" class="btn btn-danger">Go Back</a>
-  {% else %}
-  <!-- Fields for creating a new assignment -->
-  <input type="hidden" name="action" value="create">
-  {{ form|crispy }}
-  <button type="submit" class="btn fantasy-btn fantasy-btn-primary">Create</button>
 
-  {% endif %}
-</form>
+
+      <div class="assignment-form">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="mb-0">
+              {% if assignment.pk %}
+                Update Assignment
+              {% else %}
+                Create Assignment
+              {% endif %}
+            </h2>
+          </div>
+          <div class="card-body">
+            <form method="post" class="fantasy-form">
+              {% csrf_token %}
+              {% if assignment.pk %}
+                <!-- Fields for updating an existing assignment -->
+                <input type="hidden" name="action" value="update">
+                <input type="hidden" name="assignment_id" value="{{ assignment.pk }}">
+              {% else %}
+                <!-- Fields for creating a new assignment -->
+                <input type="hidden" name="action" value="create">
+              {% endif %}
+              {{ form|crispy }}
+              <div class="form-group">
+                {% if assignment.pk %}
+                  <button type="submit" class="btn btn-primary">Update</button>
+                  <a href="{% url 'assignments_detail' pk=assignment.pk %}" class="btn btn-danger ml-2">Go Back</a>
+                {% else %}
+                  <button type="submit" class="btn btn-primary">Create</button>
+                {% endif %}
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}

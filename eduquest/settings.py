@@ -28,7 +28,7 @@ environ.Env.read_env(f'{BASE_DIR}/.env')
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 SECRET_KEY = env('SECRET_KEY', default=get_random_secret_key())
-DEBUG = env('DEBUG', cast=bool, default=False)
+DEBUG = env('DEBUG', cast=bool, default=True)
 
 ALLOWED_HOSTS = env('ALLOWED_HOSTS', cast=list, default=[])
 CSRF_TRUSTED_ORIGINS = env('CSRF_TRUSTED_ORIGINS', cast=list, default=[])

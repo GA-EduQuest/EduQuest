@@ -1,134 +1,154 @@
-{% extends 'base.html' %}
-
-{% block title %}{{ subject.name }}{% endblock %}
-
+{% extends 'base.html' %} {% block title %}{{ subject.name }}{% endblock %}
 {% block content %}
-  <div class="container">
-    <div class="subject-details-card mx-auto">
-      <div class="subject-details-header">
-        <h2>{{ subject.name }}</h2>
-      </div>
-      <div class="subject-details-body" style="padding: 20px;">
-        <div class="row">
-          <div class="col-md-6">
-            <div class="details-section">
-              <h3>Field</h3>
-              <p>{{ subject.field }}</p>
-            </div>
-
-            <div class="details-section">
-              <h3>Start Date</h3>
-              <p>{{ subject.start_date }}</p>
-            </div>
-
-            <div class="details-section">
-              <h3>End Date</h3>
-              <p>{{ subject.end_date }}</p>
-            </div>
-
-            <div class="details-section">
-              <h3>Exam Date</h3>
-              <p>{{ subject.exam_date }}</p>
-            </div>
-
-            {% if exam_has_passed %}
-                <div class="details-section">
-                    <h3>Grade</h3>
-                    <p>{{ subject.get_grade_display }}</p>
-                </div>
-            {% else %}
-                <p>The exam, a monstrous foe, awaits conquest..</p>
-            {% endif %}
+<div class="container">
+  <div class="subject-details-card mx-auto">
+    <div class="subject-details-header">
+      <h2>{{ subject.name }}</h2>
+    </div>
+    <div class="subject-details-body" style="padding: 20px">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="details-section">
+            <h3>Field</h3>
+            <p>{{ subject.get_field_display }}</p>
           </div>
 
-          <div class="progress-container col-md-6 ">
-              <div class="details-section text-center" data-progress="{{ subject.progress }}">
-                  <h3>Progress</h3>
-                  <div class="chart-container" style="position: relative; height: 350px; width: 350px;">
-                    <canvas id="progressChart"></canvas>
-                  </div>
-              </div>
+          <div class="details-section">
+            <h3>Start Date</h3>
+            <p>{{ subject.start_date }}</p>
+          </div>
+
+          <div class="details-section">
+            <h3>End Date</h3>
+            <p>{{ subject.end_date }}</p>
+          </div>
+
+          <div class="details-section">
+            <h3>Exam Date</h3>
+            <p>{{ subject.exam_date }}</p>
+          </div>
+
+          {% if exam_has_passed %}
+          <div class="details-section">
+            <h3>Grade</h3>
+            <p>{{ subject.get_grade_display }}</p>
+          </div>
+          {% else %}
+          <p>The exam, a monstrous foe, awaits conquest..</p>
+          {% endif %}
+        </div>
+
+        <div class="progress-container col-md-6">
+          <div
+            class="details-section text-center"
+            data-progress="{{ subject.progress }}"
+          >
+            <h3>Progress</h3>
+            <div
+              class="chart-container"
+              style="position: relative; height: 350px; width: 350px"
+            >
+              <canvas id="progressChart"></canvas>
+            </div>
+          </div>
         </div>
       </div>
       <div class="row mt-4">
-        <div class="col-md-12 text-center" style="padding: 20px;">
-          <a href="{% url 'subjects_update' pk=subject.pk %}" class="btn btn-secondary me-5" style="border: 1px solid white;">Edit</a>
-          <a href="{% url 'subjects_delete' pk=subject.pk %}" class="btn btn-danger">Delete</a>
+        <div class="col-md-12 text-center" style="padding: 20px">
+          <a
+            href="{% url 'subjects_update' pk=subject.pk %}"
+            class="btn btn-secondary me-5"
+            style="border: 1px solid white"
+            >Edit</a
+          >
+          <a
+            href="{% url 'subjects_delete' pk=subject.pk %}"
+            class="btn btn-danger"
+            >Delete</a
+          >
         </div>
       </div>
     </div>
   </div>
 
   <div class="row mt-4">
-    <div class="col-md-12 text-center" style="padding: 20px;">
-      <a href="{% url 'assignments_create' %}" class="btn btn-primary">Add Assignments</a>
+    <div class="col-md-12 text-center" style="padding: 20px">
+      <a href="{% url 'assignments_create' %}" class="btn btn-primary"
+        >Add Assignments</a
+      >
     </div>
   </div>
 
-{% if subject.assignment_set.all %}
-{% for assignment in subject.assignment_set.all %}
-<div class="container">
-  <div class="subject-details-card mx-auto">
-    <div class="subject-details-header">
-      <h2>Assignments</h2>
-    </div>
-    <div class="subject-details-body" style="padding: 20px;">
-      <div class="row">
-        <div class="col-md-6">
-          <div class="details-section">
-            <h3>Name</h3>
-            <p>{{ assignment.name }}</p>
-          </div>
-          <div class="details-section">
-            <h3>Description</h3>
-            <p>{{ assignment.description }}</p>
+  {% if subject.assignment_set.all %} {% for assignment in subject.assignment_set.all %}
+  <div class="container">
+    <div class="subject-details-card mx-auto">
+      <div class="subject-details-header">
+        <h2>Assignments</h2>
+      </div>
+      <div class="subject-details-body" style="padding: 20px">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="details-section">
+              <h3>Name</h3>
+              <p>{{ assignment.name }}</p>
+            </div>
+            <div class="details-section">
+              <h3>Status</h3>
+              <p>{{ assignment.get_status_display }}</p>
+            </div>
+            <div class="details-section">
+              <h3>Due Date</h3>
+              <p>{{ assignment.due_date }}</p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="row mt-4">
-      <div class="col-md-12 text-center" style="padding: 20px;">
-        <a href="{% url 'assignments_detail' pk=assignment.pk %}" class="btn btn-danger">Assignment Details</a>
+      <div class="row mt-4">
+        <div class="col-md-12 text-center" style="padding: 20px">
+          <a
+            href="{% url 'assignments_detail' pk=assignment.pk %}"
+            class="btn btn-danger"
+            >Assignment Details</a
+          >
+        </div>
       </div>
     </div>
   </div>
-</div>
-{% endfor %}
-{% else %}
-<div class="container">
-  <div class="subject-details-card mx-auto">
-    <div class="subject-details-header">
-      <h2>Assignments</h2>
-    </div>
-    <div class="subject-details-body" style="padding: 20px;">
-      <p>You Currently Don't Have Any Assignments</p>
+  {% endfor %} {% else %}
+  <div class="container">
+    <div class="subject-details-card mx-auto">
+      <div class="subject-details-header">
+        <h2>Assignments</h2>
+      </div>
+      <div class="subject-details-body" style="padding: 20px">
+        <p>You Currently Don't Have Any Assignments</p>
+      </div>
     </div>
   </div>
-</div>
-{% endif %}
+  {% endif %}
 
-
-
-
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <script>
-    const progressValue = parseInt(document.querySelector('.details-section[data-progress]').dataset.progress);
+    const progressValue = parseInt(
+      document.querySelector(".details-section[data-progress]").dataset.progress
+    );
 
     const data = {
-      labels: ['Completed', 'Remaining'],
-      datasets: [{
-        data: [progressValue, 100 - progressValue],
-        backgroundColor: ['#F6D55C', '#3CAEA3'],
-        hoverBackgroundColor: ['#FFB627', '#218F86']
-      }]
+      labels: ["Completed", "Remaining"],
+      datasets: [
+        {
+          data: [progressValue, 100 - progressValue],
+          backgroundColor: ["#F6D55C", "#3CAEA3"],
+          hoverBackgroundColor: ["#FFB627", "#218F86"],
+        },
+      ],
     };
 
-    const ctx = document.getElementById('progressChart').getContext('2d');
+    const ctx = document.getElementById("progressChart").getContext("2d");
 
     const myPieChart = new Chart(ctx, {
-      type: 'pie',
+      type: "pie",
       data: data,
       options: {
         responsive: true,
@@ -136,12 +156,13 @@
         plugins: {
           legend: {
             labels: {
-              color: 'white'
-            }
-          }
-        }
-      }
+              color: "white",
+            },
+          },
+        },
+      },
     });
   </script>
 
-{% endblock %}
+  {% endblock %}
+</div>

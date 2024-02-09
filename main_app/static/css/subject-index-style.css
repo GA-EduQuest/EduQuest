@@ -1,10 +1,9 @@
 /* General Styles */
-
+/* -------------------------------------------------------------------------------------------------- */
 .list-container {
     position: relative;
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
+    justify-content: space-evenly;
     margin-top: 30px;
     margin-bottom: 100px;
     width: 100%;
@@ -13,6 +12,8 @@
     background-position: center;
     background-size: cover;
     box-shadow: 0 0 100px rgba(0, 0, 0, 0.887);
+    overflow: hidden;
+    padding: 10px;
 }
 
 .subject-list,
@@ -22,12 +23,12 @@
     max-width: 300px;
     min-height: 1000px;
     height: auto;
-    background: rgba(112, 55, 246, 0.453);
+    background-image: url(/static/images/banner.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
     padding: 20px;
     margin: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-    clip-path: polygon(0 0, 100% 0, 100% 75%, 50% 100%, 0% 75%);
 }
 
 .center-column {
@@ -36,7 +37,7 @@
     justify-content: center;
     align-items: center;
     height: 100%;
-    width: 100%;
+    width: 400px;
     margin: 20px;
 }
 
@@ -62,7 +63,9 @@
     font-family: "TT Alientz Serif", sans-serif;
 }
 
+/* -------------------------------------------------------------------------------------------------- */
 /* Subject List */
+/* -------------------------------------------------------------------------------------------------- */
 
 .subject-list ul {
     display: flex;
@@ -73,15 +76,38 @@
 
 .subject-list li {
     position: relative;
-    overflow: hidden;
     border-radius: 5px;
-    box-shadow: 0 0 10px rgb(0, 0, 0);
+    box-shadow: 0 0 50px rgb(0, 0, 0);
     width: 100%;
     height: auto;
     margin-top: 20px;
 }
+.subject-list li a.btn {
+    background-image: url(/static/images/book-binder.jpeg) !important;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    color: white !important;
+    font-family: "TT Alientz Serif", sans-serif;
+    padding: 10px 15px;
+    border-radius: 5px;
+    border: none;
+    position: relative;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    display: inline-block;
+    border: 1px solid white;
+    border-left: 4px solid #8b4513;
+    border-right: 4px solid #8b4513;
+}
 
+.subject-list li a.btn:hover {
+    background-color: #8b4513 !important;
+    transform: scale(1.13);
+}
+
+/* -------------------------------------------------------------------------------------------------- */
 /* Quest List */
+/* -------------------------------------------------------------------------------------------------- */
 
 .quest-list ul {
     display: flex;
@@ -99,7 +125,6 @@
     align-items: center;
     padding: 10px;
     border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     margin-bottom: 10px;
     width: calc(50% - 10px);
     height: 140px;
@@ -124,9 +149,12 @@
     opacity: 0;
     transition: opacity 0.3s ease;
     background-color: rgba(112, 55, 246, 0.453);
+    border-radius: 10px;
 }
 
+/* -------------------------------------------------------------------------------------------------- */
 /* Hover Effects */
+/* -------------------------------------------------------------------------------------------------- */
 
 .quest-list li:before {
     position: absolute;
@@ -147,16 +175,21 @@
 }
 
 .quest-list li:hover {
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
     transform: translateY(-5px);
 }
 
+/* -------------------------------------------------------------------------------------------------- */
 /* Additional Styles */
+/* -------------------------------------------------------------------------------------------------- */
 
 .upcoming-container {
     width: 400px;
-    height: 150px;
-    background-color: rgba(65, 105, 225, 0.766);
+    height: 200px;
+    background-image: url(/static/images/upcoming-banner.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+
     margin-top: 200px;
     margin-bottom: 20px;
     color: #fff;
@@ -165,7 +198,6 @@
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
 }
 
 .upcoming-container h3 {
@@ -182,6 +214,7 @@
     font-weight: bold;
     color: #fff;
     border-radius: 5px;
+    box-shadow: 0 0 10px rgb(225, 255, 29);
     transition: background-color 0.3s ease;
 }
 
@@ -206,7 +239,10 @@ h3 {
     color: white;
     font-family: "TT Alientz Serif", sans-serif;
 }
+
+/* -------------------------------------------------------------------------------------------------- */
 /* Media Queries */
+/* -------------------------------------------------------------------------------------------------- */
 
 @media only screen and (max-width: 768px) {
     .list-container {
