@@ -91,7 +91,7 @@ def subjects_index(request):
     if Quest.objects.exists():
         # Check & Grant Exam Slayer quest
         grant_exam_slayer_quest(request.user)
-
+    # Converting subjects and upcoming exams data into JSON format
     subjects_data = json.dumps([
         {'name': subject.name, 'progress': subject.progress} for subject in subjects
     ])

@@ -184,9 +184,12 @@
 
 .upcoming-container {
     width: 400px;
-    height: 150px;
-    background-color: rgba(65, 105, 225, 0.608);
-    box-shadow: 0 0 50px rgb(0, 0, 0);
+    height: 200px;
+    background-image: url(/static/images/upcoming-banner.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+
     margin-top: 200px;
     margin-bottom: 20px;
     color: #fff;
@@ -195,7 +198,6 @@
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    border-radius: 30px;
 }
 
 .upcoming-container h3 {
