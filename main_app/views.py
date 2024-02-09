@@ -108,6 +108,7 @@ def subjects_detail(request, pk):
     current_date = datetime.now().date()
     exam_date = subject.exam_date
     exam_has_passed = exam_date < current_date
+
     return render(request, 'subjects/subject_detail.html', {'subject': subject, 'current_date': current_date, 'exam_has_passed': exam_has_passed })
 
 @login_required
@@ -165,7 +166,8 @@ def leaderboard(request):
     current_user = request.user
 
     if current_user.is_authenticated:
-        grant_elite_leaderboard_quest()
+        if Quest.objects.exists():
+            grant_elite_leaderboard_quest()
 
     context = {
         'leaderboard_data': leaderboard_data,
@@ -209,17 +211,19 @@ class AssignmentUpdate(LoginRequiredMixin, UpdateView):
     context_object_name = 'assignment'
     fields = ['name', 'description', 'due_date', 'status', 'subject']
 
-    # Overriding the form_valid to check if they qualify for the Assignment Conqueror quest (1 assignment complete)
+    # Overriding the form_valid to quest elibibility and add complete date (if they change the status)
     def form_valid(self, form):
         if form.cleaned_data['status'] == 'CM':
             # Checks if the status is 'completed', if so, sets the complete_date to today
             form.instance.complete_date = timezone.now().date()
 
+        response = super().form_valid(form)
+
         # Quest Checks for Time Management Pro, Assignment Conqueror
         grant_time_management_pro_quest(self.request.user)
         grant_assignment_conqueror_quest(self.request.user)
 
-        return super().form_valid(form)
+        return response
 
     def get_success_url(self):
         pk = self.kwargs['pk']

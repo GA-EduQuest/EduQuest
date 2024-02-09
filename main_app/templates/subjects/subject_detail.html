@@ -93,8 +93,12 @@
               <p>{{ assignment.name }}</p>
             </div>
             <div class="details-section">
-              <h3>Description</h3>
-              <p>{{ assignment.description }}</p>
+              <h3>Status</h3>
+              <p>{{ assignment.get_status_display }}</p>
+            </div>
+            <div class="details-section">
+              <h3>Due Date</h3>
+              <p>{{ assignment.due_date }}</p>
             </div>
           </div>
         </div>
