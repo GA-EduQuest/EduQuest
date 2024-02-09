@@ -18,9 +18,8 @@
 
 .subject-list,
 .quest-list {
-    flex: 1;
-    min-width: 300px;
-    max-width: 300px;
+    min-width: 310px;
+    max-width: 310px;
     min-height: 1000px;
     height: auto;
     background-image: url(/static/images/banner.png);
@@ -46,7 +45,6 @@
     width: 100%;
     text-align: center;
     text-decoration: none;
-    color: #080808;
 }
 
 .subject-list ul,
@@ -59,7 +57,9 @@
 .quest-list h2 {
     color: #edebeb;
     text-align: center;
-    font-size: 1.5rem;
+    font-size: 25px;
+    letter-spacing: 3px;
+    margin-top: 5px;
     font-family: "TT Alientz Serif", sans-serif;
 }
 
@@ -91,13 +91,12 @@
     font-family: "TT Alientz Serif", sans-serif;
     padding: 10px 15px;
     border-radius: 5px;
-    border: none;
     position: relative;
-    transition: background-color 0.3s ease, transform 0.3s ease;
     display: inline-block;
     border: 1px solid white;
     border-left: 4px solid #8b4513;
     border-right: 4px solid #8b4513;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .subject-list li a.btn:hover {
@@ -144,7 +143,7 @@
     left: 0px;
     color: white;
     z-index: 1;
-    font-size: 1.2rem;
+    font-size: 20px;
     font-weight: bold;
     opacity: 0;
     transition: opacity 0.3s ease;
@@ -167,7 +166,7 @@
 }
 
 .quest-list li:hover:before {
-    transform: scaleX(1);
+    transform: scaleX(1.1);
 }
 
 .quest-list li:hover .quest-name {
@@ -189,7 +188,6 @@
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
-
     margin-top: 200px;
     margin-bottom: 20px;
     color: #fff;
@@ -201,8 +199,8 @@
 }
 
 .upcoming-container h3 {
-    font-size: 1.2rem;
-    margin-bottom: 10px;
+    font-size: 25px;
+    letter-spacing: 3px;
 }
 
 .add-subject a,
@@ -215,7 +213,7 @@
     color: #fff;
     border-radius: 5px;
     box-shadow: 0 0 10px rgb(225, 255, 29);
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .add-subject a.btn-subject {
@@ -229,15 +227,18 @@
 
 .add-subject a.btn-subject:hover {
     background-color: #8d45e6;
+    transform: scale(1.1);
 }
 
 .add-subject a.btn-quests:hover {
     background-color: #30d2dc;
+    transform: scale(1.1);
 }
 
 h3 {
     color: white;
     font-family: "TT Alientz Serif", sans-serif;
+    letter-spacing: 3px;
 }
 
 /* -------------------------------------------------------------------------------------------------- */

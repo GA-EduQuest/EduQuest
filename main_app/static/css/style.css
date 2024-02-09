@@ -24,7 +24,7 @@ body > main {
 .navbar {
     height: 70px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.39);
-    background-color: rgba(153, 182, 239, 0.708);
+    background-color: rgba(153, 182, 239, 0.483);
     font-family: "TT Alientz Serif", sans-serif;
     top: 0;
     width: 100%;
@@ -402,9 +402,11 @@ footer p {
 .table-striped tbody tr:nth-of-type(even) {
     background-color: #445b97;
 }
+
 /* --------------------------------------------------------------------------------------------------------------- */
 /* Badge detail Page */
 /* --------------------------------------------------------------------------------------------------------------- */
+
 .badge-container {
     border: 1px solid rgb(219, 219, 219);
     border-radius: 10px;
@@ -451,19 +453,10 @@ footer p {
 .quest-details-header {
     background: linear-gradient(-45deg, #306cacb0, #a86ef4cd);
 }
-/* --------------------------------------------------------------------------------------------------------------- */
 
 /* --------------------------------------------------------------------------------------------------------------- */
-.form-text {
-    color: white;
-}
-.form-label {
-    color: white;
-}
-
-h2 {
-    font-family: "TT Alientz Serif", sans-serif;
-}
+/* Assignment forms  */
+/* --------------------------------------------------------------------------------------------------------------- */
 
 .assignment-form {
     margin: 20px auto;
@@ -487,4 +480,18 @@ h2 {
 
 .assignment-form h2 {
     margin-bottom: 0;
+}
+
+/* --------------------------------------------------------------------------------------------------------------- */
+/* Additional styles  */
+/* --------------------------------------------------------------------------------------------------------------- */
+
+.form-text {
+    color: white;
+}
+.form-label {
+    color: white;
+}
+h2 {
+    font-family: "TT Alientz Serif", sans-serif;
 }
