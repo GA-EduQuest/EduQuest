@@ -3,50 +3,79 @@
 {% load crispy_forms_tags %}
 
 {% block title %}
-  {% if assignment.pk %}
-    Update Assignment
-  {% else %}
-    Create Assignment
-  {% endif %}
+{% if assignment.pk %}
+Update Assignment
+{% else %}
+Create Assignment
+{% endif %}
 {% endblock %}
 
 {% block content %}
 
 
-      <div class="assignment-form">
-        <div class="card">
-          <div class="card-header">
-            <h2 class="mb-0">
-              {% if assignment.pk %}
-                Update Assignment
-              {% else %}
-                Create Assignment
-              {% endif %}
-            </h2>
-          </div>
-          <div class="card-body">
-            <form method="post" class="fantasy-form">
-              {% csrf_token %}
-              {% if assignment.pk %}
-                <!-- Fields for updating an existing assignment -->
-                <input type="hidden" name="action" value="update">
-                <input type="hidden" name="assignment_id" value="{{ assignment.pk }}">
-              {% else %}
-                <!-- Fields for creating a new assignment -->
-                <input type="hidden" name="action" value="create">
-              {% endif %}
-              {{ form|crispy }}
-              <div class="form-group">
-                {% if assignment.pk %}
-                  <button type="submit" class="btn btn-primary">Update</button>
-                  <a href="{% url 'assignments_detail' pk=assignment.pk %}" class="btn btn-danger ml-2">Go Back</a>
-                {% else %}
-                  <button type="submit" class="btn btn-primary">Create</button>
-                {% endif %}
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
+<div class="assignment-form">
+  <div class="card">
+    <div class="card-header">
+      <h2 class="mb-0">
+        {% if assignment.pk %}
+        Update Assignment
+        {% else %}
+        Create Assignment
+        {% endif %}
+      </h2>
     </div>
+    <div class="card-body">
+      <form method="post" class="fantasy-form">
+        {% csrf_token %}
+        {% if assignment.pk %}
+        <!-- Fields for updating an existing assignment -->
+        <input type="hidden" name="action" value="update">
+        <input type="hidden" name="assignment_id" value="{{ assignment.pk }}">
+        {% else %}
+        <!-- Fields for creating a new assignment -->
+        <input type="hidden" name="action" value="create">
+        {% endif %}
+        <div class="input-group mb-3">
+          {{ form.name|as_crispy_field }}
+        </div>
+        <div class="input-group mb-3">
+          {{ form.description|as_crispy_field }}
+        </div>
+        <div class="input-group mb-3">
+          {{ form.due_date|as_crispy_field }}
+        </div>
+        <div class="input-group mb-3">
+          {{ form.status|as_crispy_field }}
+        </div>
+        <div class="input-group mb-3">
+          {{ form.subject|as_crispy_field }}
+        </div>
+        <div class="form-group">
+          {% if assignment.pk %}
+          <button type="submit" class="btn btn-primary">Update</button>
+          <a href="{% url 'assignments_detail' pk=assignment.pk %}" class="btn btn-danger ml-2">Go Back</a>
+          {% else %}
+          <button type="submit" class="btn btn-primary">Create</button>
+          <a href="javascript:history.go(-1);" class="btn btn-secondary">Go Back</a>
+          {% endif %}
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Initialize date picker on date fields
+    $('#id_due_date').datepicker({
+      format: 'yyyy-mm-dd',
+      autoclose: true,
+      todayHighlight: true,
+      clearBtn: true,
+      orientation: 'bottom',
+      container: '.fantasy-form'
+    });
+  });
+</script>
 {% endblock %}
