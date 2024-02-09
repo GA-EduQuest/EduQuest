@@ -109,7 +109,7 @@ def subjects_detail(request, pk):
     exam_date = subject.exam_date
     exam_has_passed = exam_date < current_date
 
-    return render(request, 'subjects/subject_detail.html', {'subject': subject, 'current_date': current_date, 'exam_has_passed': exam_has_passed })
+    return render(request, 'subjects/subject_detail.html', {'subject': subject, 'current_date': current_date, 'exam_has_passed': exam_has_passed, 'subject_id': pk,})
 
 @login_required
 def subjects_create(request):
@@ -200,6 +200,21 @@ class AssignmentCreate(LoginRequiredMixin, CreateView):
 
         return response
 
+    def get_initial(self):
+        initial = super().get_initial()
+        # If the subject id is passed in the URL, set it as the initial value for the subject field
+        subject_id = self.kwargs.get('pk')
+        if subject_id:
+            subject = get_object_or_404(Subject, pk=subject_id, user=self.request.user)
+            initial['subject'] = subject
+        return initial
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        # Filter subjects to only those owned by the current user
+        form.fields['subject'].queryset = self.request.user.subject_set.all()
+        return form
+
     def get_success_url(self):
         # Access the newly created assignment object and then its subject
         assignment = self.object
@@ -224,6 +239,12 @@ class AssignmentUpdate(LoginRequiredMixin, UpdateView):
         grant_assignment_conqueror_quest(self.request.user)
 
         return response
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        # Filter subjects to only those owned by the current user
+        form.fields['subject'].queryset = self.request.user.subject_set.all()
+        return form
 
     def get_success_url(self):
         pk = self.kwargs['pk']

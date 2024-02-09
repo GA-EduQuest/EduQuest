@@ -73,11 +73,10 @@
 
   <div class="row mt-4">
     <div class="col-md-12 text-center" style="padding: 20px">
-      <a href="{% url 'assignments_create' %}" class="btn btn-primary"
-        >Add Assignments</a
-      >
+      <a href="{% url 'assignments_create' pk=subject.pk %}" class="btn btn-primary">Add Assignments</a>
     </div>
   </div>
+
 
   {% if subject.assignment_set.all %} {% for assignment in subject.assignment_set.all %}
   <div class="container">
