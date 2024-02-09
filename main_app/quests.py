@@ -1,8 +1,7 @@
 from .models import Profile, Subject, Assignment, Quest, ProfileAchievement, User
-from datetime import date, datetime
+from datetime import date
 from django.contrib.auth.signals import user_logged_in
 from django.dispatch import receiver
-from django.db.models import F
 
 # Functions that check & grant quests based on user actions. Note, some logic also sits on the models where relevant.
 
