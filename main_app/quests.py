@@ -87,8 +87,9 @@ def grant_time_management_pro_quest(user):
 def grant_assignment_conqueror_quest(user):
     if Quest.objects.exists():
         quest_name = 'Assignment Conqueror'
-        if not ProfileAchievement.has_quest_achievement(user, quest_name):
-            add_quest_xp_and_save(user, quest_name)
+        if Assignment.objects.filter(status='CM', subject__user=user).exists():
+            if not ProfileAchievement.has_quest_achievement(user, quest_name):
+                add_quest_xp_and_save(user, quest_name)
 
 
 def grant_grandmaster_quest(user):
