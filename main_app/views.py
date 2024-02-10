@@ -1,11 +1,11 @@
-import os
-import uuid
 import json
-# import boto3
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
+from django.urls import reverse_lazy
+from django.utils import timezone
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.views.generic import ListView, DetailView
+from django.views.generic import DetailView
+from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
@@ -13,22 +13,17 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Profile, Subject, Assignment, Quest, ProfileAchievement, User
 from .forms import SubjectForm
 from datetime import date, datetime
-from django.urls import reverse_lazy
-from django.http import HttpResponseRedirect
-from django.utils import timezone
-from django.db.models import F
 from .quests import grant_name_to_face_quest, grant_grandmaster_quest, grant_exam_slayer_quest, grant_getting_started_quest, grant_subject_explorer_quest, grant_multitasking_maven_quest, grant_elite_leaderboard_quest, grant_master_the_basics_quest, grant_time_management_pro_quest, grant_assignment_conqueror_quest
 
-
-# Basic Views #
+# ------------ #
+#  Basic Views #
+# ------------ #
 def home(request):
     return render(request, 'home.html')
 
-# def about(request):
-#     return render(request, 'about.html')
-
-#User Views #
-
+# ------------ #
+#  User Views  #
+# ------------ #
 @login_required
 def user_detail(request, user_id):
     user = User.objects.get(id=user_id)
@@ -38,8 +33,9 @@ def user_detail(request, user_id):
        'user': user, 'profile': profile, 'achievements': achievements
     })
 
+# ------------- #
 # Profile Views #
-
+# ------------- #
 class ProfileUpdate(LoginRequiredMixin, UpdateView):
     model = Profile
     fields = ['email', 'first_name', 'last_name', 'school_year']
@@ -55,9 +51,9 @@ class ProfileUpdate(LoginRequiredMixin, UpdateView):
         return reverse('user_detail', kwargs={'user_id': self.object.user.id})
 
 
-
+# ----------- #
 # Quest Views #
-
+# ----------- #
 @login_required
 def quests_index(request):
     user = request.user
@@ -81,7 +77,9 @@ def quests_detail(request, pk):
     achieved_quest = ProfileAchievement.objects.filter(user=user, quest=quest).exists()
     return render(request, 'quests/quests_detail.html', {'quest': quest, 'achieved_quest': achieved_quest })
 
-#Subjects Views
+# -------------- #
+# Subjects Views #
+# -------------- #
 @login_required
 def subjects_index(request):
     subjects = Subject.objects.filter(user=request.user)
@@ -163,7 +161,9 @@ def subjects_delete(request, pk):
 
     return render(request, 'subjects/subject_delete.html', {'subject': subject})
 
-#About Leaderboards
+# ------------------ #
+# About Leaderboards #
+# ------------------ #
 def leaderboard(request):
     leaderboard_data = Profile.objects.all().order_by('-xp')
     current_user = request.user
@@ -176,8 +176,9 @@ def leaderboard(request):
     }
     return render(request, 'main_app/leaderboard.html', context)
 
-
-# Assignments Views
+# ----------------- #
+# Assignments Views #
+# ----------------- #
 class AssignmentDetail(LoginRequiredMixin, DetailView):
     model = Assignment
     template_name = 'assignments/assignment_detail.html'
@@ -263,21 +264,28 @@ class AssignmentDelete(LoginRequiredMixin, DeleteView):
         # Redirect to the subjects_detail page
         return reverse_lazy('subjects_detail', kwargs={'pk': subject_pk})
 
-
-#Signup Views
+# ------------ #
+# Signup Views #
+# ------------ #
 def signup(request):
-  error_message = ''
-  if request.method == 'POST':
-    form = UserCreationForm(request.POST)
-    if form.is_valid():
-      # Save the user to the db
-      user = form.save()
-      # Automatically log in the new user
-      login(request, user)
-      return redirect('index')
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            # Save the user to the db
+            user = form.save()
+            # Automatically log in the new user
+            login(request, user)
+            return redirect('index')
+        else:
+            # Extract errors from the form
+            error_messages = []
+            for field, errors in form.errors.items():
+                error_messages.append(f"{field}: {', '.join(errors)}")
+            # Display error messages to the user
+            for error_message in error_messages:
+                messages.error(request, error_message)
     else:
-      error_message = 'Invalid sign up - try again'
-  # A bad POST or a GET request, so render signup template
-  form = UserCreationForm()
-  context = {'form': form, 'error_message': error_message}
-  return render(request, 'registration/signup.html', context)
+        form = UserCreationForm()
+    # Render signup template
+    context = {'form': form}
+    return render(request, 'registration/signup.html', context)

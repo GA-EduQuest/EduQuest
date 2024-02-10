@@ -3,7 +3,6 @@ from . import views
 
 urlpatterns = [
     path('', views.home, name='home'),
-    # path('about/', views.about, name='about'),
     #About User
     path('user/<int:user_id>/', views.user_detail, name='user_detail'),
     #About Profile
@@ -11,7 +10,6 @@ urlpatterns = [
     #About Quest
     path('quests/', views.quests_index, name='quests_index'),
     path('quests/<int:pk>/', views.quests_detail, name='quests_detail'),
-    # ---Admin Only--- #
     #About Subjects, main index is also here
     path('subjects/', views.subjects_index, name='index'),
     path('subjects/create', views.subjects_create, name='subjects_create'),
