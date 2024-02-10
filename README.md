@@ -14,19 +14,35 @@ To start your adventure, click the link!
 
 # Screenshots
 
+Explore the visual journey of EduQuest:
+
+### ERD
+
 ![ERD Diagram](./screenshots/erd.png)
+
+### Wireframe
 
 ![Wireframe](./screenshots/wireframe.png)
 
+### Home Page v1
+
 ![Home Page v1](./screenshots/home-page-v1.png)
 
-![Subject Dashboard v1](./screenshots/subject-dashboard-v1.png)
-
-![Subject Dashboard v2](./screenshots/subject-dashboard-v2.png)
+### Subject detail v1
 
 ![Subject Detail v1](./screenshots/subject-detail-v1.png)
 
+### Dashboard v1
+
+![Subject Dashboard v1](./screenshots/subject-dashboard-v1.png)
+
+### v2
+
+![Subject Dashboard v2](./screenshots/subject-dashboard-v2.png)
+
 # Technologies Used
+
+EduQuest is built using the following technologies:
 
 - JavaScript
 - HTML
@@ -35,6 +51,10 @@ To start your adventure, click the link!
 - Django
 - Postgesql
 - Bootstrap
+
+# Planning
+
+Check out our project planning board on Trello:
 
 [Click to View Project Planning](https://trello.com/b/ElLEECsK/project-3-eduquest)
 
@@ -50,3 +70,5 @@ To start your adventure, click the link!
   Future enhancement five: Incorporate a feature to display the percentage of users who have earned a specific quest + badge, providing users with a sense of achievement and comparison.
 
 - Future enhancement six: Enable OAuth sign-up functionality to provide users with the option to register or log in using OAuth, enhancing accessibility and convenience.
+
+- Future enhancement seven: Implement additional daily tasks to encourage consistent engagement and learning habits among users.
